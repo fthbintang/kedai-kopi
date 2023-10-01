@@ -95,7 +95,7 @@
                                 <form class="mt-5 mb-5 login-input" action="/login" method="post">
                                     @csrf
                                         <div class="form-group">
-                                            <input type="username" class="form-control @error('username') is-invalid @enderror" id="username" name="username" placeholder="Username" autofocus required value="{{ old('username') }}">
+                                            <input type="username" class="form-control @error('username') is-invalid @enderror" id="username" name="username" placeholder="Username" autofocus required">
                                             @error('username')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}
