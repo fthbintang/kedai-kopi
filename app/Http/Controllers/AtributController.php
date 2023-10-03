@@ -13,7 +13,8 @@ class AtributController extends Controller
     public function index()
     {
         return view('atribut', [
-            'title' => 'Data Atribut'
+            'title' => 'Data Atribut',
+            'atribut' => Atribut::all() 
         ]);
     }
 
@@ -30,7 +31,29 @@ class AtributController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // $validatedData = $request->validate([
+        //     'nama_barang' => 'required',
+        //     'stok' => 'required|numeric|integer',
+        //     'harga' => 'required|numeric|integer'
+        // ]);
+
+        // Atribut::create($validatedData);
+
+        // return redirect('/atribut')->with('success', 'Tambah Data Berhasil!');
+
+        $validatedData = $request->validate([
+            'nama_barang' => 'required',
+            'stok' => 'required|numeric|integer',
+            'harga' => 'required|numeric|integer'
+        ]);
+    
+        try {
+            Atribut::create($validatedData);
+    
+            return redirect('/atribut')->with('success', 'Tambah Data Berhasil!');
+        } catch (\Exception $e) {
+            return back()->withInput()->with('error', 'Gagal menambahkan data. Pastikan input yang Anda masukkan benar.');
+        }
     }
 
     /**

@@ -54,32 +54,36 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card">
+                        <div class="card-header">
+                            <div class="d-flex align-item-center">
+                                <h4 class="card-title">{{ $title }}</h4>
+                                <button type="button" class="btn btn-primary btn-round ml-auto" data-toggle="modal" data-target="#modalCreate"><i class="fa fa-plus"></i>Tambah Data</button>
+                            </div> 
+                        </div>
                         <div class="card-body">
-                            <h4 class="card-title">{{ $title }}</h4>
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered zero-configuration">
                                     <thead>
                                         <tr>
                                             <th>No</th>
-                                            <th>Nama</th>
-                                            <th>Role</th>
-                                            <th>Action</th>
+                                            <th>Nama Barang</th>
+                                            <th>Stok</th>
+                                            <th>Harga</th>
+                                            <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Admin</td>
-                                            <td>Admin</td>
-                                            <td>
-                                                <a href="#" class="btn btn-xs btn-primary">
-                                                    <i class="fa fa-edit">Edit</i>
-                                                </a>
-                                                <a href="#" class="btn btn-xs btn-danger">
-                                                    <i class="fa fa-trash">Hapus</i>
-                                                </a>
-                                            </td>
-                                        </tr>
+                                        @foreach ($atribut as $atribut)
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $atribut->nama_barang }}</td>
+                                                <td>{{ $atribut->stok }}</td>
+                                                <td>{{ $atribut->harga }}</td>
+                                                <td>
+                                                    
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -88,7 +92,48 @@
                 </div>
             </div>
         </div> 
+    </div>
+
+    {{-- Modal Create --}}
+    <div class="modal fade" id="modalCreate" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Tambah Data Atribut</h5>
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                    </button>
+                </div>
+
+                <form method="POST" action="/atribut">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="nama_barang">Nama Barang</label>
+                            <input type="text" class="form-control" name="nama_barang" id="nama_barang" placeholder="Nama Barang..." required value="{{ old('nama_barang') }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="stok">Stok</label>
+                            <input type="text" class="form-control" name="stok" id="stok" placeholder="Stok..." required value="{{ old('stok') }}">
+                            @error('stok')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="harga">Harga</label>
+                            <input type="text" class="form-control" name="harga" id="harga" placeholder="Harga..." required value="{{ old('harga') }}">
+                            @error('harga')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-undo"></i> Close</button>
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save changes</button>
+                    </div>
+                </form>
+            </div>
         </div>
+    </div>
         
         @include('layout.footer')
         
@@ -176,6 +221,14 @@
                 SweetAlertDemo.init();
             });
         </script>
+    @endif
+
+    @if ($errors->has('stok') || $errors->has('harga'))
+    <script>
+        // Periksa apakah ada pesan kesalahan untuk stok atau harga
+            // Tampilkan modal tambah data
+            $('#modalCreate').modal('show');
+    </script>
     @endif
 
 </body>

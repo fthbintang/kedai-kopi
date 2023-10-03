@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
+use App\Models\Atribut;
 
 class DatabaseSeeder extends Seeder
 {
@@ -32,6 +33,18 @@ class DatabaseSeeder extends Seeder
             'username' => 'ari',
             'password' => bcrypt('ari'),
             'level' => 'admin'
+        ]);
+
+        Atribut::create([
+            'nama_barang' => 'Sendok',
+            'stok' => 10,
+            'harga' => 10000
+        ]);
+
+        Atribut::create([
+            'nama_barang' => 'Garpu',
+            'stok' => 10,
+            'harga' => 20000
         ]);
     }
 }
