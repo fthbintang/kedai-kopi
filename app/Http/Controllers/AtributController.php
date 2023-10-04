@@ -79,16 +79,20 @@ class AtributController extends Controller
     {
         $rules = [
             'nama_barang' => 'required',
-            'stok' => 'required',
-            'harga' => 'required'
+            'stok' => 'required|numeric|integer',
+            'harga' => 'required|numeric|integer'
         ];
 
         $validatedData = $request->validate($rules);
 
-        Atribut::where('id', $atribut->id)
-            ->update($validatedData);
-
-        return redirect('/atribut')->with('success', 'Data Atribut berhasil diubah!');
+        try {
+            Atribut::where('id', $atribut->id)
+                ->update($validatedData);
+    
+            return redirect('/atribut')->with('success', 'Data Atribut berhasil diubah!');
+        } catch (\Exception $e) {
+            return back()->withInput()->with('error', 'Gagal menambahkan data. Pastikan input yang Anda masukkan benar.');
+        }
     }
 
     /**
