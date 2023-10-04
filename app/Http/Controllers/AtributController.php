@@ -77,7 +77,18 @@ class AtributController extends Controller
      */
     public function update(Request $request, Atribut $atribut)
     {
-        //
+        $rules = [
+            'nama_barang' => 'required',
+            'stok' => 'required',
+            'harga' => 'required'
+        ];
+
+        $validatedData = $request->validate($rules);
+
+        Atribut::where('id', $atribut->id)
+            ->update($validatedData);
+
+        return redirect('/atribut')->with('success', 'Data Atribut berhasil diubah!');
     }
 
     /**
@@ -85,6 +96,8 @@ class AtributController extends Controller
      */
     public function destroy(Atribut $atribut)
     {
-        //
+        Atribut::destroy($atribut->id);
+
+        return redirect('/atribut')->with('success', 'Data Atribut berhasil dihapus!');
     }
 }

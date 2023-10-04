@@ -73,14 +73,19 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($atribut as $atribut)
+                                        @foreach ($atribut as $row)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $atribut->nama_barang }}</td>
-                                                <td>{{ $atribut->stok }}</td>
-                                                <td>{{ $atribut->harga }}</td>
+                                                <td>{{ $row->nama_barang }}</td>
+                                                <td>{{ $row->stok }}</td>
+                                                <td>{{ $row->harga }}</td>
                                                 <td>
-                                                    
+                                                    <a href="#modalEdit{{ $row->id }}" data-toggle="modal" class="btn btn-xs btn-primary">
+                                                        <i class="fa fa-edit">Edit</i>
+                                                    </a>    
+                                                    <a href="#modalDelete{{ $row->id }}" data-toggle="modal" class="btn btn-xs btn-danger">
+                                                        <i class="fa fa-trash">Hapus</i>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -134,6 +139,73 @@
             </div>
         </div>
     </div>
+
+    {{-- Modal Edit --}}
+    @foreach ($atribut as $item)
+        <div class="modal fade" id="modalEdit{{ $item->id }}" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit Data Atribut</h5>
+                        <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                        </button>
+                    </div>
+
+                    <form method="POST" action="atribut/{{ $item->id }}">
+                        @method('put')
+                        @csrf
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="nama_barang">Nama Barang</label>
+                                <input type="text" class="form-control" value="{{ $item->nama_barang }}" name="nama_barang" id="nama_barang" placeholder="Nama Barang..." required>
+                            </div>
+                            <div class="form-group">
+                                <label for="stok">Stok</label>
+                                <input type="stok" class="form-control" value="{{ $item->stok }}" name="stok" id="stok" placeholder="Stok..." required>
+                            </div>
+                            <div class="form-group">
+                                <label for="harga">Harga</label>
+                                <input type="text" class="form-control" value="{{ $item->harga }}" name="harga" id="harga" placeholder="Harga..." required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-undo"></i> Close</button>
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endforeach
+
+    {{-- Modal Delete --}}
+    @foreach ($atribut as $item)
+        <div class="modal fade" id="modalDelete{{ $item->id }}" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Hapus Data User</h5>
+                        <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                        </button>
+                    </div>                
+
+                    <form method="POST" action="/atribut/{{ $row->id }}">
+                        @method('delete')
+                        @csrf
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <h5>Apakah Anda Ingin Menghapus Data Ini ?</h5>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-undo"></i> Close</button>
+                            <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Hapus</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endforeach
         
         @include('layout.footer')
         
