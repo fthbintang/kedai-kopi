@@ -44,7 +44,6 @@ class AtributController extends Controller
         $validatedData = $request->validate([
             'nama_barang' => 'required',
             'stok' => 'required|numeric|integer',
-            'harga' => 'required|numeric|integer'
         ]);
     
         try {
@@ -80,7 +79,6 @@ class AtributController extends Controller
         $rules = [
             'nama_barang' => 'required',
             'stok' => 'required|numeric|integer',
-            'harga' => 'required|numeric|integer'
         ];
 
         $validatedData = $request->validate($rules);

@@ -30,7 +30,9 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('aut
 
 Route::resource('/atribut', AtributController::class)->middleware('auth');
 
-Route::get('/bahan-baku', [BahanBakuController::class, 'index'])->middleware('auth');
+Route::resource('/bahan-baku', BahanBakuController::class)->middleware('auth');
+
+// Route::get('/bahan-baku', [BahanBakuController::class, 'index'])->middleware('auth');
 
 Route::get('/tembakau', [TembakauController::class, 'index'])->middleware('auth');
 

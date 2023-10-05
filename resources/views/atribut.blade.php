@@ -44,8 +44,8 @@
             <div class="row page-titles mx-0">
             <div class="col p-md-0">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="javascript:void(0)">Dashboard</a></li>
-                    <li class="breadcrumb-item active"><a href="javascript:void(0)">Home</a></li>
+                    <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+                    <li class="breadcrumb-item active"><a href="/atribut">Atribut</a></li>
                 </ol>
             </div>
         </div>
@@ -68,7 +68,6 @@
                                             <th>No</th>
                                             <th>Nama Barang</th>
                                             <th>Stok</th>
-                                            <th>Harga</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
@@ -78,7 +77,6 @@
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $row->nama_barang }}</td>
                                                 <td>{{ $row->stok }}</td>
-                                                <td>{{ $row->harga }}</td>
                                                 <td>
                                                     <a href="#modalEdit{{ $row->id }}" data-toggle="modal" class="btn btn-xs btn-primary">
                                                         <i class="fa fa-edit">Edit</i>
@@ -118,15 +116,8 @@
                         </div>
                         <div class="form-group">
                             <label for="stok">Stok</label>
-                            <input type="text" class="form-control" name="stok" id="stok" placeholder="Stok..." required value="{{ old('stok') }}">
+                            <input type="number" class="form-control" name="stok" id="stok" placeholder="Stok..." required value="{{ old('stok') }}">
                             @error('stok')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label for="harga">Harga</label>
-                            <input type="text" class="form-control" name="harga" id="harga" placeholder="Harga..." required value="{{ old('harga') }}">
-                            @error('harga')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
@@ -161,11 +152,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="stok">Stok</label>
-                                <input type="stok" class="form-control" value="{{ $item->stok }}" name="stok" id="stok" placeholder="Stok..." required>
-                            </div>
-                            <div class="form-group">
-                                <label for="harga">Harga</label>
-                                <input type="text" class="form-control" value="{{ $item->harga }}" name="harga" id="harga" placeholder="Harga..." required>
+                                <input type="number" class="form-control" value="{{ $item->stok }}" name="stok" id="stok" placeholder="Stok..." required>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -184,7 +171,7 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Hapus Data User</h5>
+                        <h5 class="modal-title">Hapus Data Atribut</h5>
                         <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
                         </button>
                     </div>                
