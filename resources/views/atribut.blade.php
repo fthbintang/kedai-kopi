@@ -55,7 +55,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <div class="d-flex align-item-center">
+                            <div class="d-flex align-item-center mt-10">
                                 <h4 class="card-title">{{ $title }}</h4>
                                 <button type="button" class="btn btn-primary btn-round ml-auto" data-toggle="modal" data-target="#modalCreate"><i class="fa fa-plus"></i>Tambah Data</button>
                             </div> 
