@@ -13,7 +13,8 @@ class BahanBakuController extends Controller
     public function index()
     {
         return view ('bahan-baku', [
-            'title' => 'Data Bahan Baku'
+            'title' => 'Data Bahan Baku',
+            'bahan_baku' => BahanBaku::all()
         ]);
     }
 
@@ -30,7 +31,19 @@ class BahanBakuController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'nama_bahan_baku' => 'required',
+            'stok' => 'required|numeric|integer',
+            'unit' => 'required'
+        ]);
+    
+        try {
+            BahanBaku::create($validatedData);
+    
+            return redirect('/bahan-baku')->with('success', 'Tambah Data Berhasil!');
+        } catch (\Exception $e) {
+            return back()->withInput()->with('error', 'Gagal menambahkan data. Pastikan input yang Anda masukkan benar.');
+        }
     }
 
     /**
@@ -54,7 +67,22 @@ class BahanBakuController extends Controller
      */
     public function update(Request $request, BahanBaku $bahanBaku)
     {
-        //
+        $rules = [
+            'nama_bahan_baku' => 'required',
+            'stok' => 'required|numeric|integer',
+            'unit' => 'required'
+        ];
+
+        $validatedData = $request->validate($rules);
+
+        try {
+            BahanBaku::where('id', $bahanBaku->id)
+                ->update($validatedData);
+    
+            return redirect('/bahan-baku')->with('success', 'Data Bahan Baku berhasil diubah!');
+        } catch (\Exception $e) {
+            return back()->withInput()->with('error', 'Gagal menambahkan data. Pastikan input yang Anda masukkan benar.');
+        }
     }
 
     /**
@@ -62,6 +90,8 @@ class BahanBakuController extends Controller
      */
     public function destroy(BahanBaku $bahanBaku)
     {
-        //
+        BahanBaku::destroy($bahanBaku->id);
+
+        return redirect('/bahan-baku')->with('success', 'Data Bahan Baku berhasil dihapus!');
     }
 }

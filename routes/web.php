@@ -28,9 +28,11 @@ Route::post('/logout', [LoginController::class, 'logout']);
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
 
-Route::get('/atribut', [AtributController::class, 'index'])->middleware('auth');
+Route::resource('/atribut', AtributController::class)->middleware('auth');
 
-Route::get('/bahan-baku', [BahanBakuController::class, 'index'])->middleware('auth');
+Route::resource('/bahan-baku', BahanBakuController::class)->middleware('auth');
+
+// Route::get('/bahan-baku', [BahanBakuController::class, 'index'])->middleware('auth');
 
 Route::get('/tembakau', [TembakauController::class, 'index'])->middleware('auth');
 
