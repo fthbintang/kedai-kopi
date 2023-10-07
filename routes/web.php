@@ -28,7 +28,7 @@ Route::post('/logout', [LoginController::class, 'logout']);
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
 
-Route::resource('/atribut', AtributController::class)->middleware('auth');
+Route::resource('/dashboard/atribut', AtributController::class)->middleware('auth');
 
 Route::resource('/bahan-baku', BahanBakuController::class)->middleware('auth');
 

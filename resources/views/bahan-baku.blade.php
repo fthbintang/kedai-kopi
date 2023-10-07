@@ -240,7 +240,7 @@
             var SweetAlertDemo = function() {
                 var initDemos = function() {
                     swal({
-                        title: "{{ session('success') }}",
+                        title: "Berhasil!",
                         text: "{{ session('success') }}",
                         icon: "success",
                         buttons: {
@@ -273,7 +273,7 @@
             var SweetAlertDemo = function() {
                 var initDemos = function() {
                     swal({
-                        title: "{{ session('error') }}",
+                        title: "Berhasil!",
                         text: "{{ session('error') }}",
                         icon: "error",
                         buttons: {

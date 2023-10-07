@@ -13,7 +13,7 @@
                     
                     <li class="nav-label">Data Master</li>
                     <li>
-                        <a href="/atribut" aria-expanded="false">
+                        <a href="/dashboard/atribut" aria-expanded="false">
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Atribut</span>
                         </a>
                     </li>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Atribut;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AtributController extends Controller
 {
@@ -30,24 +31,27 @@ class AtributController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        // $validatedData = $request->validate([
-        //     'nama_barang' => 'required',
-        //     'stok' => 'required|numeric|integer',
-        //     'harga' => 'required|numeric|integer'
-        // ]);
-
-        // Atribut::create($validatedData);
-
-        // return redirect('/atribut')->with('success', 'Tambah Data Berhasil!');
-
+    {   
         $validatedData = $request->validate([
             'nama_barang' => 'required',
             'stok' => 'required|numeric|integer',
+            'gambar' => 'image|file|max:1024'
         ]);
     
         try {
-            Atribut::create($validatedData);
+            $gambarPath = null;
+    
+            if ($request->hasFile('gambar')) {
+                $gambar = $request->file('gambar');
+                $gambarPath = $gambar->store('gambar-atribut', 'public'); // Simpan gambar ke storage public/gambar
+            }
+    
+            // Simpan data atribut ke database
+            Atribut::create([
+                'nama_barang' => $validatedData['nama_barang'],
+                'stok' => $validatedData['stok'],
+                'gambar' => $gambarPath,
+            ]);
     
             return redirect('/atribut')->with('success', 'Tambah Data Berhasil!');
         } catch (\Exception $e) {
@@ -79,18 +83,28 @@ class AtributController extends Controller
         $rules = [
             'nama_barang' => 'required',
             'stok' => 'required|numeric|integer',
+            'gambar' => 'image|file|max:1024'
         ];
 
         $validatedData = $request->validate($rules);
 
-        try {
-            Atribut::where('id', $atribut->id)
-                ->update($validatedData);
-    
-            return redirect('/atribut')->with('success', 'Data Atribut berhasil diubah!');
-        } catch (\Exception $e) {
-            return back()->withInput()->with('error', 'Gagal menambahkan data. Pastikan input yang Anda masukkan benar.');
+        // Simpan path gambar lama untuk penghapusan nantinya
+        $oldImagePath = $atribut->gambar;
+
+        if ($request->file('gambar')) {
+            // Simpan gambar baru
+            $validatedData['gambar'] = $request->file('gambar')->store('gambar-atribut', 'public');
+            
+            // Hapus gambar lama jika ada
+            if ($oldImagePath && Storage::disk('public')->exists($oldImagePath)) {
+                Storage::disk('public')->delete($oldImagePath);
+            }
         }
+
+        // Update data Atribut
+        $atribut->update($validatedData);
+
+        return redirect('/atribut')->with('success', 'Atribut berhasil diupdate!');
     }
 
     /**
@@ -98,8 +112,22 @@ class AtributController extends Controller
      */
     public function destroy(Atribut $atribut)
     {
-        Atribut::destroy($atribut->id);
+        try {
+            // Simpan path gambar yang akan dihapus
+            $imagePath = $atribut->gambar;
 
-        return redirect('/atribut')->with('success', 'Data Atribut berhasil dihapus!');
+            // Hapus data Atribut
+            $atribut->delete();
+
+            // Hapus gambar dari storage jika ada
+            if ($imagePath && Storage::disk('public')->exists($imagePath)) {
+                Storage::disk('public')->delete($imagePath);
+            }
+
+            return redirect('/atribut')->with('success', 'Atribut berhasil dihapus.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal menghapus atribut. Pastikan data yang Anda hapus ada.');
+        }
     }
+
 }
