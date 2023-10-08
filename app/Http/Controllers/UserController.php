@@ -128,8 +128,8 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        // User::where('id', $id)->delete();
+        User::where('id', $id)->delete();
 
-        // return redirect('/user')->with('success', 'Data Berhasil Dihapus !');
+        return redirect('/dashboard/pengguna')->with('success', 'Data Pengguna berhasil dihapus !');
     }
 }

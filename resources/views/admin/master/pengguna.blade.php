@@ -163,4 +163,33 @@
         </div>
     </div>
 </div>
+
+{{-- Modal Delete --}}
+@foreach ($data_pengguna as $item)
+<div class="modal fade" id="modalDelete{{ $item->id }}" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Hapus Data Pengguna</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                </button>
+            </div>                
+
+            <form method="POST" action="/dashboard/pengguna/{{ $row->id }}">
+                @method('delete')
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group">
+                        <h5>Apakah Anda Ingin Menghapus Data Ini ?</h5>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-undo"></i> Close</button>
+                    <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Hapus</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@endforeach
 @endsection
