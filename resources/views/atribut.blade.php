@@ -45,7 +45,7 @@
             <div class="col p-md-0">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
-                    <li class="breadcrumb-item active"><a href="/atribut">Atribut</a></li>
+                    <li class="breadcrumb-item active"><a href="/dashboard/atribut">Atribut</a></li>
                 </ol>
             </div>
         </div>
@@ -83,8 +83,6 @@
                                                         <img src="{{ asset('storage/' . $row->gambar) }}" class="col-sm-5" alt="gambar" style="max-width: 100px; height: auto;">
                                                     </a>
                                                 </td>
-
-
                                                 <td>
                                                     <a href="#modalEdit{{ $row->id }}" data-toggle="modal" class="btn btn-xs btn-primary">
                                                         <i class="fa fa-edit">Edit</i>
@@ -132,7 +130,7 @@
                     </button>
                 </div>
 
-                <form method="POST" action="/atribut" enctype="multipart/form-data">
+                <form method="POST" action="/dashboard/atribut" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
@@ -150,6 +148,7 @@
                             <label for="gambar" class="form-label">Upload Gambar</label>
                             <img id="previewImage" class="img-preview img-fluid mb-3 col-sm-5" src="#" alt="Preview Gambar" style="display: none;">
                             <input class="form-control" type="file" id="gambar" name="gambar" required>
+                            <small>Maksimal file gambar 1 MB</small>
                             @error('gambar')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
@@ -175,7 +174,7 @@
                         </button>
                     </div>
 
-                    <form method="POST" action="atribut/{{ $item->id }}" enctype="multipart/form-data">
+                    <form method="POST" action="/dashboard/atribut/{{ $item->id }}" enctype="multipart/form-data">
                         @method('put')
                         @csrf
                         <div class="modal-body">
@@ -193,6 +192,7 @@
                                 <img id="previewImageEdit{{ $item->id }}" class="img-preview img-fluid mb-3 col-sm-5 d-block" src="{{ asset('storage/' . $item->gambar) }}" alt="Preview Gambar">
                                 <!-- Input File -->
                                 <input class="form-control" type="file" id="gambarEdit{{ $item->id }}" name="gambar" onchange="updatePreview('{{ $item->id }}')">
+                                <small>Maksimal file gambar 1 MB</small>
                                 @error('gambar')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
@@ -219,7 +219,7 @@
                         </button>
                     </div>                
 
-                    <form method="POST" action="/atribut/{{ $row->id }}">
+                    <form method="POST" action="/dashboard/atribut/{{ $row->id }}">
                         @method('delete')
                         @csrf
                         <div class="modal-body">
@@ -269,7 +269,7 @@
                         icon: "success",
                         buttons: {
                             confirm: {
-                                text: "Confirm Me",
+                                text: "Konfirmasi",
                                 value: true,
                                 visible: true,
                                 className: "btn btn-success",
@@ -302,7 +302,7 @@
                         icon: "error",
                         buttons: {
                             confirm: {
-                                text: "Confirm Me",
+                                text: "Konfirmasi",
                                 value: true,
                                 visible: true,
                                 className: "btn btn-success",
@@ -358,16 +358,6 @@
             previewImage();
         });
     </script>
-
-    <!-- Script untuk Pratinjau Gambar pada Modal Edit -->
-    <script>
-        // Panggil fungsi previewImage saat dokumen siap
-        document.addEventListener('DOMContentLoaded', function () {
-            @foreach ($atribut as $item)
-                previewImageEdit('{{ $item->id }}');
-            @endforeach
-        });
-    </script> 
 
     <!-- Script untuk Pratinjau Gambar pada Modal Edit -->
     <script>

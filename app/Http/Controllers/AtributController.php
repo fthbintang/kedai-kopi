@@ -53,7 +53,7 @@ class AtributController extends Controller
                 'gambar' => $gambarPath,
             ]);
     
-            return redirect('/atribut')->with('success', 'Tambah Data Berhasil!');
+            return redirect('/dashboard/atribut')->with('success', 'Tambah Data Berhasil!');
         } catch (\Exception $e) {
             return back()->withInput()->with('error', 'Gagal menambahkan data. Pastikan input yang Anda masukkan benar.');
         }
@@ -104,7 +104,7 @@ class AtributController extends Controller
         // Update data Atribut
         $atribut->update($validatedData);
 
-        return redirect('/atribut')->with('success', 'Atribut berhasil diupdate!');
+        return redirect('/dashboard/atribut')->with('success', 'Atribut berhasil diupdate!');
     }
 
     /**
@@ -112,22 +112,12 @@ class AtributController extends Controller
      */
     public function destroy(Atribut $atribut)
     {
-        try {
-            // Simpan path gambar yang akan dihapus
-            $imagePath = $atribut->gambar;
-
-            // Hapus data Atribut
-            $atribut->delete();
-
-            // Hapus gambar dari storage jika ada
-            if ($imagePath && Storage::disk('public')->exists($imagePath)) {
-                Storage::disk('public')->delete($imagePath);
-            }
-
-            return redirect('/atribut')->with('success', 'Atribut berhasil dihapus.');
-        } catch (\Exception $e) {
-            return back()->with('error', 'Gagal menghapus atribut. Pastikan data yang Anda hapus ada.');
+        if($atribut->gambar) {
+            Storage::delete($atribut->gambar);
         }
+        Atribut::destroy($atribut->id);
+
+        return redirect('/dashboard/atribut')->with('success', 'Atribut berhasil dihapus.');
     }
 
 }

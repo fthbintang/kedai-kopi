@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BahanBaku;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class BahanBakuController extends Controller
 {
@@ -34,13 +35,27 @@ class BahanBakuController extends Controller
         $validatedData = $request->validate([
             'nama_bahan_baku' => 'required',
             'stok' => 'required|numeric|integer',
-            'unit' => 'required'
+            'unit' => 'required',
+            'gambar' => 'image|file|max:1024'
         ]);
     
         try {
-            BahanBaku::create($validatedData);
+            $gambarPath = null;
     
-            return redirect('/bahan-baku')->with('success', 'Tambah Data Berhasil!');
+            if ($request->hasFile('gambar')) {
+                $gambar = $request->file('gambar');
+                $gambarPath = $gambar->store('gambar-bahan-baku', 'public'); // Simpan gambar ke storage public/gambar
+            }
+    
+            // Simpan data atribut ke database
+            BahanBaku::create([
+                'nama_bahan_baku' => $validatedData['nama_bahan_baku'],
+                'stok' => $validatedData['stok'],
+                'unit' => $validatedData['unit'],
+                'gambar' => $gambarPath,
+            ]);
+    
+            return redirect('/dashboard/bahan-baku')->with('success', 'Tambah Data Berhasil!');
         } catch (\Exception $e) {
             return back()->withInput()->with('error', 'Gagal menambahkan data. Pastikan input yang Anda masukkan benar.');
         }
@@ -70,19 +85,29 @@ class BahanBakuController extends Controller
         $rules = [
             'nama_bahan_baku' => 'required',
             'stok' => 'required|numeric|integer',
-            'unit' => 'required'
+            'unit' => 'required',
+            'gambar' => 'image|file|max:1024'
         ];
 
         $validatedData = $request->validate($rules);
 
-        try {
-            BahanBaku::where('id', $bahanBaku->id)
-                ->update($validatedData);
-    
-            return redirect('/bahan-baku')->with('success', 'Data Bahan Baku berhasil diubah!');
-        } catch (\Exception $e) {
-            return back()->withInput()->with('error', 'Gagal menambahkan data. Pastikan input yang Anda masukkan benar.');
+       // Simpan path gambar lama untuk penghapusan nantinya
+        $oldImagePath = $bahanBaku->gambar;
+
+        if ($request->file('gambar')) {
+            // Simpan gambar baru
+            $validatedData['gambar'] = $request->file('gambar')->store('gambar-bahan-baku', 'public');
+
+           // Hapus gambar lama jika ada
+            if ($oldImagePath && Storage::disk('public')->exists($oldImagePath)) {
+                Storage::disk('public')->delete($oldImagePath);
+            }
         }
+
+       // Update data Atribut
+        $bahanBaku->update($validatedData);
+
+        return redirect('/dashboard/bahan-baku')->with('success', 'Bahan Baku berhasil diupdate!');
     }
 
     /**
@@ -90,8 +115,11 @@ class BahanBakuController extends Controller
      */
     public function destroy(BahanBaku $bahanBaku)
     {
+        if($bahanBaku->gambar) {
+            Storage::delete($bahanBaku->gambar);
+        }
         BahanBaku::destroy($bahanBaku->id);
 
-        return redirect('/bahan-baku')->with('success', 'Data Bahan Baku berhasil dihapus!');
+        return redirect('/dashboard/bahan-baku')->with('success', 'Data Bahan Baku berhasil dihapus!');
     }
 }
