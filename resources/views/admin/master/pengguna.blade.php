@@ -26,7 +26,7 @@
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered zero-configuration">
                                 <thead>
-                                    <tr>
+                                    <tr align="center">
                                         <th>No</th>
                                         <th>Nama</th>
                                         <th>Username</th>
@@ -56,7 +56,11 @@
                                                 </h4>
                                             </td>
                                             <td align="center">
-                                                <span class="badge badge-pill badge-success"><i class="fa-solid fa-check" style="color: #FFFFFF;"></i></span>
+                                                @if ($row->status == 'aktif')
+                                                    <span class="badge badge-pill badge-success"><i class="fa-solid fa-check" style="color: #FFFFFF;"></i></span>
+                                                @else
+                                                    <span class="badge badge-pill badge-danger"><i class="fa-solid fa-xmark" style="color: #FFFFFF;"></i></span>
+                                                @endif
                                             </td>
                                             <td>
                                                 <a href="#modalEdit{{ $row->id }}" data-toggle="modal" class="btn btn-xs btn-primary">
@@ -206,6 +210,16 @@
                             <option value="admin" <?= ($item->level) == 'admin' ? 'selected' : ''; ?>>Admin</option>
                             <option value="owner" <?= ($item->level) == 'owner' ? 'selected' : ''; ?>>Owner</option>
                             <option value="pekerja" <?= ($item->level) == 'pekerja' ? 'selected' : ''; ?>>Pekerja</option>
+                        </select>
+                        @error('level')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <select class="form-control" name="status" id="status" required>
+                            <option value="aktif" <?= ($item->level) == 'aktif' ? 'selected' : ''; ?>>Aktif</option>
+                            <option value="nonaktif" <?= ($item->status) == 'nonaktif' ? 'selected' : ''; ?>>Non-Aktif</option>
                         </select>
                         @error('level')
                             <div class="text-danger">{{ $message }}</div>

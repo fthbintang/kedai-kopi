@@ -24,7 +24,7 @@
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered zero-configuration">
                                 <thead>
-                                    <tr>
+                                    <tr align="center">
                                         <th>No</th>
                                         <th>Nama Bahan Baku</th>
                                         <th>Stok</th>

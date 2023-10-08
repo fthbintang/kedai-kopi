@@ -37,7 +37,7 @@ class UserController extends Controller
     {
         $validatedData = $request->validate(
             [
-                'name' => 'required|min:6|max:20',
+                'name' => 'required|min:6|max:50',
                 'username' => 'required|regex:/^\S*$/u|lowercase',
                 'password' => [
                     'required',
@@ -51,8 +51,8 @@ class UserController extends Controller
             [
                 // Name custom message for validation
                 'name.required' => 'Nama Wajib Diisi !',
-                'name.min' => 'Nama Minimal 6 - 20 Karakter !',
-                'name.max' => 'Karakter Pada Nama Harus Diantara 6 - 20 Karakter !',
+                'name.min' => 'Karakter Pada Nama Harus Diantara 6 - 50 Karakter !',
+                'name.max' => 'Karakter Pada Nama Harus Diantara 6 - 50 Karakter !',
 
                 // Username custom message for validation
                 'username.required' => 'Username Wajib Diisi !',
@@ -107,7 +107,7 @@ class UserController extends Controller
     {
         $validatedData = $request->validate(
             [
-                'name' => 'required|min:6|max:20',
+                'name' => 'required|min:6|max:50',
                 'username' => 'required|regex:/^\S*$/u|lowercase',
                 'password' => [
                     'nullable',
@@ -118,12 +118,16 @@ class UserController extends Controller
                     'required',
                     Rule::in(['admin', 'owner', 'pekerja']),
                 ],
+                'status' => [
+                    'required',
+                    Rule::in(['aktif', 'nonaktif']),
+                ],
             ],
             [
                 // Name custom message for validation
                 'name.required' => 'Nama Wajib Diisi !',
-                'name.min' => 'Nama Minimal 6 - 20 Karakter !',
-                'name.max' => 'Karakter Pada Nama Harus Diantara 6 - 20 Karakter !',
+                'name.min' => 'Karakter Pada Nama Harus Diantara 6 - 50 Karakter !',
+                'name.max' => 'Karakter Pada Nama Harus Diantara 6 - 50 Karakter !',
 
                 // Username custom message for validation
                 'username.required' => 'Username Wajib Diisi !',
@@ -136,6 +140,10 @@ class UserController extends Controller
                 // Level custom message for validation
                 'level.required' => 'Level Wajib Diisi !',
                 'level.in' => 'Pilihan Pada Level Harus Admin / Owner / Pekerja !',
+
+                // Status custom message for validation
+                'level.required' => 'Status Wajib Diisi !',
+                'level.in' => 'Pilihan Pada Status Harus Aktif / Non-Aktif !',
             ],
         );
 
@@ -145,6 +153,7 @@ class UserController extends Controller
                 'name'      => $validatedData['name'],
                 'username'     => $validatedData['username'],
                 'level'      => $validatedData['level'],
+                'status'      => $validatedData['status'],
             ];
 
             if ($request->password) {
