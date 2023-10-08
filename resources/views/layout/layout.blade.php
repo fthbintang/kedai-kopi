@@ -61,6 +61,9 @@
     <script src="/assets/js/gleek.js"></script>
     <script src="/assets/js/styleSwitcher.js"></script>
 
+    {{-- Font Awesome --}}
+    <script src="https://kit.fontawesome.com/f7295b3135.js" crossorigin="anonymous"></script>
+
     <script src="/assets/plugins/tables/js/jquery.dataTables.min.js"></script>
     <script src="/assets/plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>
     <script src="/assets/plugins/tables/js/datatable-init/datatable-basic.min.js"></script>
@@ -129,6 +132,14 @@
 
             jQuery(document).ready(function() {
                 SweetAlertDemo.init();
+            });
+        </script>
+    @endif
+
+    @if(Session::has('errors'))
+        <script>
+            $(document).ready(function(){
+                $('#modalCreate').modal({show: true});
             });
         </script>
     @endif

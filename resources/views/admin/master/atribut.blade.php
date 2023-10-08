@@ -17,7 +17,7 @@
                     <div class="card-header">
                         <div class="d-flex align-item-center mt-10">
                             <h4 class="card-title">{{ $title }}</h4>
-                            <button type="button" class="btn btn-primary btn-round ml-auto" data-toggle="modal" data-target="#modalCreate"><i class="fa fa-plus"></i>Tambah Data</button>
+                            <button type="button" class="btn btn-primary btn-round ml-auto" data-toggle="modal" data-target="#modalCreate"><i class="fa fa-plus"></i> Tambah Data</button>
                         </div> 
                     </div>
                     <div class="card-body">
@@ -45,10 +45,10 @@
                                             </td>
                                             <td>
                                                 <a href="#modalEdit{{ $row->id }}" data-toggle="modal" class="btn btn-xs btn-primary">
-                                                    <i class="fa fa-edit">Edit</i>
+                                                    <i class="fa fa-edit"></i> Edit
                                                 </a>    
                                                 <a href="#modalDelete{{ $row->id }}" data-toggle="modal" class="btn btn-xs btn-danger">
-                                                    <i class="fa fa-trash">Hapus</i>
+                                                    <i class="fa fa-trash"></i> Hapus
                                                 </a>
                                             </td>
                                         </tr>

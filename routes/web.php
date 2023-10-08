@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AtributController;
 use App\Http\Controllers\TembakauController;
@@ -28,8 +29,9 @@ Route::post('/logout', [LoginController::class, 'logout']);
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
 
+// Master Data
+Route::resource('/dashboard/pengguna', UserController::class)->middleware('auth');
 Route::resource('/dashboard/atribut', AtributController::class)->middleware('auth');
-
 Route::resource('/dashboard/bahan-baku', BahanBakuController::class)->middleware('auth');
 
 // Route::get('/bahan-baku', [BahanBakuController::class, 'index'])->middleware('auth');
