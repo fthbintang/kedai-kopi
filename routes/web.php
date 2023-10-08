@@ -39,4 +39,3 @@ Route::get('/dashboard/tembakau', [TembakauController::class, 'index'])->middlew
 Route::get('dashboard/pembelian-kopi', [PembelianKopiController::class, 'index'])->middleware('auth');
 
 Route::get('/dashboard/pembelian-tembakau', [PembelianTembakauController::class, 'index'])->middleware('auth');
-

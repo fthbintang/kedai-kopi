@@ -12,7 +12,7 @@ class TembakauController extends Controller
      */
     public function index()
     {
-        return view ('tembakau', [
+        return view('admin.master.tembakau', [
             'title' => 'Data Tembakau'
         ]);
     }

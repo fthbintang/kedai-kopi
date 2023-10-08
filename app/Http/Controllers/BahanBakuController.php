@@ -13,7 +13,7 @@ class BahanBakuController extends Controller
      */
     public function index()
     {
-        return view ('bahan-baku', [
+        return view('admin.master.bahan-baku', [
             'title' => 'Data Bahan Baku',
             'bahan_baku' => BahanBaku::all()
         ]);
@@ -38,15 +38,15 @@ class BahanBakuController extends Controller
             'unit' => 'required',
             'gambar' => 'image|file|max:1024'
         ]);
-    
+
         try {
             $gambarPath = null;
-    
+
             if ($request->hasFile('gambar')) {
                 $gambar = $request->file('gambar');
                 $gambarPath = $gambar->store('gambar-bahan-baku', 'public'); // Simpan gambar ke storage public/gambar
             }
-    
+
             // Simpan data atribut ke database
             BahanBaku::create([
                 'nama_bahan_baku' => $validatedData['nama_bahan_baku'],
@@ -54,7 +54,7 @@ class BahanBakuController extends Controller
                 'unit' => $validatedData['unit'],
                 'gambar' => $gambarPath,
             ]);
-    
+
             return redirect('/dashboard/bahan-baku')->with('success', 'Tambah Data Berhasil!');
         } catch (\Exception $e) {
             return back()->withInput()->with('error', 'Gagal menambahkan data. Pastikan input yang Anda masukkan benar.');
@@ -91,20 +91,20 @@ class BahanBakuController extends Controller
 
         $validatedData = $request->validate($rules);
 
-       // Simpan path gambar lama untuk penghapusan nantinya
+        // Simpan path gambar lama untuk penghapusan nantinya
         $oldImagePath = $bahanBaku->gambar;
 
         if ($request->file('gambar')) {
             // Simpan gambar baru
             $validatedData['gambar'] = $request->file('gambar')->store('gambar-bahan-baku', 'public');
 
-           // Hapus gambar lama jika ada
+            // Hapus gambar lama jika ada
             if ($oldImagePath && Storage::disk('public')->exists($oldImagePath)) {
                 Storage::disk('public')->delete($oldImagePath);
             }
         }
 
-       // Update data Atribut
+        // Update data Atribut
         $bahanBaku->update($validatedData);
 
         return redirect('/dashboard/bahan-baku')->with('success', 'Bahan Baku berhasil diupdate!');
@@ -115,7 +115,7 @@ class BahanBakuController extends Controller
      */
     public function destroy(BahanBaku $bahanBaku)
     {
-        if($bahanBaku->gambar) {
+        if ($bahanBaku->gambar) {
             Storage::delete($bahanBaku->gambar);
         }
         BahanBaku::destroy($bahanBaku->id);

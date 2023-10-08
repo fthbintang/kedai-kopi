@@ -12,7 +12,7 @@ class PembelianTembakauController extends Controller
      */
     public function index()
     {
-        return view ('pembelian-tembakau', [
+        return view('admin.transaksi.pembelian-tembakau', [
             'title' => 'Pembelian Tembakau'
         ]);
     }

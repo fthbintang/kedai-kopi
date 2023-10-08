@@ -12,7 +12,7 @@ class PembelianKopiController extends Controller
      */
     public function index()
     {
-        return view ('pembelian-kopi', [
+        return view('admin.transaksi.pembelian-kopi', [
             'title' => 'Pembelian Kopi'
         ]);
     }
