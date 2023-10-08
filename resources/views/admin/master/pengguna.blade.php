@@ -164,6 +164,64 @@
     </div>
 </div>
 
+{{-- Modal Edit --}}
+@foreach ($data_pengguna as $item)
+<div class="modal fade" id="modalEdit{{ $item->id }}" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Data User</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                </button>
+            </div>
+
+            <form method="POST" action="/dashboard/pengguna/{{ $item->id }}">
+                @method('put')
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="name">Nama Lengkap</label>
+                        <input type="text" class="form-control" name="name" id="name" placeholder="Nama Lengkap..." value="{{ $item->name }}" required>
+                        @error('name')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="username" class="form-control" name="username" id="username" placeholder="Username..." value="{{ $item->username }}" required>
+                        @error('username')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" name="password" id="password" placeholder="Password...">
+                        @error('password')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="level">Level</label>
+                        <select class="form-control" name="level" id="level" required>
+                            <option value="admin" <?= ($item->level) == 'admin' ? 'selected' : ''; ?>>Admin</option>
+                            <option value="owner" <?= ($item->level) == 'owner' ? 'selected' : ''; ?>>Owner</option>
+                            <option value="pekerja" <?= ($item->level) == 'pekerja' ? 'selected' : ''; ?>>Pekerja</option>
+                        </select>
+                        @error('level')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-undo"></i> Close</button>
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@endforeach
+
 {{-- Modal Delete --}}
 @foreach ($data_pengguna as $item)
 <div class="modal fade" id="modalDelete{{ $item->id }}" tabindex="-1" role="dialog" aria-hidden="true">

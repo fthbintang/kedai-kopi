@@ -35,13 +35,6 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-
-        // // Make new validation rules for no spaces character
-        // Validator::extend('without_spaces', function ($attr, $value) {
-
-        //     return preg_match('/^\S*$/u', $value);
-        // });
-
         $validatedData = $request->validate(
             [
                 'name' => 'required|min:6|max:20',
@@ -112,15 +105,59 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        // User::where('id', $id)
-        //     ->update([
-        //         'name'      => $request->name,
-        //         'email'     => $request->email,
-        //         'password'  => HASH::make($request->password),
-        //         'role'      => $request->role,
-        //     ]);
+        $validatedData = $request->validate(
+            [
+                'name' => 'required|min:6|max:20',
+                'username' => 'required|regex:/^\S*$/u|lowercase',
+                'password' => [
+                    'nullable',
+                    'sometimes',
+                    Password::min(8)
+                ],
+                'level' => [
+                    'required',
+                    Rule::in(['admin', 'owner', 'pekerja']),
+                ],
+            ],
+            [
+                // Name custom message for validation
+                'name.required' => 'Nama Wajib Diisi !',
+                'name.min' => 'Nama Minimal 6 - 20 Karakter !',
+                'name.max' => 'Karakter Pada Nama Harus Diantara 6 - 20 Karakter !',
 
-        // return redirect('/user')->with('success', 'Data Berhasil Diubah !');
+                // Username custom message for validation
+                'username.required' => 'Username Wajib Diisi !',
+                'username.regex' => 'Username Tidak Boleh Diisi Karakter Spasi !',
+                'username.lowercase' => 'Username Harus Menggunakan Huruf Kecil !',
+
+                // Password custom message for validation
+                'password.min' => 'Password Minimal 8 Karakter !',
+
+                // Level custom message for validation
+                'level.required' => 'Level Wajib Diisi !',
+                'level.in' => 'Pilihan Pada Level Harus Admin / Owner / Pekerja !',
+            ],
+        );
+
+        try {
+            // Simpan data user ke database
+            $update = [
+                'name'      => $validatedData['name'],
+                'username'     => $validatedData['username'],
+                'level'      => $validatedData['level'],
+            ];
+
+            if ($request->password) {
+                $update['password'] = HASH::make($validatedData['password']);
+            }
+
+            User::where('id', $id)
+                ->update($update);
+
+            return redirect('/dashboard/pengguna')->with('success', 'User Berhasil diubah !');
+        } catch (\Exception $e) {
+            return back()->withInput()->with('error', 'Gagal mengubah user. Pastikan input yang Anda masukkan benar.');
+        }
     }
 
     /**
