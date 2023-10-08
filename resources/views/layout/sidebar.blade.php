@@ -13,7 +13,7 @@
                     
                     <li class="nav-label">Data Master</li>
                     <li>
-                        <a href="/atribut" aria-expanded="false">
+                        <a href="/dashboard/atribut" aria-expanded="false">
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Atribut</span>
                         </a>
                     </li>
@@ -28,24 +28,24 @@
                         </ul>
                     </li> -->
                     <li>
-                        <a href="/bahan-baku" aria-expanded="false">
+                        <a href="/dashboard/bahan-baku" aria-expanded="false">
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Bahan Baku</span>
                         </a>
                     </li>
                     <li>
-                        <a href="/tembakau" aria-expanded="false">
+                        <a href="/dashboard/tembakau" aria-expanded="false">
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Tembakau</span>
                         </a>
                     </li>
                     
                     <li class="nav-label">Transaksi</li>
                     <li>
-                        <a href="/pembelian-kopi" aria-expanded="false">
+                        <a href="/dashboard/pembelian-kopi" aria-expanded="false">
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Pembelian Kopi</span>
                         </a>
                     </li>
                     <li>
-                        <a href="/pembelian-tembakau" aria-expanded="false">
+                        <a href="/dashboard/pembelian-tembakau" aria-expanded="false">
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Pembelian Tembakau</span>
                         </a>
                     </li>

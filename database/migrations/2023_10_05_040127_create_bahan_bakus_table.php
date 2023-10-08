@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('nama_bahan_baku');
             $table->integer('stok');
             $table->string('unit');
+            $table->string('gambar')->nullable();
             $table->timestamps();
         });
     }
