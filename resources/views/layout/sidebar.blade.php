@@ -1,17 +1,22 @@
- <!--**********************************
+        <!--**********************************
             Sidebar start
         ***********************************-->
         <div class="nk-sidebar">           
             <div class="nk-nav-scroll">
                 <ul class="metismenu" id="menu">
-                    <li class="nav-label">Dashboard</li>
+                    <li class="nav-label"><b>Dashboard</b></li>
                     <li>
                         <a href="/dashboard" aria-expanded="false">
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Dashboard</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="/dashboard/pengguna" aria-expanded="false">
+                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Data Pengguna</span>
+                        </a>
+                    </li>
                     
-                    <li class="nav-label">Data Master</li>
+                    <li class="nav-label"><b>Data Master</b></li>
                     <li>
                         <a href="/dashboard/atribut" aria-expanded="false">
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Atribut</span>
@@ -38,7 +43,7 @@
                         </a>
                     </li>
                     
-                    <li class="nav-label">Transaksi</li>
+                    <li class="nav-label"><b>Transaksi</b></li>
                     <li>
                         <a href="/dashboard/pembelian-kopi" aria-expanded="false">
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Pembelian Kopi</span>
