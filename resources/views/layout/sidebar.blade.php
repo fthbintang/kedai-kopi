@@ -17,11 +17,11 @@
                     </li>
                     
                     <li class="nav-label"><b>Data Master</b></li>
-                    <li>
+                    <!-- <li>
                         <a href="/dashboard/atribut" aria-expanded="false">
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Atribut</span>
                         </a>
-                    </li>
+                    </li> -->
                     <!-- <li class="mega-menu mega-menu-sm">
                         <a class="has-arrow" href="javascript:void()" aria-expanded="false">
                             <i class="icon-globe-alt menu-icon"></i><span class="nav-text">Data Master</span>
@@ -33,6 +33,11 @@
                         </ul>
                     </li> -->
                     <li>
+                        <a href="/dashboard/barang" aria-expanded="false">
+                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Barang</span>
+                        </a>
+                    </li>
+                    <!-- <li>
                         <a href="/dashboard/bahan-baku" aria-expanded="false">
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Bahan Baku</span>
                         </a>
@@ -41,7 +46,7 @@
                         <a href="/dashboard/tembakau" aria-expanded="false">
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Tembakau</span>
                         </a>
-                    </li>
+                    </li> -->
                     
                     <li class="nav-label"><b>Transaksi</b></li>
                     <li>

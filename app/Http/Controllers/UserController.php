@@ -37,35 +37,35 @@ class UserController extends Controller
     {
         $validatedData = $request->validate(
             [
-                'name' => 'required|min:6|max:50',
-                'username' => 'required|regex:/^\S*$/u|lowercase',
-                'password' => [
+                'create_name' => 'required|min:6|max:50',
+                'create_username' => 'required|regex:/^\S*$/u|lowercase',
+                'create_password' => [
                     'required',
                     Password::min(8)
                 ],
-                'level' => [
+                'create_level' => [
                     'required',
                     Rule::in(['admin', 'owner', 'pekerja']),
                 ],
             ],
             [
                 // Name custom message for validation
-                'name.required' => 'Nama Wajib Diisi !',
-                'name.min' => 'Karakter Pada Nama Harus Diantara 6 - 50 Karakter !',
-                'name.max' => 'Karakter Pada Nama Harus Diantara 6 - 50 Karakter !',
+                'create_name.required' => 'Nama Wajib Diisi !',
+                'create_name.min' => 'Karakter Pada Nama Harus Diantara 6 - 50 Karakter !',
+                'create_name.max' => 'Karakter Pada Nama Harus Diantara 6 - 50 Karakter !',
 
                 // Username custom message for validation
-                'username.required' => 'Username Wajib Diisi !',
-                'username.regex' => 'Username Tidak Boleh Diisi Karakter Spasi !',
-                'username.lowercase' => 'Username Harus Menggunakan Huruf Kecil !',
+                'create_username.required' => 'Username Wajib Diisi !',
+                'create_username.regex' => 'Username Tidak Boleh Diisi Karakter Spasi !',
+                'create_username.lowercase' => 'Username Harus Menggunakan Huruf Kecil !',
 
                 // Password custom message for validation
-                'password.required' => 'Password Wajib Diisi !',
-                'password.min' => 'Password Minimal 8 Karakter !',
+                'create_password.required' => 'Password Wajib Diisi !',
+                'create_password.min' => 'Password Minimal 8 Karakter !',
 
                 // Level custom message for validation
-                'level.required' => 'Level Wajib Diisi !',
-                'level.in' => 'Pilihan Pada Level Harus Admin / Owner / Pekerja !',
+                'create_level.required' => 'Level Wajib Diisi !',
+                'create_level.in' => 'Pilihan Pada Level Harus Admin / Owner / Pekerja !',
             ],
         );
 
@@ -107,43 +107,43 @@ class UserController extends Controller
     {
         $validatedData = $request->validate(
             [
-                'name' => 'required|min:6|max:50',
-                'username' => 'required|regex:/^\S*$/u|lowercase',
-                'password' => [
+                'edit_name' => 'required|min:6|max:50',
+                'edit_username' => 'required|regex:/^\S*$/u|lowercase',
+                'edit_password' => [
                     'nullable',
                     'sometimes',
                     Password::min(8)
                 ],
-                'level' => [
+                'edit_level' => [
                     'required',
                     Rule::in(['admin', 'owner', 'pekerja']),
                 ],
-                'status' => [
+                'edit_status' => [
                     'required',
                     Rule::in(['aktif', 'nonaktif']),
                 ],
             ],
             [
                 // Name custom message for validation
-                'name.required' => 'Nama Wajib Diisi !',
-                'name.min' => 'Karakter Pada Nama Harus Diantara 6 - 50 Karakter !',
-                'name.max' => 'Karakter Pada Nama Harus Diantara 6 - 50 Karakter !',
+                'edit_name.required' => 'Nama Wajib Diisi !',
+                'edit_name.min' => 'Karakter Pada Nama Harus Diantara 6 - 50 Karakter !',
+                'edit_name.max' => 'Karakter Pada Nama Harus Diantara 6 - 50 Karakter !',
 
                 // Username custom message for validation
-                'username.required' => 'Username Wajib Diisi !',
-                'username.regex' => 'Username Tidak Boleh Diisi Karakter Spasi !',
-                'username.lowercase' => 'Username Harus Menggunakan Huruf Kecil !',
+                'edit_username.required' => 'Username Wajib Diisi !',
+                'edit_username.regex' => 'Username Tidak Boleh Diisi Karakter Spasi !',
+                'edit_username.lowercase' => 'Username Harus Menggunakan Huruf Kecil !',
 
                 // Password custom message for validation
-                'password.min' => 'Password Minimal 8 Karakter !',
+                'edit_password.min' => 'Password Minimal 8 Karakter !',
 
                 // Level custom message for validation
-                'level.required' => 'Level Wajib Diisi !',
-                'level.in' => 'Pilihan Pada Level Harus Admin / Owner / Pekerja !',
+                'edit_level.required' => 'Level Wajib Diisi !',
+                'edit_level.in' => 'Pilihan Pada Level Harus Admin / Owner / Pekerja !',
 
                 // Status custom message for validation
-                'level.required' => 'Status Wajib Diisi !',
-                'level.in' => 'Pilihan Pada Status Harus Aktif / Non-Aktif !',
+                'edit_level.required' => 'Status Wajib Diisi !',
+                'edit_level.in' => 'Pilihan Pada Status Harus Aktif / Non-Aktif !',
             ],
         );
 

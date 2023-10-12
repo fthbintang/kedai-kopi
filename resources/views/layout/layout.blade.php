@@ -113,7 +113,7 @@
                         icon: "error",
                         buttons: {
                             confirm: {
-                                text: "Confirm Me",
+                                text: "Konfirmasi",
                                 value: true,
                                 visible: true,
                                 className: "btn btn-success",
@@ -136,13 +136,41 @@
         </script>
     @endif
 
-    @if(Session::has('errors'))
+    
+    <!-- Validasi Pengguna -->
+    @if($errors->has('create_name') || $errors->has('create_username') || $errors->has('create_password') || $errors->has('edit_level'))
         <script>
             $(document).ready(function(){
                 $('#modalCreate').modal({show: true});
             });
         </script>
     @endif
+
+    @if($errors->has('edit_name') || $errors->has('edit_username') || $errors->has('edit_password') || $errors->has('edit_level'))
+        <script>
+            $(document).ready(function() {
+                $('#modalEdit{{ $item->id }}').modal('show');
+            });
+        </script>
+    @endif
+    
+    <!-- Validasi Barang -->
+    @if($errors->has('create_nama_barang') || $errors->has('create_stok')  || $errors->has('create_unit') || $errors->has('create_gambar'))
+        <script>
+            $(document).ready(function(){
+                $('#modalCreate').modal({show: true});
+            });
+        </script>
+    @endif
+
+    @if($errors->has('edit_nama_barang') || $errors->has('edit_stok') || $errors->has('edit_unit') ||$errors->has('edit_gambar'))
+        <script>
+            $(document).ready(function() {
+                $('#modalEdit{{ $item->id }}').modal('show');
+            });
+        </script>
+    @endif
+
 
 </body>
 

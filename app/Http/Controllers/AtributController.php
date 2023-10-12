@@ -33,9 +33,23 @@ class AtributController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'nama_barang' => 'required',
-            'stok' => 'required|numeric|integer',
-            'gambar' => 'image|file|max:1024'
+            'create_nama_barang' => 'required',
+            'create_stok' => 'required|integer',
+            'create_gambar' => 'image|file|max:1024'
+        ],
+        [
+            // Username custom message for validation
+            'create_nama_barang.required' => 'Nama Barang Wajib Diisi !',
+
+            // Stok custom message for validation
+            'create_stok.required' => 'Stok Wajib Diisi !',
+            'create_stok.integer' => 'Stok Diisi dengan Angka !',
+
+            // Gambar custom message for validation
+            'create_unit.required' => 'Unit Wajib Dipilih !',
+
+            // Gambar custom message for validation
+            'create_gambar.image' => 'Unggah File Gambar dengan Format JPG/JPEG/PNG/GIF',
         ]);
 
         try {
@@ -55,7 +69,7 @@ class AtributController extends Controller
 
             return redirect('/dashboard/atribut')->with('success', 'Tambah Data Berhasil!');
         } catch (\Exception $e) {
-            return back()->withInput()->with('error', 'Gagal menambahkan data. Pastikan input yang Anda masukkan benar.');
+            return back()->withInput()->with('error-store', 'Gagal menambahkan data. Pastikan input yang Anda masukkan benar.');
         }
     }
 
@@ -81,19 +95,31 @@ class AtributController extends Controller
     public function update(Request $request, Atribut $atribut)
     {
         $rules = [
-            'nama_barang' => 'required',
-            'stok' => 'required|numeric|integer',
-            'gambar' => 'image|file|max:1024'
+            'edit_nama_barang' => 'required',
+            'edit_stok' => 'required|numeric|integer',
+            'edit_unit' => 'required',
+            'edit_gambar' => 'image|file|max:1024'
         ];
 
-        $validatedData = $request->validate($rules);
+        $customMessages = [
+            'edit_nama_barang.required' => 'Nama Barang Wajib Diisi!',
+            'edit_stok.required' => 'Stok Wajib Diisi!',
+            'edit_stok.numeric' => 'Stok Diisi dengan Angka!',
+            'edit_stok.integer' => 'Stok Harus Bilangan Bulat!',
+            'edit_unit.required' => 'Unit Wajib Dipilih!',
+            'edit_gambar.image' => 'Unggah File Gambar dengan Format JPG/JPEG/PNG/GIF!',
+            'edit_gambar.file' => 'Unggah File Gambar dengan Format JPG/JPEG/PNG/GIF!',
+            'edit_gambar.max' => 'Ukuran Gambar Tidak Boleh Lebih Dari 1 MB!',
+        ];
+
+        $validatedData = $request->validate($rules, $customMessages);
 
         // Simpan path gambar lama untuk penghapusan nantinya
         $oldImagePath = $atribut->gambar;
 
         if ($request->file('gambar')) {
             // Simpan gambar baru
-            $validatedData['gambar'] = $request->file('gambar')->store('gambar-atribut', 'public');
+            $validatedData['gambar'] = $request->file('gambar')->store('gambar-barang', 'public');
 
             // Hapus gambar lama jika ada
             if ($oldImagePath && Storage::disk('public')->exists($oldImagePath)) {

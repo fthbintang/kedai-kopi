@@ -117,7 +117,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Create Data User</h5>
+                <h5 class="modal-title">Tambah Data User</h5>
                 <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
                 </button>
             </div>
@@ -127,34 +127,34 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="name">Nama Lengkap</label>
-                        <input type="text" class="form-control" name="name" id="name" placeholder="Nama Lengkap..." required>
-                        @error('name')
+                        <input type="text" class="form-control" name="create_name" id="name" placeholder="Nama Lengkap..." required>
+                        @error('create_name')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="form-group">
                         <label for="username">Username</label>
-                        <input type="username" class="form-control" name="username" id="username" placeholder="Username..." required>
-                        @error('username')
+                        <input type="username" class="form-control" name="create_username" id="username" placeholder="Username..." required>
+                        @error('create_username')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
-                        <input type="password" class="form-control" name="password" id="password" placeholder="Password..." required>
-                        @error('password')
+                        <input type="password" class="form-control" name="create_password" id="password" placeholder="Password..." required>
+                        @error('create_password')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="form-group">
                         <label for="level">Level</label>
-                        <select class="form-control" name="level" id="level" required>
+                        <select class="form-control" name="create_level" id="level" required>
                             <option value="" hidden>-- Pilih Level --</option>
                             <option value="admin">Admin</option>
                             <option value="owner">Owner</option>
                             <option value="pekerja">Pekerja</option>
                         </select>
-                        @error('level')
+                        @error('create_level')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
@@ -185,50 +185,50 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="name">Nama Lengkap</label>
-                        <input type="text" class="form-control" name="name" id="name" placeholder="Nama Lengkap..." value="{{ $item->name }}" required>
-                        @error('name')
+                        <input type="text" class="form-control" name="edit_name" id="name" placeholder="Nama Lengkap..." value="{{ $item->name }}" required>
+                        @error('edit_name')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="form-group">
                         <label for="username">Username</label>
-                        <input type="username" class="form-control" name="username" id="username" placeholder="Username..." value="{{ $item->username }}" required>
-                        @error('username')
+                        <input type="username" class="form-control" name="edit_username" id="username" placeholder="Username..." value="{{ $item->username }}" required>
+                        @error('edit_username')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
-                        <input type="password" class="form-control" name="password" id="password" placeholder="Password...">
-                        @error('password')
+                        <input type="password" class="form-control" name="edit_password" id="password" placeholder="Password...">
+                        @error('edit_password')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="form-group">
                         <label for="level">Level</label>
-                        <select class="form-control" name="level" id="level" required>
+                        <select class="form-control" name="edit_level" id="level" required>
                             <option value="admin" <?= ($item->level) == 'admin' ? 'selected' : ''; ?>>Admin</option>
                             <option value="owner" <?= ($item->level) == 'owner' ? 'selected' : ''; ?>>Owner</option>
                             <option value="pekerja" <?= ($item->level) == 'pekerja' ? 'selected' : ''; ?>>Pekerja</option>
                         </select>
-                        @error('level')
+                        @error('edit_level')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="form-group">
                         <label for="status">Status</label>
-                        <select class="form-control" name="status" id="status" required>
+                        <select class="form-control" name="edit_status" id="status" required>
                             <option value="aktif" <?= ($item->level) == 'aktif' ? 'selected' : ''; ?>>Aktif</option>
                             <option value="nonaktif" <?= ($item->status) == 'nonaktif' ? 'selected' : ''; ?>>Non-Aktif</option>
                         </select>
-                        @error('level')
+                        @error('edit_level')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-undo"></i> Close</button>
-                    <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-undo"></i> Kembali</button>
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Simpan</button>
                 </div>
             </form>
         </div>

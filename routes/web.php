@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\BarangController;
 use App\Http\Controllers\AtributController;
 use App\Http\Controllers\TembakauController;
 use App\Http\Controllers\BahanBakuController;
@@ -33,6 +34,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('aut
 Route::resource('/dashboard/pengguna', UserController::class)->middleware('auth');
 Route::resource('/dashboard/atribut', AtributController::class)->middleware('auth');
 Route::resource('/dashboard/bahan-baku', BahanBakuController::class)->middleware('auth');
+Route::resource('/dashboard/barang', BarangController::class)->middleware('auth');
 
 // Route::get('/bahan-baku', [BahanBakuController::class, 'index'])->middleware('auth');
 
