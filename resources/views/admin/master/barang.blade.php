@@ -5,7 +5,7 @@
         <div class="col p-md-0">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
-                <li class="breadcrumb-item active"><a href="/dashboard/atribut">Atribut</a></li>
+                <li class="breadcrumb-item active"><a href="/dashboard/barang">Barang</a></li>
             </ol>
         </div>
     </div>
@@ -29,17 +29,19 @@
                                         <th>Nama Barang</th>
                                         <th>Stok</th>
                                         <th>Unit</th>
+                                        <th>Jenis</th>
                                         <th>Gambar</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($atribut as $row)
+                                    @foreach ($barang as $row)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $row->nama_barang }}</td>
                                             <td>{{ $row->stok }}</td>
                                             <td>{{ $row->unit }}</td>
+                                            <td>{{ $row->jenis }}</td>
                                             <td>
                                                 <a href="#" data-toggle="modal" data-target="#gambarModal{{ $row->id }}">
                                                     <img src="{{ asset('storage/' . $row->gambar) }}" class="col-sm-5" alt="gambar" style="max-width: 100px; height: auto;">
@@ -65,7 +67,7 @@
     </div> 
 
     <!-- Modal untuk Gambar -->
-    @foreach ($atribut as $row)
+    @foreach ($barang as $row)
     <div class="modal fade" id="gambarModal{{ $row->id }}" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -86,12 +88,12 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Tambah Data Atribut</h5>
+                    <h5 class="modal-title">Tambah Data Barang</h5>
                     <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
                     </button>
                 </div>
 
-                <form method="POST" action="/dashboard/atribut" enctype="multipart/form-data">
+                <form method="POST" action="/dashboard/barang" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
@@ -110,13 +112,25 @@
                         </div>
                         <div class="form-group">
                             <label for="unit">Unit</label>
-                            <select class="form-control" name="create_unit" id="unit" required>
+                            <select class="form-control" name="create_unit" id="unit" required value="{{ old('create_unit') }}">
                                 <option value="" hidden>-- Pilih Unit --</option>
-                                <option value="kg">Kg</option>
-                                <option value="pcs">Pcs</option>
-                                <option value="liter">Liter</option>
+                                <option value="Kg">Kg</option>
+                                <option value="Pcs">Pcs</option>
+                                <option value="Liter">Liter</option>
                             </select>
                             @error('create_unit')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="jenis">Jenis</label>
+                            <select class="form-control" name="create_jenis" id="jenis" required value="{{ old('create_jenis') }}">
+                                <option value="" hidden>-- Pilih Jenis --</option>
+                                <option value="Atribut">Atribut</option>
+                                <option value="Bahan Baku">Bahan Baku</option>
+                                <option value="Tembakau">Tembakau</option>
+                            </select>
+                            @error('create_jenis')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
@@ -140,17 +154,17 @@
     </div>
 
     {{-- Modal Edit --}}
-    @foreach ($atribut as $item)
+    @foreach ($barang as $item)
     <div class="modal fade" id="modalEdit{{ $item->id }}" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Edit Data Atribut</h5>
+                    <h5 class="modal-title">Edit Data Barang</h5>
                     <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
                     </button>
                 </div>
 
-                <form method="POST" action="/dashboard/atribut/{{ $item->id }}" enctype="multipart/form-data">
+                <form method="POST" action="/dashboard/barang/{{ $item->id }}" enctype="multipart/form-data">
                     @method('put')
                     @csrf
                     <div class="modal-body">
@@ -171,11 +185,22 @@
                         <div class="form-group">
                             <label for="unit">Unit</label>
                             <select class="form-control" name="edit_unit" id="unit" required>
-                                <option <?= ($item->unit) == 'kg' ? 'selected' : ''; ?> value="kg">Kg</option>
-                                <option <?= ($item->unit) == 'pcs' ? 'selected' : ''; ?> value="pcs">Pcs</option>
-                                <option <?= ($item->unit) == 'liter' ? 'selected' : ''; ?> value="liter">Liter</option>
+                                <option <?= ($item->unit) == 'Kg' ? 'selected' : ''; ?> value="Kg">Kg</option>
+                                <option <?= ($item->unit) == 'Pcs' ? 'selected' : ''; ?> value="Pcs">Pcs</option>
+                                <option <?= ($item->unit) == 'Liter' ? 'selected' : ''; ?> value="Liter">Liter</option>
                             </select>
                             @error('edit_unit')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="jenis">Jenis</label>
+                            <select class="form-control" name="edit_jenis" id="jenis" required>
+                                <option <?= ($item->jenis) == 'Atribut' ? 'selected' : ''; ?> value="Atribut">Atribut</option>
+                                <option <?= ($item->jenis) == 'Bahan Baku' ? 'selected' : ''; ?> value="Bahan Baku">Bahan Baku</option>
+                                <option <?= ($item->jenis) == 'Tembakau' ? 'selected' : ''; ?> value="Tembakau">Tembakau</option>
+                            </select>
+                            @error('edit_jenis')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
@@ -200,17 +225,17 @@
     @endforeach
 
     {{-- Modal Delete --}}
-    @foreach ($atribut as $item)
+    @foreach ($barang as $item)
     <div class="modal fade" id="modalDelete{{ $item->id }}" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Hapus Data Atribut</h5>
+                    <h5 class="modal-title">Hapus Data Barang</h5>
                     <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
                     </button>
                 </div>                
 
-                <form method="POST" action="/dashboard/atribut/{{ $row->id }}">
+                <form method="POST" action="/dashboard/barang/{{ $row->id }}">
                     @method('delete')
                     @csrf
                     <div class="modal-body">
@@ -260,18 +285,20 @@
             var input = document.getElementById('gambarEdit' + itemId);
             var preview = document.getElementById('previewImageEdit' + itemId);
 
-            input.addEventListener('change', function () {
-                var file = input.files[0];
-                var reader = new FileReader();
+            var file = input.files[0];
 
-                reader.onload = function (e) {
-                    preview.src = e.target.result;
-                    preview.style.display = 'block'; // Menampilkan gambar saat file dipilih
-                };
+            var reader = new FileReader();
 
-                reader.readAsDataURL(file);
-            });
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block'; // Menampilkan gambar saat file dipilih
+            };
+
+            reader.readAsDataURL(file);
         }
     </script>
+
+
+
 
 @endsection

@@ -6,7 +6,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Atribut;
-use App\Models\BahanBaku;
+use App\Models\Barang;
 
 class DatabaseSeeder extends Seeder
 {
@@ -30,32 +30,48 @@ class DatabaseSeeder extends Seeder
         ]);
 
         User::create([
-            'name' => 'Ahmad Ariyanur Rahma',
+            'name' => 'Ahmad Ariyanur Rahman',
             'username' => 'ari',
             'password' => bcrypt('ari'),
             'level' => 'admin'
         ]);
 
-        Atribut::create([
+        // Atribut::create([
+        //     'nama_barang' => 'Sendok',
+        //     'stok' => 10,
+        //     'unit' => 'Kg' 
+        // ]);
+
+        // Atribut::create([
+        //     'nama_barang' => 'Garpu',
+        //     'stok' => 10,
+        //     'unit' => 'Kg'
+        // ]);
+
+        Barang::create([
             'nama_barang' => 'Sendok',
-            'stok' => 10 
-        ]);
-
-        Atribut::create([
-            'nama_barang' => 'Garpu',
-            'stok' => 10
-        ]);
-
-        BahanBaku::create([
-            'nama_bahan_baku' => 'Susu UHT',
             'stok' => 10,
-            'unit' => 'liter'
+            'unit' => 'Kg',
+            'jenis' => 'Atribut'
         ]);
 
-        BahanBaku::create([
-            'nama_bahan_baku' => 'Susu Kental Manis',
-            'stok' => 5,
-            'unit' => 'liter'
+        Barang::create([
+            'nama_barang' => 'Garpu',
+            'stok' => 10,
+            'unit' => 'Kg',
+            'jenis' => 'Atribut'
         ]);
+
+        // BahanBaku::create([
+        //     'nama_bahan_baku' => 'Susu UHT',
+        //     'stok' => 10,
+        //     'unit' => 'liter'
+        // ]);
+
+        // BahanBaku::create([
+        //     'nama_bahan_baku' => 'Susu Kental Manis',
+        //     'stok' => 5,
+        //     'unit' => 'liter'
+        // ]);
     }
 }
