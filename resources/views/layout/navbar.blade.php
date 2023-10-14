@@ -4,14 +4,13 @@
         <div class="nav-header">
             <div class="brand-logo">
                 <a href="index.html">
-                    <b class="logo-abbr"><img src="/assets/images/logo.png" alt=""> </b>
-                    <span class="logo-compact"><img src="/assets/images/logo-compact.png" alt=""></span>
-                    <span class="brand-title">
-                        <img src="/assets/images/logo-text.png" alt="">
+                    <span class="brand-title" style="color: white; font-size: 20px;">
+                        Kedai Kopi
                     </span>
                 </a>
             </div>
         </div>
+
         <!--**********************************
             Nav header end
         ***********************************-->
@@ -33,11 +32,15 @@
                 <div class="header-right">
                     <ul class="clearfix">
                         <li class="icons dropdown">
-                            <div class="user-img c-pointer position-relative"   data-toggle="dropdown">
+                            <div class="user-img c-pointer position-relative" data-toggle="dropdown">
                                 <span class="activity active"></span>
-                                <img src="/assets/images/user/1.png" height="40" width="40" alt="">
+                                @if (auth()->user()->foto)
+                                    <img src="{{ asset('storage/' . auth()->user()->foto) }}" height="40" width="40" alt="">
+                                @else
+                                    <div class="default-profile-image" style="width: 40px; height: 40px; background-color: #fff; text-align: center; vertical-align: middle; line-height: 40px; color: #000; border-radius: 50%;">A</div>
+                                @endif
                             </div>
-                            <div class="drop-down dropdown-profile   dropdown-menu">
+                            <div class="drop-down dropdown-profile dropdown-menu">
                                 <div class="dropdown-content-body">
                                     <ul>
                                         <!-- <li><a href="#"><i class="icon-key"></i> <span>Logout</span></a></li> -->
@@ -53,6 +56,7 @@
                         </li>
                     </ul>
                 </div>
+
             </div>
         </div>
         <!--**********************************

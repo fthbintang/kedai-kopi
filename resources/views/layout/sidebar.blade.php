@@ -15,6 +15,12 @@
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Data Pengguna</span>
                         </a>
                     </li>
+
+                    <li>
+                        <a href="/dashboard/profile" aria-expanded="false">
+                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Profile</span>
+                        </a>
+                    </li>
                     
                     <li class="nav-label"><b>Data Master</b></li>
                     <!-- <li>
