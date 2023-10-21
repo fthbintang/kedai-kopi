@@ -38,6 +38,13 @@
                                     <label for="level" class="form-label">Level</label>
                                     <input type="text" class="form-control" id="level" name="level" placeholder="Level..." readonly value="{{ auth()->user()->level }}">
                                 </div>
+                                <div class="mb-3">
+                                    <label for="password">Ubah Password</label>
+                                    <input type="password" class="form-control" name="password" id="password" placeholder="Password...">
+                                    @error('password')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
                                 
                                 <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Simpan</button>
                         </div>
@@ -49,7 +56,7 @@
                             <h4>Foto Profile</h4>
                             <div class="mb-3">
                                 <label for="foto" class="form-label">Foto Profil</label>
-                                <input class="form-control @error('foto') is-invalid @enderror" type="file" id="foto" name="foto" required>
+                                <input class="form-control @error('foto') is-invalid @enderror" type="file" id="foto" name="foto">
                                 @error('foto')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -72,6 +79,7 @@
                 </div>
             </div>
         </div>
+
 </div>
 
 <script>
