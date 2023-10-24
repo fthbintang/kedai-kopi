@@ -28,6 +28,6 @@ class UserAccess
             return $next($request);
         }
 
-        return response()->json(['Anda tidak memiliki izin untuk mengakses halaman ini.']);
+        return redirect('/dashboard')->with('error', 'Anda tidak dapat mengakses halaman tersebut.', 'danger');
     }
 }
