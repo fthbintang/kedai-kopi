@@ -13,7 +13,7 @@ class BarangController extends Controller
      */
     public function index()
     {
-        return view('admin.master.barang', [
+        return view('master.barang', [
             'title' => 'Data Barang',
             'barang' => Barang::all()
         ]);
@@ -33,31 +33,33 @@ class BarangController extends Controller
     public function store(Request $request)
     {
         // return $request;
-        $validatedData = $request->validate([
-            'create_nama_barang' => 'required',
-            'create_stok' => 'required|integer',
-            'create_unit' => 'required',
-            'create_jenis' => 'required',
-            'create_gambar' => 'image|file|max:1024'
-        ],
-        [
-            'create_nama_barang.required' => 'Nama Barang Wajib Diisi !',
-            'create_stok.required' => 'Stok Wajib Diisi !',
-            'create_stok.integer' => 'Stok Diisi dengan Angka !',
-            'create_unit.required' => 'Unit Wajib Dipilih !',
-            'create_jenis.required' => 'Jenis Wajib Dipilih !',
-            'create_gambar.image' => 'Unggah File Gambar dengan Format JPG/JPEG/PNG/GIF',
-            'create_gambar.max' => 'Unggahan File Gambar Maksimal 1 MB'
-        ]);
-    
+        $validatedData = $request->validate(
+            [
+                'create_nama_barang' => 'required',
+                'create_stok' => 'required|integer',
+                'create_unit' => 'required',
+                'create_jenis' => 'required',
+                'create_gambar' => 'image|file|max:1024'
+            ],
+            [
+                'create_nama_barang.required' => 'Nama Barang Wajib Diisi !',
+                'create_stok.required' => 'Stok Wajib Diisi !',
+                'create_stok.integer' => 'Stok Diisi dengan Angka !',
+                'create_unit.required' => 'Unit Wajib Dipilih !',
+                'create_jenis.required' => 'Jenis Wajib Dipilih !',
+                'create_gambar.image' => 'Unggah File Gambar dengan Format JPG/JPEG/PNG/GIF',
+                'create_gambar.max' => 'Unggahan File Gambar Maksimal 1 MB'
+            ]
+        );
+
         try {
             $gambarPath = null;
-    
+
             if ($request->hasFile('create_gambar')) { // Mengganti 'gambar' dengan 'create_gambar'
                 $gambar = $request->file('create_gambar');
                 $gambarPath = $gambar->store('gambar-barang', 'public');
             }
-    
+
             Barang::create([
                 'nama_barang' => $validatedData['create_nama_barang'],
                 'stok' => $validatedData['create_stok'],
@@ -65,7 +67,7 @@ class BarangController extends Controller
                 'jenis' => $validatedData['create_jenis'],
                 'gambar' => $gambarPath
             ]);
-    
+
             return redirect('/dashboard/barang')->with('success', 'Tambah Data Berhasil!');
         } catch (\Exception $e) {
             return back()->withInput()->with('error-store', 'Gagal menambahkan data. Pastikan input yang Anda masukkan benar.');

@@ -14,7 +14,7 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        return view('admin.master.profile', [
+        return view('master.profile', [
             'title' => 'Profile',
             'profile' => User::all()
         ]);

@@ -27,15 +27,22 @@ Route::post('/login', [LoginController::class, 'authenticate']);
 Route::post('/logout', [LoginController::class, 'logout']);
 
 // Dashboard
-Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('/dashboard/profile', ProfileController::class)->middleware(['web']);
+});
 
-// User Route
-Route::resource('/dashboard/pengguna', UserController::class)->middleware('auth');
-Route::resource('/dashboard/profile', ProfileController::class)->middleware(['auth', 'web']);
+// Multi user login
+Route::middleware(['auth', 'user-access:1|3'])->group(function () {
+    // Master Data
+    Route::resource('/dashboard/barang', BarangController::class);
 
-// Master Data
-Route::resource('/dashboard/barang', BarangController::class)->middleware('auth');
+    // Transaksi
+    Route::get('/dashboard/pembelian-kopi', [PembelianKopiController::class, 'index']);
+    Route::get('/dashboard/pembelian-tembakau', [PembelianTembakauController::class, 'index']);
+});
 
-// Transaksi
-Route::get('dashboard/pembelian-kopi', [PembelianKopiController::class, 'index'])->middleware('auth');
-Route::get('/dashboard/pembelian-tembakau', [PembelianTembakauController::class, 'index'])->middleware('auth');
+Route::middleware(['auth', 'user-access:1|2'])->group(function () {
+    // User Route
+    Route::resource('/dashboard/pengguna', UserController::class);
+});
