@@ -52,7 +52,7 @@ class UserController extends Controller
                 ],
                 'create_level' => [
                     'required',
-                    Rule::in(['admin', 'owner', 'pekerja']),
+                    Rule::in([1, 2, 3]),
                 ],
             ],
             [
@@ -123,7 +123,7 @@ class UserController extends Controller
                 ],
                 'edit_level' => [
                     'required',
-                    Rule::in(['admin', 'owner', 'pekerja']),
+                    Rule::in([1, 2, 3]),
                 ],
                 'edit_status' => [
                     'required',
