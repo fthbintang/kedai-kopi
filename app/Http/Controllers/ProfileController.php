@@ -89,12 +89,12 @@ class ProfileController extends Controller
             // Periksa apakah ada gambar profil yang diunggah
             if ($request->hasFile('foto')) {
                 $profilePicture = $request->file('foto');
-                
+
                 // Hapus gambar profil sebelumnya jika ada
                 if ($user->foto) {
                     Storage::disk('public')->delete($user->foto);
                 }
-                
+
                 $picturePath = $profilePicture->store('foto-profil', 'public');
                 $user->foto = $picturePath;
             }

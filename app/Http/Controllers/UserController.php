@@ -72,10 +72,10 @@ class UserController extends Controller
         try {
             // Simpan data user ke database
             User::create([
-                'name'      => $validatedData['name'],
-                'username'     => $validatedData['username'],
-                'password'  => HASH::make($validatedData['password']),
-                'level'     => $validatedData['level'],
+                'name'      => $validatedData['create_name'],
+                'username'     => $validatedData['create_username'],
+                'password'  => HASH::make($validatedData['create_password']),
+                'level'     => $validatedData['create_level'],
             ]);
 
             return redirect('/dashboard/pengguna')->with('success', 'Tambah User Berhasil!');
@@ -150,14 +150,14 @@ class UserController extends Controller
         try {
             // Simpan data user ke database
             $update = [
-                'name'      => $validatedData['name'],
-                'username'     => $validatedData['username'],
-                'level'      => $validatedData['level'],
-                'status'      => $validatedData['status'],
+                'name'      => $validatedData['edit_name'],
+                'username'     => $validatedData['edit_username'],
+                'level'      => $validatedData['edit_level'],
+                'status'      => $validatedData['edit_status'],
             ];
 
             if ($request->password) {
-                $update['password'] = HASH::make($validatedData['password']);
+                $update['password'] = HASH::make($validatedData['edit_password']);
             }
 
             User::where('id', $id)

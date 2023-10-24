@@ -15,13 +15,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
-
         User::create([
             'name' => 'Muhammad Bintang Fathehah',
             'username' => 'bintang',
@@ -36,18 +29,6 @@ class DatabaseSeeder extends Seeder
             'level' => 'admin'
         ]);
 
-        // Atribut::create([
-        //     'nama_barang' => 'Sendok',
-        //     'stok' => 10,
-        //     'unit' => 'Kg' 
-        // ]);
-
-        // Atribut::create([
-        //     'nama_barang' => 'Garpu',
-        //     'stok' => 10,
-        //     'unit' => 'Kg'
-        // ]);
-
         Barang::create([
             'nama_barang' => 'Sendok',
             'stok' => 10,
@@ -61,17 +42,5 @@ class DatabaseSeeder extends Seeder
             'unit' => 'Kg',
             'jenis' => 'Atribut'
         ]);
-
-        // BahanBaku::create([
-        //     'nama_bahan_baku' => 'Susu UHT',
-        //     'stok' => 10,
-        //     'unit' => 'liter'
-        // ]);
-
-        // BahanBaku::create([
-        //     'nama_bahan_baku' => 'Susu Kental Manis',
-        //     'stok' => 5,
-        //     'unit' => 'liter'
-        // ]);
     }
 }
