@@ -35,8 +35,21 @@
                                     @enderror
                                 </div>
                                 <div class="mb-3">
+
+                                    <?php 
+                                        $level = auth()->user()->level;
+
+                                        if ($level == 1) {
+                                            $levelValue = 'Admin';
+                                        } else if ($level == 2) {
+                                            $levelValue = 'Owner';
+                                        } else {
+                                            $levelValue = 'Pekerja';
+                                        }
+                                    ?>
+                                    
                                     <label for="level" class="form-label">Level</label>
-                                    <input type="text" class="form-control" id="level" name="level" placeholder="Level..." readonly value="{{ auth()->user()->level }}">
+                                    <input type="text" class="form-control" id="level" name="level" placeholder="Level..." readonly value="{{ $levelValue }}">
                                 </div>
                                 <div class="mb-3">
                                     <label for="password">Ubah Password</label>

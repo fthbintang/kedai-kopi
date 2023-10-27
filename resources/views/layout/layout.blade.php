@@ -75,12 +75,12 @@
             var SweetAlertDemo = function() {
                 var initDemos = function() {
                     swal({
-                        title: "{{ session('success') }}",
+                        title: "Success !",
                         text: "{{ session('success') }}",
                         icon: "success",
                         buttons: {
                             confirm: {
-                                text: "Confirm Me",
+                                text: "Konfirmasi",
                                 value: true,
                                 visible: true,
                                 className: "btn btn-success",
@@ -108,7 +108,7 @@
             var SweetAlertDemo = function() {
                 var initDemos = function() {
                     swal({
-                        title: "{{ session('error') }}",
+                        title: "Error !",
                         text: "{{ session('error') }}",
                         icon: "error",
                         buttons: {

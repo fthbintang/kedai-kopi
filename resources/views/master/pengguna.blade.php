@@ -46,9 +46,9 @@
                                             <td>{{ $row->username }}</td>
                                             <td align="center">
                                                 <h4>
-                                                    @if ($row->level == 'admin')
+                                                    @if ($row->level == 1)
                                                         <span class="badge badge-pill badge-danger">Admin</span>
-                                                    @elseif ($row->level == 'owner')
+                                                    @elseif ($row->level == 2)
                                                         <span class="badge badge-pill badge-primary">Owner</span>
                                                     @else
                                                         <span class="badge badge-pill badge-success text-white">Pekerja</span>
@@ -150,9 +150,9 @@
                         <label for="level">Level</label>
                         <select class="form-control" name="create_level" id="level" required>
                             <option value="" hidden>-- Pilih Level --</option>
-                            <option value="admin">Admin</option>
-                            <option value="owner">Owner</option>
-                            <option value="pekerja">Pekerja</option>
+                            <option value="1">Admin</option>
+                            <option value="2">Owner</option>
+                            <option value="3">Pekerja</option>
                         </select>
                         @error('create_level')
                             <div class="text-danger">{{ $message }}</div>
@@ -207,9 +207,9 @@
                     <div class="form-group">
                         <label for="level">Level</label>
                         <select class="form-control" name="edit_level" id="level" required>
-                            <option value="admin" <?= ($item->level) == 'admin' ? 'selected' : ''; ?>>Admin</option>
-                            <option value="owner" <?= ($item->level) == 'owner' ? 'selected' : ''; ?>>Owner</option>
-                            <option value="pekerja" <?= ($item->level) == 'pekerja' ? 'selected' : ''; ?>>Pekerja</option>
+                            <option value="1" <?= ($item->level) == '1' ? 'selected' : ''; ?>>Admin</option>
+                            <option value="2" <?= ($item->level) == '2' ? 'selected' : ''; ?>>Owner</option>
+                            <option value="3" <?= ($item->level) == '3' ? 'selected' : ''; ?>>Pekerja</option>
                         </select>
                         @error('edit_level')
                             <div class="text-danger">{{ $message }}</div>

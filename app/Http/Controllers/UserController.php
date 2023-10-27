@@ -11,12 +11,19 @@ use Validator;
 
 class UserController extends Controller
 {
+
+    protected static $levelLists = [
+        1 => 'admin',
+        2 => 'owner',
+        3 => 'pekerja'
+    ];
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('admin.master.pengguna', [
+        return view('master.pengguna', [
             'title' => 'Data Pengguna',
             'data_pengguna' => User::all()
         ]);
@@ -45,7 +52,7 @@ class UserController extends Controller
                 ],
                 'create_level' => [
                     'required',
-                    Rule::in(['admin', 'owner', 'pekerja']),
+                    Rule::in([1, 2, 3]),
                 ],
             ],
             [
@@ -72,10 +79,10 @@ class UserController extends Controller
         try {
             // Simpan data user ke database
             User::create([
-                'name'      => $validatedData['name'],
-                'username'     => $validatedData['username'],
-                'password'  => HASH::make($validatedData['password']),
-                'level'     => $validatedData['level'],
+                'name'      => $validatedData['create_name'],
+                'username'  => $validatedData['create_username'],
+                'password'  => HASH::make($validatedData['create_password']),
+                'level'     => $validatedData['create_level'],
             ]);
 
             return redirect('/dashboard/pengguna')->with('success', 'Tambah User Berhasil!');
@@ -116,7 +123,7 @@ class UserController extends Controller
                 ],
                 'edit_level' => [
                     'required',
-                    Rule::in(['admin', 'owner', 'pekerja']),
+                    Rule::in([1, 2, 3]),
                 ],
                 'edit_status' => [
                     'required',
@@ -150,14 +157,14 @@ class UserController extends Controller
         try {
             // Simpan data user ke database
             $update = [
-                'name'      => $validatedData['name'],
-                'username'     => $validatedData['username'],
-                'level'      => $validatedData['level'],
-                'status'      => $validatedData['status'],
+                'name'      => $validatedData['edit_name'],
+                'username'     => $validatedData['edit_username'],
+                'level'      => $validatedData['edit_level'],
+                'status'      => $validatedData['edit_status'],
             ];
 
-            if ($request->password) {
-                $update['password'] = HASH::make($validatedData['password']);
+            if ($request->edit_password) {
+                $update['password'] = HASH::make($validatedData['edit_password']);
             }
 
             User::where('id', $id)
@@ -177,5 +184,16 @@ class UserController extends Controller
         User::where('id', $id)->delete();
 
         return redirect('/dashboard/pengguna')->with('success', 'Data Pengguna berhasil dihapus !');
+    }
+
+    public static function levelToArray()
+    {
+        $lists = [];
+
+        foreach (static::$levelLists as $key => $value) {
+            $lists[$key] = $value;
+        }
+
+        return $lists;
     }
 }

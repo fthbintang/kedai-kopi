@@ -24,6 +24,7 @@ class User extends Authenticatable
         'username',
         'password',
         'level',
+        'status',
         'foto-profile'
     ];
 
@@ -48,4 +49,19 @@ class User extends Authenticatable
 
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
+
+    public function isAdmin()
+    {
+        return $this->level == 1;
+    }
+
+    public function isOwner()
+    {
+        return $this->level == 2;
+    }
+
+    public function isPekerja()
+    {
+        return $this->level == 3;
+    }
 }

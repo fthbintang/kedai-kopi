@@ -4,67 +4,11 @@
         <div class="nk-sidebar">           
             <div class="nk-nav-scroll">
                 <ul class="metismenu" id="menu">
-                    <li class="nav-label"><b>Dashboard</b></li>
-                    <li>
-                        <a href="/dashboard" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Dashboard</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/dashboard/pengguna" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Data Pengguna</span>
-                        </a>
-                    </li>
 
-                    <li>
-                        <a href="/dashboard/profile" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Profile</span>
-                        </a>
-                    </li>
+                    @includeWhen(Auth::user()->isAdmin(), 'layout.partials.admin-nav')
+                    @includeWhen(Auth::user()->isOwner(), 'layout.partials.owner-nav')
+                    @includeWhen(Auth::user()->isPekerja(), 'layout.partials.pekerja-nav')
                     
-                    <li class="nav-label"><b>Data Master</b></li>
-                    <!-- <li>
-                        <a href="/dashboard/atribut" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Atribut</span>
-                        </a>
-                    </li> -->
-                    <!-- <li class="mega-menu mega-menu-sm">
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon-globe-alt menu-icon"></i><span class="nav-text">Data Master</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="#">Data User</a></li>
-                            <li><a href="#">Data Jenis Barang</a></li>
-                            <li><a href="#">Data Barang</a></li>
-                        </ul>
-                    </li> -->
-                    <li>
-                        <a href="/dashboard/barang" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Barang</span>
-                        </a>
-                    </li>
-                    <!-- <li>
-                        <a href="/dashboard/bahan-baku" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Bahan Baku</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/dashboard/tembakau" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Tembakau</span>
-                        </a>
-                    </li> -->
-                    
-                    <li class="nav-label"><b>Transaksi</b></li>
-                    <li>
-                        <a href="/dashboard/pembelian-kopi" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Pembelian Kopi</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/dashboard/pembelian-tembakau" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Pembelian Tembakau</span>
-                        </a>
-                    </li>
                 </ul>
             </div>
         </div>

@@ -15,38 +15,33 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
-
         User::create([
             'name' => 'Muhammad Bintang Fathehah',
             'username' => 'bintang',
             'password' => bcrypt('bintang'),
-            'level' => 'admin'
+            'level' => '1'
         ]);
 
         User::create([
             'name' => 'Ahmad Ariyanur Rahman',
             'username' => 'ari',
             'password' => bcrypt('ari'),
-            'level' => 'admin'
+            'level' => '1'
         ]);
 
-        // Atribut::create([
-        //     'nama_barang' => 'Sendok',
-        //     'stok' => 10,
-        //     'unit' => 'Kg' 
-        // ]);
+        User::create([
+            'name' => 'Owner',
+            'username' => 'owner',
+            'password' => bcrypt('owner'),
+            'level' => '2'
+        ]);
 
-        // Atribut::create([
-        //     'nama_barang' => 'Garpu',
-        //     'stok' => 10,
-        //     'unit' => 'Kg'
-        // ]);
+        User::create([
+            'name' => 'Pekerja',
+            'username' => 'pekerja',
+            'password' => bcrypt('pekerja'),
+            'level' => '3'
+        ]);
 
         Barang::create([
             'nama_barang' => 'Sendok',
@@ -62,16 +57,18 @@ class DatabaseSeeder extends Seeder
             'jenis' => 'Atribut'
         ]);
 
-        // BahanBaku::create([
-        //     'nama_bahan_baku' => 'Susu UHT',
-        //     'stok' => 10,
-        //     'unit' => 'liter'
-        // ]);
+        Barang::create([
+            'nama_barang' => 'Biji Kopi Aceh Gayo',
+            'stok' => 5,
+            'unit' => 'Kg',
+            'jenis' => 'Bahan Baku'
+        ]);
 
-        // BahanBaku::create([
-        //     'nama_bahan_baku' => 'Susu Kental Manis',
-        //     'stok' => 5,
-        //     'unit' => 'liter'
-        // ]);
+        Barang::create([
+            'nama_barang' => 'LA Ice Purpleboost',
+            'stok' => 20,
+            'unit' => 'Kg',
+            'jenis' => 'Tembakau'
+        ]);
     }
 }
