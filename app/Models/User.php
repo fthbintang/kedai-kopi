@@ -64,4 +64,9 @@ class User extends Authenticatable
     {
         return $this->level == 3;
     }
+
+    public function BarangMasuk()
+    {
+        return $this->hasMany(BarangMasuk::class);
+    }
 }

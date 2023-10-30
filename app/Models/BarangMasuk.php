@@ -5,13 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Barang extends Model
+class BarangMasuk extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
 
-    public function BarangMasuk() 
+    public function Barang()
     {
-        return $this->hasMany(BarangMasuk::class);
+        return $this->belongsTo(Barang::class);
+    }
+
+    public function User()
+    {
+        return $this->belongsTo(User::class);
     }
 }

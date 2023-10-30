@@ -40,6 +40,16 @@
         <i class="icon-speedometer menu-icon"></i><span class="nav-text">Barang</span>
     </a>
 </li>
+<li>
+    <a href="/dashboard/barang-masuk" aria-expanded="false">
+        <i class="icon-speedometer menu-icon"></i><span class="nav-text">Barang Masuk</span>
+    </a>
+</li>
+<li>
+    <a href="/dashboard/barang-keluar" aria-expanded="false">
+        <i class="icon-speedometer menu-icon"></i><span class="nav-text">Barang Keluar</span>
+    </a>
+</li>
 
 
 {{-- DATA TRANSAKSI --}}

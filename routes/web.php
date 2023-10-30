@@ -6,6 +6,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\BarangMasukController;
 use App\Http\Controllers\PembelianKopiController;
 use App\Http\Controllers\PembelianTembakauController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
@@ -36,6 +37,8 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth', 'user-access:1|3'])->group(function () {
     // Master Data
     Route::resource('/dashboard/barang', BarangController::class);
+    Route::resource('/dashboard/barang-masuk', BarangMasukController::class);
+    Route::resource('/dashboard/barang-keluar', BarangKeluarController::class);
 
     // Transaksi
     Route::get('/dashboard/pembelian-kopi', [PembelianKopiController::class, 'index']);

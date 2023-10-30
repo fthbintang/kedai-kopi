@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Atribut;
 use App\Models\Barang;
+use App\Models\BarangMasuk;
 
 class DatabaseSeeder extends Seeder
 {
@@ -69,6 +70,14 @@ class DatabaseSeeder extends Seeder
             'stok' => 20,
             'unit' => 'Kg',
             'jenis' => 'Tembakau'
+        ]);
+
+        BarangMasuk::create([
+            'barang_id' => 1,
+            'user_id' => 1,
+            'stok_masuk' => 10,
+            'stok_sebelum' => 10,
+            'stok_sesudah' => 10,
         ]);
     }
 }
