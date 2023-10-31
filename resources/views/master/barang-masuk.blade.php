@@ -64,54 +64,156 @@
         </div>
     </div> 
 
+    {{-- Modal Create --}}
+    <div class="modal fade" id="modalCreate" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Tambah Data Barang</h5>
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                    </button>
+                </div>
 
+                <form method="POST" action="/dashboard/barang-masuk">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <button type="button" class="btn btn-primary" id="addInput">Tambah Input</button>
+                        </div>
 
-    <!-- Script untuk Pratinjau Gambar pada Modal Create -->
-    <script>
-        // Fungsi untuk menampilkan gambar saat file dipilih
-        function previewImage() {
-            var input = document.getElementById('gambar');
-            var preview = document.getElementById('previewImage');
+                        <div class="form-group">
+                            <label for="barang_id">Nama Barang</label>
+                            <select class="form-control" name="barang_id" id="barang_id" style="width: 100%;" required>
+                                <option value="" selected disabled></option> 
+                                @foreach($barangs as $barang)
+                                    <option value="{{ $barang->id }}">{{ $barang->nama_barang }}</option> 
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="stok_sebelum">Stok saat ini</label>
+                            <input type="number" class="form-control @error('stok_sebelum') is-invalid @enderror" name="stok_sebelum" id="stok_sebelum" placeholder="Isi Barang Dahulu..." required readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="stok_masuk">Stok masuk</label>
+                            <input type="number" class="form-control @error('stok_masuk') is-invalid @enderror" name="stok_masuk" id="stok_masuk" placeholder="Stok..." required>
+                        </div>
+                        <hr>
 
-            input.addEventListener('change', function () {
-                var file = input.files[0];
-                var reader = new FileReader();
+                        <div id="dynamicInputsContainer">
+                            <!-- Input dinamis akan ditambahkan di sini -->
+                        </div>
 
-                reader.onload = function (e) {
-                    preview.src = e.target.result;
-                    preview.style.display = 'block'; // Menampilkan gambar saat file dipilih
-                };
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-undo"></i> Kembali</button>
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
-                reader.readAsDataURL(file);
-            });
-        }
+    {{-- Modal Delete --}}
+    @foreach ($barangMasuk as $item)
+    <div class="modal fade" id="modalDelete{{ $item->id }}" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Hapus Data Barang</h5>
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                    </button>
+                </div>                
 
-        // Panggil fungsi previewImage saat dokumen siap
-        document.addEventListener('DOMContentLoaded', function () {
-            previewImage();
-        });
-    </script>
-
-    <!-- Script untuk Pratinjau Gambar pada Modal Edit -->
-    <script>
-        function updatePreview(itemId) {
-            var input = document.getElementById('gambarEdit' + itemId);
-            var preview = document.getElementById('previewImageEdit' + itemId);
-
-            var file = input.files[0];
-
-            var reader = new FileReader();
-
-            reader.onload = function (e) {
-                preview.src = e.target.result;
-                preview.style.display = 'block'; // Menampilkan gambar saat file dipilih
-            };
-
-            reader.readAsDataURL(file);
-        }
-    </script>
-
-
-
+                <form method="POST" action="/dashboard/barang-masuk/{{ $row->id }}">
+                    @method('delete')
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <h5>Apakah Anda Ingin Menghapus Data Ini ?</h5>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-undo"></i> Close</button>
+                        <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Hapus</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    @endforeach
 
 @endsection
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            // Autocorrect Select2
+            $('#barang_id').select2({
+                dropdownParent: $('#modalCreate'),
+                placeholder: "Barang..",
+                allowClear: true
+            });
+
+            // Event handler ketika memilih barang (Pengisian Stok Otomatis)
+            $('#barang_id').on('change', function () {
+                var selectedBarangId = $(this).val();
+                if (selectedBarangId) {
+                    // Mengambil stok dari barang terkait
+                    var selectedBarang = <?php echo json_encode($barangs, JSON_HEX_TAG); ?>;
+                    var stokSebelumInput = $('#stok_sebelum');
+                    stokSebelumInput.val(selectedBarang.find(barang => barang.id == selectedBarangId).stok);
+                }
+            });
+
+            // Input Dinamis
+            var dynamicInputs = 0;
+
+            // Tombol "Tambah Input" diklik
+            $('#addInput').on('click', function() {
+                dynamicInputs++;
+
+                var newInput = `
+                    <div class="form-group">
+                        <label for="barang_id_${dynamicInputs}">Nama Barang</label>
+                        <select class="form-control" name="barang_id[]" id="barang_id_${dynamicInputs}" style="width: 100%;">
+                            <option value="" selected disabled>Pilih Barang</option> 
+                            @foreach($barangs as $barang)
+                                <option value="{{ $barang->id }}">{{ $barang->nama_barang }}</option> 
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="stok_sebelum_${dynamicInputs}">Stok saat ini</label>
+                        <input type="number" class="form-control" name="stok_sebelum[]" id="stok_sebelum_${dynamicInputs}" placeholder="Pilih Barang Dahulu..." required readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="stok_masuk_${dynamicInputs}">Stok masuk</label>
+                        <input type="number" class="form-control" name="stok_masuk[]" id="stok_masuk_${dynamicInputs}" placeholder="Stok..." required>
+                    </div>;
+                    <hr>`
+
+                $('#dynamicInputsContainer').append(newInput);
+
+                // Inisialisasi Select2 untuk input dinamis
+                $(`#barang_id_${dynamicInputs}`).select2({
+                    placeholder: 'Barang..',
+                    allowClear: true
+                });
+
+                // Event handler ketika memilih barang pada input dinamis
+                $(`#barang_id_${dynamicInputs}`).on('change', function () {
+                    var selectedBarangId = $(this).val();
+                    var stokSebelumInput = $(`#stok_sebelum_${dynamicInputs}`);
+
+                    if (selectedBarangId) {
+                        // Mengambil stok dari barang terkait
+                        var selectedBarang = <?php echo json_encode($barangs, JSON_HEX_TAG); ?>;
+                        stokSebelumInput.val(selectedBarang.find(barang => barang.id == selectedBarangId).stok);
+                    } else {
+                        stokSebelumInput.val(''); // Reset stok saat memilih barang
+                    }
+                });
+            });
+        });
+    </script>
+@endpush

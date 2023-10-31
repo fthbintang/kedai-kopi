@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('stok_masuk');
             $table->timestamps();
             $table->integer('stok_sebelum');
-            $table->integer('stok_sesudah');
+            $table->integer('stok_sesudah')->nullable();
         });
     }
 
