@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BarangMasuk;
+use App\Models\BarangKeluar;
 use App\Models\Barang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class BarangMasukController extends Controller
+class BarangKeluarController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('master.barang-masuk', [
-            'title' => 'Data Barang Masuk',
-            'barangMasuk' => BarangMasuk::all(),
-            'barangs' => Barang::all()
+        return view('master.barang-keluar', [
+            'title' => 'Data Barang Keluar',
+            'barangKeluar' => BarangKeluar::all(),
+            'barangs' => Barang::all(),
         ]);
     }
 
@@ -37,7 +37,7 @@ class BarangMasukController extends Controller
         $rules = [
             'barang_id.*' => 'required|exists:barangs,id',
             'stok_sebelum.*' => 'required|integer',
-            'stok_masuk.*' => 'required|integer',
+            'stok_keluar.*' => 'required|integer',
         ];
     
         $messages = [
@@ -45,8 +45,8 @@ class BarangMasukController extends Controller
             'barang_id.*.exists' => 'Nama Barang tidak valid',
             'stok_sebelum.*.required' => 'Stok wajib diisi',
             'stok_sebelum.*.integer' => 'Stok harus berupa angka',
-            'stok_masuk.*.required' => 'Stok Masuk wajib diisi',
-            'stok_masuk.*.integer' => 'Stok Masuk harus berupa angka',
+            'stok_keluar.*.required' => 'Stok Keluar wajib diisi',
+            'stok_keluar.*.integer' => 'Stok Keluar harus berupa angka',
         ];
     
         $validator = Validator::make($request->all(), $rules, $messages);
@@ -61,19 +61,19 @@ class BarangMasukController extends Controller
         // Loop untuk mengambil dan memproses input dinamis
         $barangIds = $request->input('barang_id');
         $stokSebelums = $request->input('stok_sebelum');
-        $stokMasuks = $request->input('stok_masuk');
+        $stokKeluars = $request->input('stok_keluar');
     
         foreach ($barangIds as $index => $barangId) {
             $stokSebelum = $stokSebelums[$index];
-            $stokMasuk = $stokMasuks[$index];
-            $stokSesudah = $stokSebelum + $stokMasuk;
+            $stokKeluar = $stokKeluars[$index];
+            $stokSesudah = $stokSebelum - $stokKeluar;
     
             // Simpan data ke database
-            BarangMasuk::create([
+            BarangKeluar::create([
                 'barang_id' => $barangId,
                 'user_id' => auth()->user()->id,
                 'stok_sebelum' => $stokSebelum,
-                'stok_masuk' => $stokMasuk,
+                'stok_keluar' => $stokKeluar,
                 'stok_sesudah' => $stokSesudah,
             ]);
     
@@ -83,14 +83,13 @@ class BarangMasukController extends Controller
             $barang->save();
         }
     
-        return redirect('/dashboard/barang-masuk')->with('success', 'Tambah Data Berhasil!');
+        return redirect('/dashboard/barang-keluar')->with('success', 'Tambah Data Berhasil!');
     }
-    
 
     /**
      * Display the specified resource.
      */
-    public function show(BarangMasuk $barangMasuk)
+    public function show(BarangKeluar $barangKeluar)
     {
         //
     }
@@ -98,7 +97,7 @@ class BarangMasukController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(BarangMasuk $barangMasuk)
+    public function edit(BarangKeluar $barangKeluar)
     {
         //
     }
@@ -106,46 +105,16 @@ class BarangMasukController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, BarangMasuk $barangMasuk)
+    public function update(Request $request, BarangKeluar $barangKeluar)
     {
-        $validatedData = $request->validate([
-            'stok_sebelum' => 'required|integer',
-            'stok_masuk' => 'required|integer',
-        ], [
-            'stok_sebelum.required' => 'Stok Wajib Diisi !',
-            'stok_sebelum.integer' => 'Stok Diisi dengan Angka !',
-        ]);
-
-        try {
-            $stokSebelum = $validatedData['stok_sebelum'];
-            $stokMasuk = $validatedData['stok_masuk'];
-            $stokSesudah = $stokSebelum + $stokMasuk;
-
-            // Update atribut stok di tabel barang_masuks
-            $barangMasuk->stok_sebelum = $stokSebelum;
-            $barangMasuk->stok_masuk = $stokMasuk;
-            $barangMasuk->stok_sesudah = $stokSesudah;
-            $barangMasuk->save();
-
-            // Update atribut stok di tabel barangs
-            $barang = Barang::find($barangMasuk->barang_id);
-            $barang->stok = $stokSesudah;
-            $barang->save();
-
-            return redirect('/dashboard/barang-masuk')->with('success', 'Edit Data Berhasil!');
-        } catch (\Exception $e) {
-            return back()->withInput()->with('error-update', 'Gagal mengedit data. Pastikan input yang Anda masukkan benar.');
-        }
+        //
     }
-
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(BarangMasuk $barangMasuk)
+    public function destroy(BarangKeluar $barangKeluar)
     {
-        BarangMasuk::destroy($barangMasuk->id);
-
-        return redirect('/dashboard/barang-masuk')->with('success', 'Data Barang Masuk berhasil dihapus.');
+        //
     }
 }

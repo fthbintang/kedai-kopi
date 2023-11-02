@@ -5,9 +5,9 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
-use App\Models\Atribut;
 use App\Models\Barang;
 use App\Models\BarangMasuk;
+use App\Models\BarangKeluar;
 
 class DatabaseSeeder extends Seeder
 {
@@ -79,5 +79,14 @@ class DatabaseSeeder extends Seeder
             'stok_sebelum' => 10,
             'stok_sesudah' => 10,
         ]);
+
+        BarangKeluar::create([
+            'barang_id' => 2,
+            'user_id' => 1,
+            'stok_keluar' => 10,
+            'stok_sebelum' => 10,
+            'stok_sesudah' => 10,
+        ]);
+
     }
 }

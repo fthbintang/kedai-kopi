@@ -5,7 +5,7 @@
         <div class="col p-md-0">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
-                <li class="breadcrumb-item active"><a href="/dashboard/barang-masuk">Barang Masuk</a></li>
+                <li class="breadcrumb-item active"><a href="/dashboard/barang-keluar">Barang Keluar</a></li>
             </ol>
         </div>
     </div>
@@ -28,7 +28,7 @@
                                         <th>No</th>
                                         <th>Nama Barang</th>
                                         <th>Pengguna</th>
-                                        <th>Stok Masuk</th>
+                                        <th>Stok Keluar</th>
                                         <th>Waktu Masuk</th>
                                         <th>Stok Sebelum</th>
                                         <th>Stok Sesudah</th>
@@ -36,12 +36,12 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($barangMasuk as $row)
+                                    @foreach ($barangKeluar as $row)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $row->barang->nama_barang }}</td>
                                             <td>{{ $row->user->name }}</td>
-                                            <td>{{ $row->stok_masuk }}</td>
+                                            <td>{{ $row->stok_keluar }}</td>
                                             <td>{{ $row->created_at }}</td>
                                             <td>{{ $row->stok_sebelum }}</td>
                                             <td>{{ $row->stok_sesudah }}</td>
@@ -69,12 +69,12 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Tambah Data Barang Masuk</h5>
+                    <h5 class="modal-title">Tambah Data Barang Keluar</h5>
                     <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
                     </button>
                 </div>
 
-                <form method="POST" action="/dashboard/barang-masuk">
+                <form method="POST" action="/dashboard/barang-keluar">
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
@@ -95,8 +95,8 @@
                             <input type="number" class="form-control @error('stok_sebelum') is-invalid @enderror" name="stok_sebelum[]" id="stok_sebelum" placeholder="Isi Barang Dahulu..." required readonly>
                         </div>
                         <div class="form-group">
-                            <label for="stok_masuk">Stok masuk</label>
-                            <input type="number" class="form-control @error('stok_masuk') is-invalid @enderror" name="stok_masuk[]" id="stok_masuk" placeholder="Stok..." required>
+                            <label for="stok_keluar">Stok Keluar</label>
+                            <input type="number" class="form-control @error('stok_keluar') is-invalid @enderror" name="stok_keluar[]" id="stok_keluar" placeholder="Stok..." required>
                         </div>
                         <hr>
 
@@ -114,8 +114,8 @@
         </div>
     </div>
 
-    {{-- Modal Edit --}}
-    @foreach ($barangMasuk as $item)
+    <!-- {{-- Modal Edit --}}
+    @foreach ($barangKeluar as $item)
     <div class="modal fade" id="modalEdit{{ $item->id }}" name="modalEdit" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -150,11 +150,11 @@
             </div>
         </div>
     </div>
-    @endforeach
+    @endforeach -->
 
 
     {{-- Modal Delete --}}
-    @foreach ($barangMasuk as $item)
+    @foreach ($barangKeluar as $item)
     <div class="modal fade" id="modalDelete{{ $item->id }}" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -164,7 +164,7 @@
                     </button>
                 </div>                
 
-                <form method="POST" action="/dashboard/barang-masuk/{{ $row->id }}">
+                <form method="POST" action="/dashboard/barang-keluar/{{ $row->id }}">
                     @method('delete')
                     @csrf
                     <div class="modal-body">
@@ -226,9 +226,9 @@
                         <input type="number" class="form-control" name="stok_sebelum[]" id="stok_sebelum_${dynamicInputs}" placeholder="Pilih Barang Dahulu..." required readonly>
                     </div>
                     <div class="form-group">
-                        <label for="stok_masuk_${dynamicInputs}">Stok masuk</label>
-                        <input type="number" class="form-control" name="stok_masuk[]" id="stok_masuk_${dynamicInputs}" placeholder="Stok..." required>
-                    </div>
+                        <label for="stok_keluar_${dynamicInputs}">Stok keluar</label>
+                        <input type="number" class="form-control" name="stok_keluar[]" id="stok_keluar_${dynamicInputs}" placeholder="Stok..." required>
+                    </div>;
                     <hr>`
 
                 $('#dynamicInputsContainer').append(newInput);

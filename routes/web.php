@@ -7,6 +7,7 @@ use App\Http\Controllers\BarangController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\BarangMasukController;
+use App\Http\Controllers\BarangKeluarController;
 use App\Http\Controllers\PembelianKopiController;
 use App\Http\Controllers\PembelianTembakauController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
