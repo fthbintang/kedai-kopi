@@ -26,12 +26,10 @@
                                 <thead>
                                     <tr align="center">
                                         <th>No</th>
-                                        <th>Nama Barang</th>
-                                        <th>Pengguna</th>
-                                        <th>Stok Masuk</th>
+                                        <th>Nama Sesi</th>
+                                        <th>Pengguna</th> 
                                         <th>Waktu Masuk</th>
-                                        <th>Stok Sebelum</th>
-                                        <th>Stok Sesudah</th>
+                                        <th>Status</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -39,19 +37,15 @@
                                     @foreach ($barangMasuk as $row)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $row->barang->nama_barang }}</td>
+                                            <td>{{ $row->nama_sesi }}</td>
                                             <td>{{ $row->user->name }}</td>
-                                            <td>{{ $row->stok_masuk }}</td>
                                             <td>{{ $row->created_at }}</td>
-                                            <td>{{ $row->stok_sebelum }}</td>
-                                            <td>{{ $row->stok_sesudah }}</td>
+                                            <td>{{ $row->status }}</td>
                                             <td>
-                                                <a href="#modalEdit{{ $row->id }}" data-toggle="modal" class="btn btn-xs btn-primary">
+                                                <!-- <a href="#modalEdit{{ $row->id }}" data-toggle="modal" class="btn btn-xs btn-primary">
                                                     <i class="fa fa-edit"></i> Edit
-                                                </a>    
-                                                <a href="#modalDelete{{ $row->id }}" data-toggle="modal" class="btn btn-xs btn-danger">
-                                                    <i class="fa fa-trash"></i> Hapus
-                                                </a>
+                                                </a>     -->
+                                                <a href="/barang_masuk/list_barang_masuk/{{ $row->id }}" class="btn btn-xs btn-primary" ><i class="fa fa-edit"></i>Details</a>
                                             </td>
                                         </tr>
                                     @endforeach

@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Barang;
 use App\Models\BarangMasuk;
 use App\Models\BarangKeluar;
+use App\Models\ListBarangMasuk;
 
 class DatabaseSeeder extends Seeder
 {
@@ -73,11 +74,17 @@ class DatabaseSeeder extends Seeder
         ]);
 
         BarangMasuk::create([
-            'barang_id' => 1,
+            'nama_sesi' => 'Penambahan 2 stok',
             'user_id' => 1,
-            'stok_masuk' => 10,
+            'status' => 'Menunggu',
+        ]);
+
+        ListBarangMasuk::create([
+            'barang_id' => 1,
+            'barang_masuk_id' => 1,
+            'stok_masuk' => 1,
             'stok_sebelum' => 10,
-            'stok_sesudah' => 10,
+            'stok_sesudah' => 11,
         ]);
 
         BarangKeluar::create([
