@@ -29,6 +29,7 @@
                                         <th>Nama Sesi</th>
                                         <th>Pengguna</th> 
                                         <th>Waktu Masuk</th>
+                                        <th>Keterangan</th>
                                         <th>Status</th>
                                         <th>Aksi</th>
                                     </tr>
@@ -40,12 +41,10 @@
                                             <td>{{ $row->nama_sesi }}</td>
                                             <td>{{ $row->user->name }}</td>
                                             <td>{{ $row->created_at }}</td>
+                                            <td>{{ $row->keterangan }}</td>
                                             <td>{{ $row->status }}</td>
                                             <td>
-                                                <!-- <a href="#modalEdit{{ $row->id }}" data-toggle="modal" class="btn btn-xs btn-primary">
-                                                    <i class="fa fa-edit"></i> Edit
-                                                </a>     -->
-                                                <a href="/barang_masuk/list_barang_masuk/{{ $row->id }}" class="btn btn-xs btn-primary" ><i class="fa fa-edit"></i>Details</a>
+                                                <a href="/dashboard/barang_masuk/list_barang_masuk/{{ $row->id }}" class="btn btn-xs btn-primary" ><i class="fa fa-edit"></i>Details</a>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -59,7 +58,7 @@
     </div> 
 
     {{-- Modal Create --}}
-    <div class="modal fade" id="modalCreate" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- <div class="modal fade" id="modalCreate" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -95,9 +94,51 @@
                         <hr>
 
                         <div id="dynamicInputsContainer">
-                            <!-- Input dinamis akan ditambahkan di sini -->
+                            Input dinamis akan ditambahkan di sini
                         </div>
 
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-undo"></i> Kembali</button>
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div> -->
+
+    {{-- Modal Create --}}
+    <div class="modal fade" id="modalCreate" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Tambah Data Barang Masuk</h5>
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                    </button>
+                </div>
+
+                <form method="POST" action="/dashboard/barang-masuk">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="nama_sesi">Nama Sesi</label>
+                            <input type="text" class="form-control @error('nama_sesi') is-invalid @enderror" name="nama_sesi" id="nama_sesi" placeholder="Nama Sesi..." required>
+                            @error('nama_sesi')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="keterangan">Keterangan</label>
+                            <input type="text" class="form-control @error('keterangan') is-invalid @enderror" name="keterangan" id="keterangan" placeholder="Keterangan...">
+                            <small>Tidak Wajib Diisi.</small>
+                            @error('nama_sesi')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-undo"></i> Kembali</button>

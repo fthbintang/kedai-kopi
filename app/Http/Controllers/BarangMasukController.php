@@ -32,58 +32,91 @@ class BarangMasukController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    // public function store(Request $request)
+    // {
+    //     $rules = [
+    //         'barang_id.*' => 'required|exists:barangs,id',
+    //         'stok_sebelum.*' => 'required|integer',
+    //         'stok_masuk.*' => 'required|integer',
+    //     ];
+    
+    //     $messages = [
+    //         'barang_id.*.required' => 'Nama Barang wajib diisi',
+    //         'barang_id.*.exists' => 'Nama Barang tidak valid',
+    //         'stok_sebelum.*.required' => 'Stok wajib diisi',
+    //         'stok_sebelum.*.integer' => 'Stok harus berupa angka',
+    //         'stok_masuk.*.required' => 'Stok Masuk wajib diisi',
+    //         'stok_masuk.*.integer' => 'Stok Masuk harus berupa angka',
+    //     ];
+    
+    //     $validator = Validator::make($request->all(), $rules, $messages);
+    
+    //     if ($validator->fails()) {
+    //         return redirect('/dashboard/barang-masuk')
+    //             ->withErrors($validator)
+    //             ->withInput()
+    //             ->with('error-store', 'Gagal menambahkan data. Pastikan input yang Anda masukkan benar.');
+    //     }
+    
+    //     // Loop untuk mengambil dan memproses input dinamis
+    //     $barangIds = $request->input('barang_id');
+    //     $stokSebelums = $request->input('stok_sebelum');
+    //     $stokMasuks = $request->input('stok_masuk');
+    
+    //     foreach ($barangIds as $index => $barangId) {
+    //         $stokSebelum = $stokSebelums[$index];
+    //         $stokMasuk = $stokMasuks[$index];
+    //         $stokSesudah = $stokSebelum + $stokMasuk;
+    
+    //         // Simpan data ke database
+    //         BarangMasuk::create([
+    //             'barang_id' => $barangId,
+    //             'user_id' => auth()->user()->id,
+    //             'stok_sebelum' => $stokSebelum,
+    //             'stok_masuk' => $stokMasuk,
+    //             'stok_sesudah' => $stokSesudah,
+    //         ]);
+    
+    //         // Update atribut stok di tabel barangs
+    //         $barang = Barang::find($barangId);
+    //         $barang->stok = $stokSesudah;
+    //         $barang->save();
+    //     }
+    
+    //     return redirect('/dashboard/barang-masuk')->with('success', 'Tambah Data Berhasil!');
+    // }
+
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(Request $request)
     {
-        $rules = [
-            'barang_id.*' => 'required|exists:barangs,id',
-            'stok_sebelum.*' => 'required|integer',
-            'stok_masuk.*' => 'required|integer',
-        ];
-    
-        $messages = [
-            'barang_id.*.required' => 'Nama Barang wajib diisi',
-            'barang_id.*.exists' => 'Nama Barang tidak valid',
-            'stok_sebelum.*.required' => 'Stok wajib diisi',
-            'stok_sebelum.*.integer' => 'Stok harus berupa angka',
-            'stok_masuk.*.required' => 'Stok Masuk wajib diisi',
-            'stok_masuk.*.integer' => 'Stok Masuk harus berupa angka',
-        ];
-    
-        $validator = Validator::make($request->all(), $rules, $messages);
-    
-        if ($validator->fails()) {
-            return redirect('/dashboard/barang-masuk')
-                ->withErrors($validator)
-                ->withInput()
-                ->with('error-store', 'Gagal menambahkan data. Pastikan input yang Anda masukkan benar.');
-        }
-    
-        // Loop untuk mengambil dan memproses input dinamis
-        $barangIds = $request->input('barang_id');
-        $stokSebelums = $request->input('stok_sebelum');
-        $stokMasuks = $request->input('stok_masuk');
-    
-        foreach ($barangIds as $index => $barangId) {
-            $stokSebelum = $stokSebelums[$index];
-            $stokMasuk = $stokMasuks[$index];
-            $stokSesudah = $stokSebelum + $stokMasuk;
-    
-            // Simpan data ke database
+        // return $request;
+        $validatedData = $request->validate(
+            [
+                'nama_sesi' => 'required',
+                'keterangan' => 'nullable',
+            ],
+            [
+                'nama_sesi' => 'Nama Sesi Wajib Diisi !',
+            ]
+        );
+
+        // Periksa apakah input 'keterangan' kosong atau tidak. Jika kosong, atur nilainya menjadi '-'
+        $keterangan = $request->input('keterangan') ?? '-';
+
+        try {
             BarangMasuk::create([
-                'barang_id' => $barangId,
+                'nama_sesi' => $validatedData['nama_sesi'],
+                'keterangan' => $keterangan,
                 'user_id' => auth()->user()->id,
-                'stok_sebelum' => $stokSebelum,
-                'stok_masuk' => $stokMasuk,
-                'stok_sesudah' => $stokSesudah,
+                'status' => 'Menunggu',
             ]);
-    
-            // Update atribut stok di tabel barangs
-            $barang = Barang::find($barangId);
-            $barang->stok = $stokSesudah;
-            $barang->save();
+
+            return redirect('/dashboard/barang-masuk')->with('success', 'Tambah Data Berhasil!');
+        } catch (\Exception $e) {
+            return back()->withInput()->with('error-store', 'Gagal menambahkan data. Pastikan input yang Anda masukkan benar.');
         }
-    
-        return redirect('/dashboard/barang-masuk')->with('success', 'Tambah Data Berhasil!');
     }
     
 
