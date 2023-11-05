@@ -17,7 +17,7 @@ class BarangMasukController extends Controller
         return view('master.barang-masuk', [
             'title' => 'Data Barang Masuk',
             'barangMasuk' => BarangMasuk::all(),
-            'barangs' => Barang::all()
+            'barangs' => Barang::all(),
         ]);
     }
 

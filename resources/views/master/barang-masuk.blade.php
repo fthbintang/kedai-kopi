@@ -44,7 +44,7 @@
                                             <td>{{ $row->keterangan }}</td>
                                             <td>{{ $row->status }}</td>
                                             <td>
-                                                <a href="/dashboard/barang_masuk/list_barang_masuk/{{ $row->id }}" class="btn btn-xs btn-primary" ><i class="fa fa-edit"></i>Details</a>
+                                                <a href="/dashboard/barang-masuk/list-barang-masuk/{{ $row->id }}" class="btn btn-xs btn-primary" ><i class="fa fa-edit"></i>Details</a>
                                             </td>
                                         </tr>
                                     @endforeach

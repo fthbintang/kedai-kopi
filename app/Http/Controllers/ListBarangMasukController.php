@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ListBarangMasuk;
+use App\Models\BarangMasuk;
 use Illuminate\Http\Request;
 
 class ListBarangMasukController extends Controller
@@ -13,7 +14,7 @@ class ListBarangMasukController extends Controller
     public function index()
     {
         //
-    }
+    }    
 
     /**
      * Show the form for creating a new resource.
@@ -34,9 +35,15 @@ class ListBarangMasukController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ListBarangMasuk $listBarangMasuk)
+    public function show($id)
     {
-        //
+        $listBarangMasuk = ListBarangMasuk::where('id', $id)->get();
+
+        return view('master.list-barang-masuk', [
+            'title' => 'List Barang Masuk',
+            'listBarangMasuk' => $listBarangMasuk,
+            'barangMasuk' => BarangMasuk::all(),
+        ]);
     }
 
     /**
