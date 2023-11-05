@@ -103,7 +103,7 @@ class BarangMasukController extends Controller
         );
 
         // Periksa apakah input 'keterangan' kosong atau tidak. Jika kosong, atur nilainya menjadi '-'
-        $keterangan = $request->input('keterangan') ?? '-';
+        $keterangan = $request->input('keterangan') ?? 'Tidak ada Kerangan';
 
         try {
             BarangMasuk::create([
@@ -142,34 +142,61 @@ class BarangMasukController extends Controller
     public function update(Request $request, BarangMasuk $barangMasuk)
     {
         $validatedData = $request->validate([
-            'stok_sebelum' => 'required|integer',
-            'stok_masuk' => 'required|integer',
+            'nama_sesi' => 'required',
+            'keterangan' => 'nullable',
         ], [
-            'stok_sebelum.required' => 'Stok Wajib Diisi !',
-            'stok_sebelum.integer' => 'Stok Diisi dengan Angka !',
+            'nama_sesi.required' => 'Nama Wajib Diisi !',
         ]);
 
         try {
-            $stokSebelum = $validatedData['stok_sebelum'];
-            $stokMasuk = $validatedData['stok_masuk'];
-            $stokSesudah = $stokSebelum + $stokMasuk;
+            $keterangan = $validatedData['keterangan'];
+            $nama_sesi = $validatedData['nama_sesi'];
 
             // Update atribut stok di tabel barang_masuks
-            $barangMasuk->stok_sebelum = $stokSebelum;
-            $barangMasuk->stok_masuk = $stokMasuk;
-            $barangMasuk->stok_sesudah = $stokSesudah;
+            $barangMasuk->keterangan = $keterangan;
+            $barangMasuk->nama_sesi= $nama_sesi;
             $barangMasuk->save();
 
-            // Update atribut stok di tabel barangs
-            $barang = Barang::find($barangMasuk->barang_id);
-            $barang->stok = $stokSesudah;
-            $barang->save();
-
-            return redirect('/dashboard/barang-masuk')->with('success', 'Edit Data Berhasil!');
+            return redirect()->back()->with('success', 'Edit Data Berhasil!');
         } catch (\Exception $e) {
             return back()->withInput()->with('error-update', 'Gagal mengedit data. Pastikan input yang Anda masukkan benar.');
         }
     }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    // public function update(Request $request, BarangMasuk $barangMasuk)
+    // {
+    //     $validatedData = $request->validate([
+    //         'stok_sebelum' => 'required|integer',
+    //         'stok_masuk' => 'required|integer',
+    //     ], [
+    //         'stok_sebelum.required' => 'Stok Wajib Diisi !',
+    //         'stok_sebelum.integer' => 'Stok Diisi dengan Angka !',
+    //     ]);
+
+    //     try {
+    //         $stokSebelum = $validatedData['stok_sebelum'];
+    //         $stokMasuk = $validatedData['stok_masuk'];
+    //         $stokSesudah = $stokSebelum + $stokMasuk;
+
+    //         // Update atribut stok di tabel barang_masuks
+    //         $barangMasuk->stok_sebelum = $stokSebelum;
+    //         $barangMasuk->stok_masuk = $stokMasuk;
+    //         $barangMasuk->stok_sesudah = $stokSesudah;
+    //         $barangMasuk->save();
+
+    //         // Update atribut stok di tabel barangs
+    //         $barang = Barang::find($barangMasuk->barang_id);
+    //         $barang->stok = $stokSesudah;
+    //         $barang->save();
+
+    //         return redirect('/dashboard/barang-masuk')->with('success', 'Edit Data Berhasil!');
+    //     } catch (\Exception $e) {
+    //         return back()->withInput()->with('error-update', 'Gagal mengedit data. Pastikan input yang Anda masukkan benar.');
+    //     }
+    // }
 
 
     /**

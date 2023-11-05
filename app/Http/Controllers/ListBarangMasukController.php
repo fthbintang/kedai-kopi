@@ -37,11 +37,10 @@ class ListBarangMasukController extends Controller
      */
     public function show($id)
     {
-        $listBarangMasuk = ListBarangMasuk::where('id', $id)->get();
-
+        // $listBarangMasuk = ListBarangMasuk::where('id', $id)->get();
         return view('master.list-barang-masuk', [
             'title' => 'List Barang Masuk',
-            'listBarangMasuk' => $listBarangMasuk,
+            'listBarangMasuk' => ListBarangMasuk::where('id', $id)->get(),
             'barangMasuk' => BarangMasuk::all(),
         ]);
     }

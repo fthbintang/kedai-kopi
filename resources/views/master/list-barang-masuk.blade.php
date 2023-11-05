@@ -20,44 +20,87 @@
             <div class="col">
                 <div class="card">
                     <div class="card-body">
-                    <div class="row">
-                        <div class="col-sm">
-                            <h3>Keterangan: </h3>
+                        <div class="row">
+                            <div class="col-sm">
+                                <h3>Nama sesi: </h3>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm">
-                            @if (!empty($listBarangMasuk->first()->barangMasuk->keterangan))
-                                <p>{{ $listBarangMasuk->first()->barangMasuk->keterangan }}</p>
-                            @else
-                                <p>Tidak ada Keterangan</p>
-                            @endif
+                        <div class="row">
+                            <div class="col-sm">
+                                <p> {{ $listBarangMasuk->first()->barangMasuk->nama_sesi }} </p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm">
-                            <a href="#modalEditKeterangan{{ $barangMasuk->first()->id }}" data-toggle="modal" class="btn btn-xs btn-primary">
-                                <i class="fa fa-edit"></i> Edit Keterangan
-                            </a>
+
+                        <div class="row">
+                            <div class="col-sm">
+                                <h3>Pengguna: </h3>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm">
+                                <p> {{ $listBarangMasuk->first()->barangMasuk->user->name }} </p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm">
+                                <h3>Waktu input: </h3>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm">
+                                <p> {{ $listBarangMasuk->first()->barangMasuk->created_at }} </p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm">
+                                <h3>Keterangan: </h3>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm">
+                                @if (!empty($listBarangMasuk->first()->barangMasuk->keterangan))
+                                    <p>{{ $listBarangMasuk->first()->barangMasuk->keterangan }}</p>
+                                @else
+                                    <p>Tidak ada Keterangan</p>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm">
+                                <a href="#modalEditBarangMasuk{{ $barangMasuk->first()->id }}" data-toggle="modal" class="btn btn-xs btn-primary">
+                                    <i class="fa fa-edit"></i> Edit
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-sm">
-                            <div class="d-flex align-item-center mt-10">
-                                <h3>Status: </h3>
-                            </div> 
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm">
+                                <div class="d-flex align-item-center mt-10">
+                                    <h3>Status: </h3>
+                                </div> 
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm">
-                            <a href="#" class="btn btn-success btn-round mr-2">ACC</a>
-                            <a href="#" class="btn btn-danger btn-round">Tidak ACC</a>
+                        <div class="row">
+                            <div class="col-sm">
+                                @if (!empty($listBarangMasuk->first()->barangMasuk->status))
+                                    <p>{{ $listBarangMasuk->first()->barangMasuk->status }}</p>
+                                @else
+                                    <p>Tidak ada Status</p>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm">
+                                <a href="#" class="btn btn-success btn-round mr-2">ACC</a>
+                                <a href="#" class="btn btn-danger btn-round">Tidak ACC</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -117,4 +160,37 @@
         </div>
     </div> 
 
+    {{-- Modal Edit --}}
+    @foreach ($barangMasuk as $item)
+        <div class="modal fade" id="modalEditBarangMasuk{{ $item->id }}" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit Data Barang</h5>
+                        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    </div>
+
+                    <form method="POST" action="/dashboard/barang-masuk/{{ $item->id }}">
+                        @method('put')
+                        @csrf
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="nama_sesi">Nama sesi</label>
+                                <input type="text" class="form-control @error('nama_sesi') is-invalid @enderror" name="nama_sesi" id="nama_sesi" value="{{ $item->nama_sesi }}" placeholder="Isi Nama Sesi Dahulu..." required>
+                            </div>
+                            <div class="form-group">
+                                <label for="keterangan">Keterangan</label>
+                                <input type="text" class="form-control @error('keterangan') is-invalid @enderror" name="keterangan" id="keterangan" value="{{ $item->keterangan }}" placeholder="Isi Barang Dahulu...">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-undo"></i> Kembali</button>
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Simpan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endforeach
+    
 @endsection
