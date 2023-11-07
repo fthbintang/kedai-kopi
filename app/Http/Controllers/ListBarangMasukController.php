@@ -41,7 +41,7 @@ class ListBarangMasukController extends Controller
         return view('master.list-barang-masuk', [
             'title' => 'List Barang Masuk',
             'listBarangMasuk' => ListBarangMasuk::where('id', $id)->get(),
-            'barangMasuk' => BarangMasuk::all(),
+            'barangMasuk' => BarangMasuk::findOrFail($id)
         ]);
     }
 

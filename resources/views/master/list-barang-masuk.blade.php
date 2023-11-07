@@ -27,7 +27,7 @@
                         </div>
                         <div class="row">
                             <div class="col-sm">
-                                <p> {{ $listBarangMasuk->first()->barangMasuk->nama_sesi }} </p>
+                                <p> {{ $barangMasuk->nama_sesi ?? 'Tidak ada Data' }} </p>
                             </div>
                         </div>
 
@@ -38,7 +38,7 @@
                         </div>
                         <div class="row">
                             <div class="col-sm">
-                                <p> {{ $listBarangMasuk->first()->barangMasuk->user->name }} </p>
+                                <p> {{ $barangMasuk->user->name ?? 'Tidak ada Data' }} </p>
                             </div>
                         </div>
 
@@ -49,7 +49,7 @@
                         </div>
                         <div class="row">
                             <div class="col-sm">
-                                <p> {{ $listBarangMasuk->first()->barangMasuk->created_at }} </p>
+                                <p> {{ $barangMasuk->created_at ?? 'Tidak ada Data' }} </p>
                             </div>
                         </div>
 
@@ -60,17 +60,16 @@
                         </div>
                         <div class="row">
                             <div class="col-sm">
-                                @if (!empty($listBarangMasuk->first()->barangMasuk->keterangan))
-                                    <p>{{ $listBarangMasuk->first()->barangMasuk->keterangan }}</p>
-                                @else
-                                    <p>Tidak ada Keterangan</p>
-                                @endif
+                                <p> {{ $barangMasuk->keterangan ?? 'Tidak ada Data' }} </p>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm">
-                                <a href="#modalEditBarangMasuk{{ $barangMasuk->first()->id }}" data-toggle="modal" class="btn btn-xs btn-primary">
+                                <a href="#modalEditBarangMasuk{{ $barangMasuk->id }}" data-toggle="modal" class="btn btn-xs btn-primary">
                                     <i class="fa fa-edit"></i> Edit
+                                </a>
+                                <a href="#modalDeleteBarangMasuk{{ $barangMasuk->id }}" data-toggle="modal" class="btn btn-xs btn-danger">
+                                    <i class="fa fa-trash"></i> Hapus
                                 </a>
                             </div>
                         </div>
@@ -161,36 +160,62 @@
     </div> 
 
     {{-- Modal Edit --}}
-    @foreach ($barangMasuk as $item)
-        <div class="modal fade" id="modalEditBarangMasuk{{ $item->id }}" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Edit Data Barang</h5>
-                        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    </div>
-
-                    <form method="POST" action="/dashboard/barang-masuk/{{ $item->id }}">
-                        @method('put')
-                        @csrf
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label for="nama_sesi">Nama sesi</label>
-                                <input type="text" class="form-control @error('nama_sesi') is-invalid @enderror" name="nama_sesi" id="nama_sesi" value="{{ $item->nama_sesi }}" placeholder="Isi Nama Sesi Dahulu..." required>
-                            </div>
-                            <div class="form-group">
-                                <label for="keterangan">Keterangan</label>
-                                <input type="text" class="form-control @error('keterangan') is-invalid @enderror" name="keterangan" id="keterangan" value="{{ $item->keterangan }}" placeholder="Isi Barang Dahulu...">
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-undo"></i> Kembali</button>
-                            <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Simpan</button>
-                        </div>
-                    </form>
+    <div class="modal fade" id="modalEditBarangMasuk{{ $barangMasuk->id }}" name="modalEdit" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Data Barang</h5>
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                    </button>
                 </div>
+
+                <form method="POST" action="/dashboard/barang-masuk/{{ $barangMasuk->id }}">
+                    @method('put')
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="nama_sesi">Nama Sesi</label>
+                                <input type="text" class="form-control @error('nama_sesi') is-invalid @enderror" name="nama_sesi" id="nama_sesi" value="{{ $barangMasuk->nama_sesi }}" placeholder="Nama Sesi..." required>
+                        </div>
+                        <div class="form-group">
+                            <label for="keterangan">Keterangan</label>
+                            <input type="text" class="form-control @error('keterangan') is-invalid @enderror" name="keterangan" id="keterangan" value="{{ $barangMasuk->keterangan }}" placeholder="Keterangan (Opsional)...">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-undo"></i> Kembali</button>
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Simpan</button>
+                    </div>
+                </form>
             </div>
         </div>
-    @endforeach
-    
+    </div>
+
+    {{-- Modal Delete --}}
+    <div class="modal fade" id="modalDeleteBarangMasuk{{ $barangMasuk->id }}" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Hapus Data Barang</h5>
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                    </button>
+                </div>                
+
+                <form method="POST" action="/dashboard/barang-masuk/{{ $barangMasuk->id }}">
+                    @method('delete')
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <h5>Apakah Anda Ingin Menghapus Data Ini ?</h5>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-undo"></i> Close</button>
+                        <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Hapus</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 @endsection

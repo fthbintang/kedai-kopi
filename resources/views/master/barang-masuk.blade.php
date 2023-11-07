@@ -41,7 +41,7 @@
                                             <td>{{ $row->nama_sesi }}</td>
                                             <td>{{ $row->user->name }}</td>
                                             <td>{{ $row->created_at }}</td>
-                                            <td>{{ $row->keterangan }}</td>
+                                            <td>{{ $row->keterangan ?? 'Tidak ada Keterangan' }}</td>
                                             <td>{{ $row->status }}</td>
                                             <td>
                                                 <a href="/dashboard/barang-masuk/list-barang-masuk/{{ $row->id }}" class="btn btn-xs btn-primary" ><i class="fa fa-edit"></i>Details</a>

@@ -110,13 +110,13 @@ class DatabaseSeeder extends Seeder
             'stok_sesudah' => 50,
         ]);
 
-        ListBarangMasuk::create([
-            'barang_id' => 2,
-            'barang_masuk_id' => 3,
-            'stok_masuk' => 50,
-            'stok_sebelum' => 50,
-            'stok_sesudah' => 50,
-        ]);
+        // ListBarangMasuk::create([
+        //     'barang_id' => 2,
+        //     'barang_masuk_id' => 3,
+        //     'stok_masuk' => 50,
+        //     'stok_sebelum' => 50,
+        //     'stok_sesudah' => 50,
+        // ]);
 
         BarangKeluar::create([
             'barang_id' => 2,
