@@ -39,9 +39,13 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth', 'user-access:1|3'])->group(function () {
     // Master Data
     Route::resource('/dashboard/barang', BarangController::class);
+
     Route::resource('/dashboard/barang-masuk', BarangMasukController::class); 
-    // Route::get('/dashboard/barang_masuk/list_barang_masuk/{barangMasuk}', [ListBarangMasukController::class, 'showList'])->name('barang-masuk.list_barang_masuk');
+
     Route::resource('/dashboard/barang-masuk/list-barang-masuk', ListBarangMasukController::class);
+    Route::get('/dashboard/barang-masuk/{id}/acc', [BarangMasukController::class, 'acc']);
+    Route::get('/dashboard/barang-masuk/{id}/not-acc', [BarangMasukController::class, 'notAcc']);
+
     Route::resource('/dashboard/barang-keluar', BarangKeluarController::class);
 
     // Transaksi

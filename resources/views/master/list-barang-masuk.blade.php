@@ -97,8 +97,12 @@
                         </div>
                         <div class="row">
                             <div class="col-sm">
-                                <a href="#" class="btn btn-success btn-round mr-2">ACC</a>
-                                <a href="#" class="btn btn-danger btn-round">Tidak ACC</a>
+                                <a href="/dashboard/barang-masuk/{{ $barangMasuk->id }}/acc" class="btn btn-success btn-round mr-2">
+                                    <i class="fa fa-check"></i> ACC
+                                </a>
+                                <a href="/dashboard/barang-masuk/{{ $barangMasuk->id }}/not-acc" class="btn btn-danger btn-round">
+                                    <i class="fa fa-times"></i> Tidak ACC
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -217,5 +221,5 @@
             </div>
         </div>
     </div>
-
 @endsection
+

@@ -143,6 +143,39 @@
         </script>
     @endif
 
+    @if (session('notAcc'))
+        <script>
+            var SweetAlertDemo = function() {
+                var initDemos = function() {
+                    swal({
+                        title: "Success !",
+                        text: "{{ session('notAcc') }}",
+                        icon: "error",
+                        buttons: {
+                            confirm: {
+                                text: "Konfirmasi",
+                                value: true,
+                                visible: true,
+                                className: "btn btn-success",
+                                closeModal: true,
+                            }
+                        }
+                    });
+                };
+
+                return {
+                    init: function() {
+                        initDemos();
+                    },
+                };
+            }();
+
+            jQuery(document).ready(function() {
+                SweetAlertDemo.init();
+            });
+        </script>
+    @endif
+
     
     <!-- Validasi Pengguna -->
     @if($errors->has('create_name') || $errors->has('create_username') || $errors->has('create_password') || $errors->has('edit_level'))

@@ -169,6 +169,31 @@ class BarangMasukController extends Controller
         }
     }
 
+    public function acc($id)
+    {
+        $barangMasuk = BarangMasuk::find($id);
+        
+        if ($barangMasuk) {
+            $barangMasuk->status = 'ACC';
+            $barangMasuk->save();
+        }
+        
+        return redirect()->back()->with('success', 'Status ACC!');
+    }
+    
+    public function notAcc($id)
+    {
+        $barangMasuk = BarangMasuk::find($id);
+        
+        if ($barangMasuk) {
+            $barangMasuk->status = 'Tidak ACC';
+            $barangMasuk->save();
+        }
+        
+        return back()->with('notAcc', 'Status Tidak ACC!');
+    }
+    
+
     /**
      * Update the specified resource in storage.
      */
