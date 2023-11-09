@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\ListBarangMasuk;
 use App\Models\BarangMasuk;
+use App\Models\Barang;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ListBarangMasukController extends Controller
 {
@@ -29,7 +31,58 @@ class ListBarangMasukController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // return $request;
+        $rules = [
+            'barang_id.*' => 'required|exists:barangs,id',
+            'stok_sebelum.*' => 'required|integer',
+            'stok_masuk.*' => 'required|integer',
+        ];
+    
+        $messages = [
+            'barang_id.*.required' => 'Nama Barang wajib diisi',
+            'barang_id.*.exists' => 'Nama Barang tidak valid',
+            'stok_sebelum.*.required' => 'Stok wajib diisi',
+            'stok_sebelum.*.integer' => 'Stok harus berupa angka',
+            'stok_masuk.*.required' => 'Stok Masuk wajib diisi',
+            'stok_masuk.*.integer' => 'Stok Masuk harus berupa angka',
+        ];
+    
+        $validator = Validator::make($request->all(), $rules, $messages);
+    
+        if ($validator->fails()) {
+            return redirect('/dashboard/barang-masuk/list-barang-masuk')
+                ->withErrors($validator)
+                ->withInput()
+                ->with('error-store', 'Gagal menambahkan data. Pastikan input yang Anda masukkan benar.');
+        }
+    
+        // Loop untuk mengambil dan memproses input dinamis
+        $barangIds = $request->input('barang_id');
+        $stokSebelums = $request->input('stok_sebelum');
+        $stokMasuks = $request->input('stok_masuk');
+        $barangMasukID = $request->input('barang_masuk_id');
+    
+        foreach ($barangIds as $index => $barangId) {
+            $stokSebelum = $stokSebelums[$index];
+            $stokMasuk = $stokMasuks[$index];
+            $stokSesudah = $stokSebelum + $stokMasuk;
+    
+            // Simpan data ke database
+            ListBarangMasuk::create([
+                'barang_id' => $barangId,
+                'barang_masuk_id' => $barangMasukID,
+                'stok_sebelum' => $stokSebelum,
+                'stok_masuk' => $stokMasuk,
+                'stok_sesudah' => $stokSesudah,
+            ]);
+    
+            // Update atribut stok di tabel barangs
+            $barang = Barang::find($barangId);
+            $barang->stok = $stokSesudah;
+            $barang->save();
+        }
+    
+        return redirect()->back()->with('success', 'Tambah Data Berhasil!');
     }
 
     /**
@@ -40,8 +93,9 @@ class ListBarangMasukController extends Controller
         // $listBarangMasuk = ListBarangMasuk::where('id', $id)->get();
         return view('master.list-barang-masuk', [
             'title' => 'List Barang Masuk',
-            'listBarangMasuk' => ListBarangMasuk::where('id', $id)->get(),
-            'barangMasuk' => BarangMasuk::findOrFail($id)
+            'listBarangMasuk' => ListBarangMasuk::where('barang_masuk_id', $id)->get(),
+            'barangMasuk' => BarangMasuk::findOrFail($id),
+            'barangs' => Barang::all(),
         ]);
     }
 
@@ -66,6 +120,20 @@ class ListBarangMasukController extends Controller
      */
     public function destroy(ListBarangMasuk $listBarangMasuk)
     {
-        //
+        // Ambil barang terkait dari list barang masuk
+        $barang = Barang::find($listBarangMasuk->barang_id);
+    
+        // Pastikan barang ditemukan sebelum mengurangkan stok
+        if ($barang) {
+            // Kurangi stok pada barang
+            $barang->stok -= $listBarangMasuk->stok_masuk;
+            $barang->save();
+        }
+    
+        // Hapus item dari list_barang_masuks
+        $listBarangMasuk->delete();
+    
+        return redirect()->back()->with('success', 'Data List Barang Masuk berhasil dihapus.');
     }
+    
 }

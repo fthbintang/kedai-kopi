@@ -80,35 +80,35 @@ class DatabaseSeeder extends Seeder
             'keterangan' => 'Tidak ada Keterangan'
         ]);
 
-        BarangMasuk::create([
-            'nama_sesi' => 'Penambahan 5 stok',
-            'user_id' => 1,
-            'status' => 'Menunggu',
-            'keterangan' => 'Ini adalah keterangan'
-        ]);
+        // BarangMasuk::create([
+        //     'nama_sesi' => 'Penambahan 5 stok',
+        //     'user_id' => 1,
+        //     'status' => 'Menunggu',
+        //     'keterangan' => 'Ini adalah keterangan'
+        // ]);
 
-        BarangMasuk::create([
-            'nama_sesi' => 'Penambahan 5 stok',
-            'user_id' => 1,
-            'status' => 'Menunggu',
-            'keterangan' => 'Ini adalah keterangan yang kedua'
-        ]);
+        // BarangMasuk::create([
+        //     'nama_sesi' => 'Penambahan 5 stok',
+        //     'user_id' => 1,
+        //     'status' => 'Menunggu',
+        //     'keterangan' => 'Ini adalah keterangan yang kedua'
+        // ]);
 
-        ListBarangMasuk::create([
-            'barang_id' => 1,
-            'barang_masuk_id' => 1,
-            'stok_masuk' => 1,
-            'stok_sebelum' => 10,
-            'stok_sesudah' => 11,
-        ]);
+        // ListBarangMasuk::create([
+        //     'barang_id' => 1,
+        //     'barang_masuk_id' => 1,
+        //     'stok_masuk' => 1,
+        //     'stok_sebelum' => 10,
+        //     'stok_sesudah' => 11,
+        // ]);
 
-        ListBarangMasuk::create([
-            'barang_id' => 2,
-            'barang_masuk_id' => 2,
-            'stok_masuk' => 50,
-            'stok_sebelum' => 50,
-            'stok_sesudah' => 50,
-        ]);
+        // ListBarangMasuk::create([
+        //     'barang_id' => 1,
+        //     'barang_masuk_id' => 1,
+        //     'stok_masuk' => 50,
+        //     'stok_sebelum' => 50,
+        //     'stok_sesudah' => 50,
+        // ]);
 
         // ListBarangMasuk::create([
         //     'barang_id' => 2,

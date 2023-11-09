@@ -105,22 +105,14 @@ class BarangMasukController extends Controller
     
         try {
             // Tambahkan data barang masuk
-            $barangMasuk = BarangMasuk::create([
+            BarangMasuk::create([
                 'nama_sesi' => $validatedData['nama_sesi'],
                 'keterangan' => $validatedData['keterangan'],
                 'user_id' => auth()->user()->id,
                 'status' => 'Menunggu',
             ]);
     
-            // Tambahkan data list barang masuk dengan barang_id yang sesuai
-            ListBarangMasuk::create([
-                'barang_masuk_id' => $barangMasuk->id,
-                'barang_id' => $request->barang_id,
-                'stok_masuk' => $request->stok_masuk,
-                // Atur kolom lainnya sesuai kebutuhan
-            ]);
-    
-            return redirect('/dashboard/barang-masuk')->with('success', 'Tambah Data Berhasil!');
+            return redirect()->back()->with('success', 'Tambah Data Berhasil!');
         } catch (\Exception $e) {
             return back()->withInput()->with('error-store', 'Gagal menambahkan data. Pastikan input yang Anda masukkan benar.');
         }
