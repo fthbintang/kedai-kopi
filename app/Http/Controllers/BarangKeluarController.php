@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\BarangKeluar;
-use App\Models\Barang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -17,7 +16,6 @@ class BarangKeluarController extends Controller
         return view('master.barang-keluar', [
             'title' => 'Data Barang Keluar',
             'barangKeluar' => BarangKeluar::all(),
-            'barangs' => Barang::all(),
         ]);
     }
 
@@ -34,56 +32,29 @@ class BarangKeluarController extends Controller
      */
     public function store(Request $request)
     {
-        $rules = [
-            'barang_id.*' => 'required|exists:barangs,id',
-            'stok_sebelum.*' => 'required|integer',
-            'stok_keluar.*' => 'required|integer',
-        ];
+        $validatedData = $request->validate(
+            [
+                'nama_sesi' => 'required',
+                'keterangan' => 'nullable',
+            ],
+            [
+                'nama_sesi' => 'Nama Sesi Wajib Diisi!',
+            ]
+        );
     
-        $messages = [
-            'barang_id.*.required' => 'Nama Barang wajib diisi',
-            'barang_id.*.exists' => 'Nama Barang tidak valid',
-            'stok_sebelum.*.required' => 'Stok wajib diisi',
-            'stok_sebelum.*.integer' => 'Stok harus berupa angka',
-            'stok_keluar.*.required' => 'Stok Keluar wajib diisi',
-            'stok_keluar.*.integer' => 'Stok Keluar harus berupa angka',
-        ];
-    
-        $validator = Validator::make($request->all(), $rules, $messages);
-    
-        if ($validator->fails()) {
-            return redirect('/dashboard/barang-masuk')
-                ->withErrors($validator)
-                ->withInput()
-                ->with('error-store', 'Gagal menambahkan data. Pastikan input yang Anda masukkan benar.');
-        }
-    
-        // Loop untuk mengambil dan memproses input dinamis
-        $barangIds = $request->input('barang_id');
-        $stokSebelums = $request->input('stok_sebelum');
-        $stokKeluars = $request->input('stok_keluar');
-    
-        foreach ($barangIds as $index => $barangId) {
-            $stokSebelum = $stokSebelums[$index];
-            $stokKeluar = $stokKeluars[$index];
-            $stokSesudah = $stokSebelum - $stokKeluar;
-    
-            // Simpan data ke database
+        try {
+            // Tambahkan data barang masuk
             BarangKeluar::create([
-                'barang_id' => $barangId,
+                'nama_sesi' => $validatedData['nama_sesi'],
+                'keterangan' => $validatedData['keterangan'],  
                 'user_id' => auth()->user()->id,
-                'stok_sebelum' => $stokSebelum,
-                'stok_keluar' => $stokKeluar,
-                'stok_sesudah' => $stokSesudah,
+                'status' => 'Menunggu',
             ]);
     
-            // Update atribut stok di tabel barangs
-            $barang = Barang::find($barangId);
-            $barang->stok = $stokSesudah;
-            $barang->save();
+            return redirect('/dashboard/barang-keluar')->with('success', 'Tambah Data Berhasil!');
+        } catch (\Exception $e) {
+            return back()->withInput()->with('error-store', 'Gagal menambahkan data. Pastikan input yang Anda masukkan benar.');
         }
-    
-        return redirect('/dashboard/barang-keluar')->with('success', 'Tambah Data Berhasil!');
     }
 
     /**

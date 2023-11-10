@@ -133,7 +133,7 @@
                             <label for="keterangan">Keterangan</label>
                             <input type="text" class="form-control @error('keterangan') is-invalid @enderror" name="keterangan" id="keterangan" placeholder="Keterangan...">
                             <small>Tidak Wajib Diisi.</small>
-                            @error('nama_sesi')
+                            @error('keterangan')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>

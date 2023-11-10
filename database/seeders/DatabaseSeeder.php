@@ -118,13 +118,12 @@ class DatabaseSeeder extends Seeder
         //     'stok_sesudah' => 50,
         // ]);
 
-        BarangKeluar::create([
-            'barang_id' => 2,
-            'user_id' => 1,
-            'stok_keluar' => 10,
-            'stok_sebelum' => 10,
-            'stok_sesudah' => 10,
-        ]);
+        // BarangKeluar::create([
+        //     'nama_sesi' => 'Pengurangan 2 Stok',
+        //     'user_id' => 1,
+        //     'status' => 'Menunggu',
+        //     'keterangan' => 'Tidak ada Keterangan', 
+        // ]);
 
     }
 }
