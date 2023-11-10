@@ -154,7 +154,7 @@
                                             <td>{{ $row->created_at }}</td>
                                             @if ($barangKeluar->status != 'ACC')
                                                 <td>
-                                                    <a href="#modalDelete{{ $row->id }}" data-toggle="modal" class="btn btn-xs btn-danger">
+                                                    <a href="#modalDeleteListBarangKeluar{{ $row->id }}" data-toggle="modal" class="btn btn-xs btn-danger">
                                                         <i class="fa fa-trash"></i> Hapus
                                                     </a>
                                                 </td>
@@ -282,6 +282,35 @@
             </div>
         </div>
     </div>
+
+    {{-- Modal Delete List Barang Keluar --}}
+    @foreach ($listBarangKeluar as $item)
+    <div class="modal fade" id="modalDeleteListBarangKeluar{{ $item->id }}" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Hapus Data Barang</h5>
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                    </button>
+                </div>                
+
+                <form method="POST" action="/dashboard/barang-keluar/list-barang-keluar/{{ $row->id }}">
+                    @method('delete')
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <h5>Apakah Anda Yakin ingin menghapus data ini?</h5>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-undo"></i> Close</button>
+                        <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Hapus</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    @endforeach
 @endsection
 
 @push('scripts')

@@ -119,6 +119,20 @@ class ListBarangKeluarController extends Controller
      */
     public function destroy(ListBarangKeluar $listBarangKeluar)
     {
-        //
+        // Ambil barang terkait dari list barang keluar
+        $barang = Barang::find($listBarangKeluar->barang_id);
+    
+        // Pastikan barang ditemukan sebelum mengurangkan stok
+        if ($barang) {
+            // Kembalikan stok pada barang
+            $barang->stok = $listBarangKeluar->stok_sebelum;
+            $barang->save();
+        }
+    
+        // Hapus item dari list_barang_masuks
+        $listBarangKeluar->delete();
+    
+        return redirect()->back()->with('success', 'Data List Barang Masuk berhasil dihapus. Stok barang telah dikembalikan.');
     }
+    
 }
