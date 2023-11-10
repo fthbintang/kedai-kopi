@@ -19,6 +19,12 @@ class BarangController extends Controller
         ]);
     }
 
+    public function daftarBarang()
+    {
+        $daftarBarang = Barang::all();
+        return response()->json($daftarBarang);
+    }
+
     /**
      * Show the form for creating a new resource.
      */

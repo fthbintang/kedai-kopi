@@ -11,7 +11,8 @@
     <!-- Custom Stylesheet -->
     <link href="/assets/plugins/tables/css/datatable/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link href="/assets/css/style.css" rel="stylesheet">
-
+    <!-- CSS Select2 -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -60,6 +61,12 @@
     <script src="/assets/js/settings.js"></script>
     <script src="/assets/js/gleek.js"></script>
     <script src="/assets/js/styleSwitcher.js"></script>
+
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+
+    <!-- Autocorret Select2 -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     {{-- Font Awesome --}}
     <script src="https://kit.fontawesome.com/f7295b3135.js" crossorigin="anonymous"></script>
@@ -135,7 +142,7 @@
             });
         </script>
     @endif
-
+    
     
     <!-- Validasi Pengguna -->
     @if($errors->has('create_name') || $errors->has('create_username') || $errors->has('create_password') || $errors->has('edit_level'))
@@ -171,7 +178,7 @@
         </script>
     @endif
 
-
+    @stack('scripts')
 </body>
 
 </html>
