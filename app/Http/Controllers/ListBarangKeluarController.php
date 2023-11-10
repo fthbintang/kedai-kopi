@@ -6,6 +6,7 @@ use App\Models\ListBarangKeluar;
 use App\Models\Barang;
 use App\Models\BarangKeluar;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ListBarangKeluarController extends Controller
 {
@@ -30,7 +31,58 @@ class ListBarangKeluarController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // return $request;
+        $rules = [
+            'barang_id.*' => 'required|exists:barangs,id',
+            'stok_sebelum.*' => 'required|integer',
+            'stok_keluar.*' => 'required|integer',
+        ];
+    
+        $messages = [
+            'barang_id.*.required' => 'Nama Barang wajib diisi',
+            'barang_id.*.exists' => 'Nama Barang tidak valid',
+            'stok_sebelum.*.required' => 'Stok wajib diisi',
+            'stok_sebelum.*.integer' => 'Stok harus berupa angka',
+            'stok_keluar.*.required' => 'Stok Keluar wajib diisi',
+            'stok_keluar.*.integer' => 'Stok Keluar harus berupa angka',
+        ];
+    
+        $validator = Validator::make($request->all(), $rules, $messages);
+    
+        if ($validator->fails()) {
+            return redirect('/dashboard/barang-keluar/list-barang-keluar')
+                ->withErrors($validator)
+                ->withInput()
+                ->with('error-store', 'Gagal menambahkan data. Pastikan input yang Anda masukkan benar.');
+        }
+    
+        // Loop untuk mengambil dan memproses input dinamis
+        $barangIds = $request->input('barang_id');
+        $stokSebelums = $request->input('stok_sebelum');
+        $stokKeluars = $request->input('stok_keluar');
+        $barangKeluarID = $request->input('barang_keluar_id');
+    
+        foreach ($barangIds as $index => $barangId) {
+            $stokSebelum = $stokSebelums[$index];
+            $stokKeluar = $stokKeluars[$index];
+            $stokSesudah = $stokSebelum - $stokKeluar;
+    
+            // Simpan data ke database
+            ListBarangKeluar::create([
+                'barang_id' => $barangId,
+                'barang_keluar_id' => $barangKeluarID,
+                'stok_sebelum' => $stokSebelum,
+                'stok_keluar' => $stokKeluar,
+                'stok_sesudah' => $stokSesudah,
+            ]);
+    
+            // Update atribut stok di tabel barangs
+            $barang = Barang::find($barangId);
+            $barang->stok = $stokSesudah;
+            $barang->save();
+        }
+    
+        return redirect()->back()->with('success', 'Tambah Data Berhasil!');
     }
 
     /**
