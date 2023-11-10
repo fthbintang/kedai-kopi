@@ -100,6 +100,30 @@ class BarangKeluarController extends Controller
         }
     }
 
+    public function acc($id)
+    {
+        $barangKeluar = BarangKeluar::find($id);
+        
+        if ($barangKeluar) {
+            $barangKeluar->status = 'ACC';
+            $barangKeluar->save();
+        }
+        
+        return redirect()->back()->with('success', 'Status ACC!');
+    }
+    
+    public function notAcc($id)
+    {
+        $barangKeluar = BarangKeluar::find($id);
+        
+        if ($barangKeluar) {
+            $barangKeluar->status = 'Tidak ACC';
+            $barangKeluar->save();
+        }
+        
+        return back()->with('notAcc', 'Status Tidak ACC!');
+    }
+
     /**
      * Remove the specified resource from storage.
      */

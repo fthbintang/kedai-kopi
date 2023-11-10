@@ -48,7 +48,10 @@ Route::middleware(['auth', 'user-access:1|3'])->group(function () {
     Route::get('/dashboard/barang-masuk/{id}/not-acc', [BarangMasukController::class, 'notAcc']);
 
     Route::resource('/dashboard/barang-keluar', BarangKeluarController::class);
+
     Route::resource('/dashboard/barang-keluar/list-barang-keluar', ListBarangKeluarController::class);
+    Route::get('/dashboard/barang-keluar/{id}/acc', [BarangKeluarController::class, 'acc']);
+    Route::get('/dashboard/barang-keluar/{id}/not-acc', [BarangKeluarController::class, 'notAcc']);
 
     // Transaksi
     Route::get('/dashboard/pembelian-kopi', [PembelianKopiController::class, 'index']);

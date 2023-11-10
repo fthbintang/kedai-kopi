@@ -184,7 +184,6 @@ class BarangMasukController extends Controller
         
         return back()->with('notAcc', 'Status Tidak ACC!');
     }
-    
 
     /**
      * Update the specified resource in storage.
