@@ -5,18 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class BarangKeluar extends Model
+class ListBarangKeluar extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
 
-    public function User()
-    {
-        return $this->belongsTo(User::class);
-    }
-
     public function BarangKeluar()
     {
-        return $this->hasMany(BarangKeluar::class);
+        return $this->belongsTo(BarangKeluar::class);
+    }
+
+    public function Barang()
+    {
+        return $this->belongsTo(Barang::class);
     }
 }

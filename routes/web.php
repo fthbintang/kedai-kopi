@@ -10,6 +10,7 @@ use App\Http\Controllers\BarangMasukController;
 use App\Http\Controllers\BarangKeluarController;
 use App\Http\Controllers\PembelianKopiController;
 use App\Http\Controllers\ListBarangMasukController;
+use App\Http\Controllers\ListBarangKeluarController;
 use App\Http\Controllers\PembelianTembakauController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
@@ -47,6 +48,7 @@ Route::middleware(['auth', 'user-access:1|3'])->group(function () {
     Route::get('/dashboard/barang-masuk/{id}/not-acc', [BarangMasukController::class, 'notAcc']);
 
     Route::resource('/dashboard/barang-keluar', BarangKeluarController::class);
+    Route::resource('/dashboard/barang-keluar/list-barang-keluar', ListBarangKeluarController::class);
 
     // Transaksi
     Route::get('/dashboard/pembelian-kopi', [PembelianKopiController::class, 'index']);
