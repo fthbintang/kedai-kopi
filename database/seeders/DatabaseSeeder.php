@@ -123,14 +123,12 @@ class DatabaseSeeder extends Seeder
             'nama_sesi' => 'Pengurangan 2 Stok',
             'user_id' => 1,
             'status' => 'Menunggu',
-            'keterangan' => 'Tidak ada Keterangan', 
         ]);
 
         BarangKeluar::create([
             'nama_sesi' => 'Pengurangan 5 Stok',
             'user_id' => 1,
-            'status' => 'Menunggu',
-            'keterangan' => 'Tidak ada Keterangan', 
+            'status' => 'Menunggu', 
         ]);
 
         ListBarangKeluar::create([

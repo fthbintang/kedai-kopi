@@ -78,7 +78,26 @@ class BarangKeluarController extends Controller
      */
     public function update(Request $request, BarangKeluar $barangKeluar)
     {
-        //
+        $validatedData = $request->validate([
+            'nama_sesi' => 'required',
+            'keterangan' => 'nullable',
+        ], [
+            'nama_sesi.required' => 'Nama Wajib Diisi !',
+        ]);
+
+        try {
+            $keterangan = $validatedData['keterangan'];
+            $nama_sesi = $validatedData['nama_sesi'];
+
+            // Update atribut stok di tabel barang_masuks
+            $barangKeluar->keterangan = $keterangan;
+            $barangKeluar->nama_sesi= $nama_sesi;
+            $barangKeluar->save();
+
+            return redirect()->back()->with('success', 'Edit Data Berhasil!');
+        } catch (\Exception $e) {
+            return back()->withInput()->with('error-update', 'Gagal mengedit data. Pastikan input yang Anda masukkan benar.');
+        }
     }
 
     /**

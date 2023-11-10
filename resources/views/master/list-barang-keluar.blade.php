@@ -60,7 +60,7 @@
                         </div>
                         <div class="row">
                             <div class="col-sm">
-                                <p> {{ $barangKeluar->keterangan ?? 'Tidak ada Data' }} </p>
+                                <p> {{ $barangKeluar->keterangan ?? 'Tidak ada Keterangan' }} </p>
                             </div>
                         </div>
                         @if ($barangKeluar->status != 'ACC')
@@ -169,4 +169,36 @@
             </div>
         </div>
     </div> 
+
+    {{-- Modal Edit Barang Masuk --}}
+    <div class="modal fade" id="modalEditBarangKeluar{{ $barangKeluar->id }}" name="modalEdit" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Data Barang</h5>
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                    </button>
+                </div>
+
+                <form method="POST" action="/dashboard/barang-keluar/{{ $barangKeluar->id }}">
+                    @method('put')
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="nama_sesi">Nama Sesi</label>
+                            <input type="text" class="form-control @error('nama_sesi') is-invalid @enderror" name="nama_sesi" id="nama_sesi" value="{{ $barangKeluar->nama_sesi }}" placeholder="Nama Sesi..." required>
+                        </div>
+                        <div class="form-group">
+                            <label for="keterangan">Keterangan</label>
+                            <input type="text" class="form-control @error('keterangan') is-invalid @enderror" name="keterangan" id="keterangan" value="{{ $barangKeluar->keterangan }}" placeholder="Opsional">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-undo"></i> Kembali</button>
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
