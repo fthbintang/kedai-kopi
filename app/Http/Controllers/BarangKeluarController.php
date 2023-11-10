@@ -105,6 +105,8 @@ class BarangKeluarController extends Controller
      */
     public function destroy(BarangKeluar $barangKeluar)
     {
-        //
+        BarangKeluar::destroy($barangKeluar->id);
+
+        return redirect('/dashboard/barang-keluar')->with('success', 'Data Barang Keluar berhasil dihapus.');
     }
 }
