@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -50,6 +51,7 @@ class User extends Authenticatable
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
+    // Function Section
     public function isAdmin()
     {
         return $this->level == 1;
@@ -65,6 +67,7 @@ class User extends Authenticatable
         return $this->level == 3;
     }
 
+    // Relation Section
     public function BarangKeluar()
     {
         return $this->hasMany(BarangKeluar::class);
@@ -73,5 +76,10 @@ class User extends Authenticatable
     public function BarangMasuk()
     {
         return $this->hasMany(BarangMasuk::class);
+    }
+
+    public function Jadwal(): HasOne
+    {
+        return $this->hasOne(Jadwal::class);
     }
 }
