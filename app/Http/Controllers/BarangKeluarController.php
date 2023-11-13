@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\BarangKeluar;
+use App\Models\Barang;
+use App\Models\ListBarangKeluar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -103,13 +105,23 @@ class BarangKeluarController extends Controller
     public function acc($id)
     {
         $barangKeluar = BarangKeluar::find($id);
-        
+    
         if ($barangKeluar) {
             $barangKeluar->status = 'ACC';
             $barangKeluar->save();
+    
+            // Ambil semua item terkait dari list_barang_masuks yang sudah di-ACC
+            $listBarangKeluarsACC = ListBarangKeluar::where('barang_keluar_id', $id)->get();
+    
+            // Lakukan perhitungan total stok_sesudah untuk update stok di tabel barangs
+            foreach ($listBarangKeluarsACC as $item) {
+                $barang = Barang::find($item->barang_id);
+                $barang->stok = $item->stok_sesudah; // Update nilai stok
+                $barang->save(); // Simpan perubahan
+            }
+
+            return redirect()->back()->with('success', 'Status ACC!');
         }
-        
-        return redirect()->back()->with('success', 'Status ACC!');
     }
     
     public function notAcc($id)

@@ -75,11 +75,6 @@ class ListBarangMasukController extends Controller
                 'stok_masuk' => $stokMasuk,
                 'stok_sesudah' => $stokSesudah,
             ]);
-    
-            // Update atribut stok di tabel barangs
-            $barang = Barang::find($barangId);
-            $barang->stok = $stokSesudah;
-            $barang->save();
         }
     
         return redirect()->back()->with('success', 'Tambah Data Berhasil!');
@@ -119,20 +114,9 @@ class ListBarangMasukController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(ListBarangMasuk $listBarangMasuk)
-    {
-        // Ambil barang terkait dari list barang masuk
-        $barang = Barang::find($listBarangMasuk->barang_id);
-    
-        // Pastikan barang ditemukan sebelum mengurangkan stok
-        if ($barang) {
-            // Kurangi stok pada barang
-            $barang->stok -= $listBarangMasuk->stok_masuk;
-            $barang->save();
-        }
-    
-        // Hapus item dari list_barang_masuks
-        $listBarangMasuk->delete();
-    
+    {    
+        ListBarangMasuk::destroy($listBarangMasuk->id);
+
         return redirect()->back()->with('success', 'Data List Barang Masuk berhasil dihapus.');
     }
     

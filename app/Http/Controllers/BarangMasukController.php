@@ -164,14 +164,25 @@ class BarangMasukController extends Controller
     public function acc($id)
     {
         $barangMasuk = BarangMasuk::find($id);
-        
+    
         if ($barangMasuk) {
             $barangMasuk->status = 'ACC';
             $barangMasuk->save();
+    
+            // Ambil semua item terkait dari list_barang_masuks yang sudah di-ACC
+            $listBarangMasuksACC = ListBarangMasuk::where('barang_masuk_id', $id)->get();
+    
+            // Lakukan perhitungan total stok_sesudah untuk update stok di tabel barangs
+            foreach ($listBarangMasuksACC as $item) {
+                $barang = Barang::find($item->barang_id);
+                $barang->stok = $item->stok_sesudah; // Update nilai stok
+                $barang->save(); // Simpan perubahan
+            }
         }
-        
+    
         return redirect()->back()->with('success', 'Status ACC!');
     }
+    
     
     public function notAcc($id)
     {
