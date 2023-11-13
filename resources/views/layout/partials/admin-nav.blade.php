@@ -22,7 +22,7 @@
 {{-- Karyawan Manajemen --}}
 <li class="nav-label"><b>Manajemen Karyawan</b></li>
 <li>
-    <a href="#" aria-expanded="false">
+    <a href="/dashboard/jadwal-karyawan" aria-expanded="false">
         <i class="icon-speedometer menu-icon"></i><span class="nav-text">Jadwal Karyawan</span>
     </a>
 </li>

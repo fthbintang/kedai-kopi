@@ -78,7 +78,7 @@ class User extends Authenticatable
         return $this->hasMany(BarangMasuk::class);
     }
 
-    public function Jadwal(): HasOne
+    public function jadwal(): HasOne
     {
         return $this->hasOne(Jadwal::class);
     }

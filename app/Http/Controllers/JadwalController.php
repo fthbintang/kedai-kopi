@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Jadwal;
 use Illuminate\Http\Request;
 
@@ -12,7 +13,11 @@ class JadwalController extends Controller
      */
     public function index()
     {
-        //
+        return view('karyawan.jadwal', [
+            'title' => 'Data Jadwal Karyawan',
+            'jadwal' => Jadwal::all(),
+            'karyawan' => User::doesntHave('jadwal')->where('level', 3)->get(),
+        ]);
     }
 
     /**
@@ -28,7 +33,26 @@ class JadwalController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate(
+            [
+                'create_user_id' => 'required',
+                'create_waktu_mulai' => 'required',
+                'create_waktu_selesai' => 'required',
+            ],
+        );
+
+        try {
+            // Simpan data ke database
+            Jadwal::create([
+                'user_id'           => $validatedData['create_user_id'],
+                'waktu_mulai'       => $validatedData['create_waktu_mulai'],
+                'waktu_selesai'     => $validatedData['create_waktu_selesai'],
+            ]);
+
+            return redirect('/dashboard/jadwal-karyawan')->with('success', 'Tambah Jadwal Berhasil!');
+        } catch (\Exception $e) {
+            return back()->withInput()->with('error', $e);
+        }
     }
 
     /**
