@@ -413,7 +413,7 @@
             }).then((result) => {
                 // Jika pengguna menekan tombol "Ya, ACC", maka redirect ke route ACC
                 if (result) {
-                    window.location.href = "/dashboard/barang-keluar/{{ $barangKeluar->id }}/acc";
+                    window.location.href = "/dashboard/barang-keluar/{{ $barangKeluar->id }}/acc"; 
                 }
             });
         });
