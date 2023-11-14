@@ -3,23 +3,22 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Jadwal extends Model
+class Presensi extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
-    public $timestamps = false;
+    public $timestamp = false;
 
     public function User(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function Presensi(): HasMany
+    public function Jadwal(): BelongsTo
     {
-        return $this->hasMany(Presensi::class);
+        return $this->belongsTo(Jadwal::class);
     }
 }
