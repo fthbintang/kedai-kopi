@@ -83,6 +83,32 @@ class User extends Authenticatable
             return 0;
     }
 
+    public function isCheckedOutToday()
+    {
+        $todaysDate = Carbon::now('GMT+8')->format('Y-m-d');
+        $checkedOutToday = Presensi::where('user_id', $this->id)
+            ->where('date', $todaysDate)
+            ->whereNotNull('waktu_keluar')->first();
+
+        if ($checkedOutToday)
+            return 1;
+        else
+            return 0;
+    }
+
+    function ScheduleChecker()
+    {
+        $thisTime = Carbon::now('GMT+8')->format('H:i:s');
+        $waktuMulai = $this->jadwal->waktu_mulai;
+        $waktuSelesai = $this->jadwal->waktu_selesai;
+
+        if ($thisTime >= $waktuMulai && $thisTime <= $waktuSelesai) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
     // Relation Section
     public function BarangKeluar()
     {
