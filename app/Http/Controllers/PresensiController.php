@@ -2,64 +2,59 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
+use App\Models\User;
 use App\Models\Presensi;
 use Illuminate\Http\Request;
 
 class PresensiController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function checkin(string $id)
     {
-        //
+        if ($id) {
+
+            $user = User::find($id);
+            $idJadwal = $user->jadwal->id;
+            $waktuMasuk = $user->jadwal->waktu_mulai;
+            $is_late = 0;
+
+            if (Carbon::now('GMT+8')->format('h:i:s') > Carbon::parse($waktuMasuk)->addMinutes(20)->format('h:i:s')) {
+                $is_late = 1;
+            }
+
+            Presensi::create([
+                'user_id' => $id,
+                'jadwal_id' => $idJadwal,
+                'date' => Carbon::now()->format('Y-m-d'),
+                'waktu_masuk' => Carbon::now('GMT+8')->format('H:i:s'),
+                'waktu_keluar' => null,
+                'is_late' => $is_late,
+            ]);
+
+            return redirect('/dashboard')->with('success', 'Berhasil Melakukan Check In !');
+        }
+        return redirect('/dashboard')->with('error', 'Gagal Melakukan Check In !');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function checkout(string $id)
     {
-        //
-    }
+        if ($id) {
+            $user = User::find($id);
+            $thisDate = Carbon::now('GMT+8')->format('Y-m-d');
+            $thisTime = Carbon::now('GMT+8')->format('H:i:s');
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+            $idPresensi = Presensi::where('user_id', $user->id)
+                ->where('date', $thisDate)->first();
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Presensi $presensi)
-    {
-        //
-    }
+            // Simpan data user ke database
+            $update = [
+                'waktu_keluar'      => $thisTime,
+            ];
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Presensi $presensi)
-    {
-        //
-    }
+            Presensi::where('id', $idPresensi->id)->update($update);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Presensi $presensi)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Presensi $presensi)
-    {
-        //
+            return redirect('/dashboard')->with('success', 'Berhasil Melakukan Check Out !');
+        }
+        return redirect('/dashboard')->with('error', 'Gagal Melakukan Check Out !');
     }
 }

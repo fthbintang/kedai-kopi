@@ -13,6 +13,7 @@ use App\Http\Controllers\PembelianKopiController;
 use App\Http\Controllers\ListBarangMasukController;
 use App\Http\Controllers\ListBarangKeluarController;
 use App\Http\Controllers\PembelianTembakauController;
+use App\Http\Controllers\PresensiController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
@@ -35,6 +36,12 @@ Route::post('/logout', [LoginController::class, 'logout']);
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('/dashboard/profile', ProfileController::class)->middleware(['web']);
+});
+
+// Presensi Karyawan Only
+Route::middleware(['auth', 'user-access:3'])->group(function () {
+    Route::post('/dashboard/presensi/checkin/{id}', [PresensiController::class, 'checkin']);
+    Route::put('/dashboard/presensi/checkout/{id}', [PresensiController::class, 'checkout']);
 });
 
 // Multi user login

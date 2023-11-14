@@ -10,7 +10,7 @@ class Presensi extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
-    public $timestamp = false;
+    public $timestamps = false;
 
     public function User(): BelongsTo
     {
