@@ -16,8 +16,8 @@ return new class extends Migration
             $table->foreignId('user_id');
             $table->foreignId('jadwal_id');
             $table->date('date');
-            $table->dateTime('waktu_masuk');
-            $table->dateTime('waktu_keluar')->nullable();
+            $table->time('waktu_masuk')->nullable();
+            $table->time('waktu_keluar')->nullable();
             $table->boolean('is_late');
         });
     }
