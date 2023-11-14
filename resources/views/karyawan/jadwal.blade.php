@@ -7,7 +7,7 @@
         <div class="col p-md-0">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
-                <li class="breadcrumb-item active"><a href="/dashboard/pengguna">Pengguna</a></li>
+                <li class="breadcrumb-item active"><a href="/dashboard/jadwal-karyawan">Jadwal Karyawan</a></li>
             </ol>
         </div>
     </div>
@@ -42,8 +42,8 @@
                                         <tr>
                                             <td>{{ $no++; }}</td>
                                             <td>{{ $row->user->name }}</td>
-                                            <td>{{ $row->waktu_mulai }}</td>
-                                            <td>{{ $row->waktu_selesai }}</td>
+                                            <td>{{ date("h:i A", strtotime($row->waktu_mulai)) }}</td>
+                                            <td>{{ date("h:i A", strtotime($row->waktu_selesai)) }}</td>
                                             <td>
                                                 <a href="#modalEdit{{ $row->id }}" data-toggle="modal" class="btn btn-xs btn-primary">
                                                     <i class="fa fa-edit"></i> Edit
@@ -132,5 +132,78 @@
         </div>
     </div>
 </div>
+
+{{-- Modal Edit --}}
+@foreach ($jadwal as $item)
+<div class="modal fade" id="modalEdit{{ $item->id }}" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Data Jadwal Karyawan {{ $item->user->name }}</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                </button>
+            </div>
+
+            <form method="POST" action="/dashboard/jadwal-karyawan/{{ $item->id }}">
+                @method('put')
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="name">Nama Karyawan</label>
+                        <input type="text" class="form-control" name="edit_name" id="name" readonly placeholder="Nama Lengkap..." value="{{ $item->user->name }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="waktu_mulai">Waktu Mulai</label>
+                        <input type="time" class="form-control" step="1" name="edit_waktu_mulai" id="waktu_mulai" value="{{ $item->waktu_mulai }}">
+                        @error('edit_waktu_mulai')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="waktu_selesai">Waktu Selesai</label>
+                        <input type="time" class="form-control" step="1" name="edit_waktu_selesai" id="waktu_selesai" value="{{ $item->waktu_selesai }}">
+                        @error('edit_waktu_selesai')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-undo"></i> Kembali</button>
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@endforeach
+
+{{-- Modal Delete --}}
+@foreach ($jadwal as $item)
+<div class="modal fade" id="modalDelete{{ $item->id }}" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Hapus Data Jadwal Karyawan {{ $item->user->name }}</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                </button>
+            </div>                
+
+            <form method="POST" action="/dashboard/jadwal-karyawan/{{ $row->id }}">
+                @method('delete')
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group">
+                        <h5>Apakah Anda Ingin Menghapus Data Ini ?</h5>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-undo"></i> Close</button>
+                    <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Hapus</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@endforeach
 
 @endsection

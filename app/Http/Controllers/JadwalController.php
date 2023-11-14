@@ -39,6 +39,12 @@ class JadwalController extends Controller
                 'create_waktu_mulai' => 'required',
                 'create_waktu_selesai' => 'required',
             ],
+            [
+                // Name custom message for validation
+                'create_name.required' => 'Nama Karyawan Wajib Diisi !',
+                'create_waktu_mulai.required' => 'Waktu Mulai Wajib Diisi !',
+                'create_waktu_selesai.required' => 'Waktu Selesai Wajib Diisi !',
+            ],
         );
 
         try {
@@ -74,15 +80,41 @@ class JadwalController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Jadwal $jadwal)
+    public function update(Request $request, string $id)
     {
-        //
+        $validatedData = $request->validate(
+            [
+                'edit_name' => 'required',
+                'edit_waktu_mulai' => 'required',
+                'edit_waktu_selesai' => 'required',
+            ],
+            [
+                // Name custom message for validation
+                'edit_name.required' => 'Nama Karyawan Wajib Diisi !',
+                'edit_waktu_mulai.required' => 'Waktu Mulai Wajib Diisi !',
+                'edit_waktu_selesai.required' => 'Waktu Selesai Wajib Diisi !',
+            ],
+        );
+
+        try {
+            // Simpan data user ke database
+            $update = [
+                'waktu_mulai'   => $validatedData['edit_waktu_mulai'],
+                'waktu_selesai' => $validatedData['edit_waktu_selesai'],
+            ];
+
+            Jadwal::where('id', $id)->update($update);
+
+            return redirect('/dashboard/jadwal-karyawan')->with('success', 'Jadwal Berhasil diubah !');
+        } catch (\Exception $e) {
+            return back()->withInput()->with('error', 'Gagal mengubah jadwal karyawan. Pastikan input yang Anda masukkan benar.');
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Jadwal $jadwal)
+    public function destroy(string $id)
     {
         //
     }
