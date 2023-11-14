@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -66,6 +68,19 @@ class User extends Authenticatable
     public function isPekerja()
     {
         return $this->level == 3;
+    }
+
+    public function isCheckedInToday()
+    {
+        $todaysDate = Carbon::now('GMT+8')->format('Y-m-d');
+        $checkedInToday = Presensi::where('user_id', $this->id)
+            ->where('date', $todaysDate)
+            ->where('waktu_keluar', null)->first();
+
+        if ($checkedInToday)
+            return 1;
+        else
+            return 0;
     }
 
     // Relation Section

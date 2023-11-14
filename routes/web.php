@@ -45,7 +45,7 @@ Route::middleware(['auth', 'user-access:3'])->group(function () {
 });
 
 // Multi user login
-Route::middleware(['auth', 'user-access:1|3'])->group(function () {
+Route::middleware(['auth', 'user-access:1|3', 'checked-in'])->group(function () {
     // Master Data
     Route::resource('/dashboard/barang', BarangController::class);
 
