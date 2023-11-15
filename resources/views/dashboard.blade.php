@@ -63,42 +63,78 @@
                         </div>
                     </div>  
                 </div>
-                <div class="col-lg-3 col-sm-3">
-                    <div class="card gradient-2">
-                        <div class="card-body">
-                            <h3 class="card-title text-white">Barang Masuk (Unapprove)</h3>
-                            <div class="d-inline-block">
-                                <h2 class="text-white">{{ $jumlah_barang_masuk }}</h2>
-                                @if (Auth::user()->level != 3)
-                                <p class="text-white mb-0">
-                                    <a href="/dashboard/barang-masuk" class="btn gradient-2 border-0 btn-rounded">
-                                        <i class="fa-solid fa-box"></i> Approve Sekarang
-                                    </a>
-                                </p>
+
+                @if (Auth::user()->level == 3)
+                    <div class="col-lg-3 col-sm-3">
+                        <div class="card gradient-9">
+                            <div class="card-body text-center">
+                                <h3 class="card-title text-white mb-4">Status Gaji <br>Bulan Sebelumnya</h3>
+                                @if ($status_gaji_bln_sebelum)
+                                    <h1 class="mb-4"><span class="badge badge-pill badge-lg badge-success">
+                                        <i class="fa-solid fa-check" style="color: #FFFFFF;"></i>
+                                    </span></h1>
+                                    <h3 class="text-white">Rp. {{ number_format($status_gaji_bln_sebelum->gaji, 2) }}</h3>
+                                @else
+                                    <h1 class="mb-4"><span class="badge badge-pill badge-lg badge-danger">
+                                        <i class="fa-solid fa-xmark" style="color: #FFFFFF;"></i>
+                                    </span></h1>
+                                    <h3 class="text-white">-</h3>
                                 @endif
                             </div>
-                            <span class="float-right display-5 opacity-5"><i class="fa-solid fa-box"></i></span>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-3 col-sm-3">
-                    <div class="card gradient-3">
-                        <div class="card-body">
-                            <h3 class="card-title text-white">Barang Keluar (Unapprove)</h3>
-                            <div class="d-inline-block">
-                                <h2 class="text-white">{{ $jumlah_barang_keluar }}</h2>
-                                @if (Auth::user()->level != 3)
-                                <p class="text-white mb-0">
-                                    <a href="/dashboard/barang-keluar" class="btn gradient-3 border-0 btn-rounded">
-                                        <i class="fa-solid fa-box"></i> Approve Sekarang
-                                    </a>
-                                </p>
+                    <div class="col-lg-3 col-sm-3">
+                        <div class="card gradient-3">
+                            <div class="card-body text-center">
+                                <h3 class="card-title text-white mb-4">Status Gaji <br>Bulan Ini</h3>
+                                @if ($status_gaji_bln_ini)
+                                    <h1 class="mb-4"><span class="badge badge-pill badge-lg badge-success">
+                                        <i class="fa-solid fa-check" style="color: #FFFFFF;"></i>
+                                    </span></h1>
+                                    <h3 class="text-white">Rp. {{ number_format($status_gaji_bln_ini->gaji, 2) }}</h3>
+                                @else
+                                    <h1 class="mb-4"><span class="badge badge-pill badge-lg badge-danger">
+                                        <i class="fa-solid fa-xmark" style="color: #FFFFFF;"></i>
+                                    </span></h1>
+                                    <h3 class="text-white">-</h3>
                                 @endif
                             </div>
-                            <span class="float-right display-5 opacity-5"><i class="fa-solid fa-box"></i></span>
                         </div>
                     </div>
-                </div>
+                @else
+                    <div class="col-lg-3 col-sm-3">
+                        <div class="card gradient-2">
+                            <div class="card-body">
+                                <h3 class="card-title text-white">Barang Masuk (Unapprove)</h3>
+                                <div class="d-inline-block">
+                                    <h2 class="text-white">{{ $jumlah_barang_masuk }}</h2>
+                                    <p class="text-white mb-0">
+                                        <a href="/dashboard/barang-masuk" class="btn gradient-2 border-0 btn-rounded">
+                                            <i class="fa-solid fa-box"></i> Approve Sekarang
+                                        </a>
+                                    </p>
+                                </div>
+                                <span class="float-right display-5 opacity-5"><i class="fa-solid fa-box"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-3">
+                        <div class="card gradient-3">
+                            <div class="card-body">
+                                <h3 class="card-title text-white">Barang Keluar (Unapprove)</h3>
+                                <div class="d-inline-block">
+                                    <h2 class="text-white">{{ $jumlah_barang_keluar }}</h2>
+                                    <p class="text-white mb-0">
+                                        <a href="/dashboard/barang-keluar" class="btn gradient-3 border-0 btn-rounded">
+                                            <i class="fa-solid fa-box"></i> Approve Sekarang
+                                        </a>
+                                    </p>
+                                </div>
+                                <span class="float-right display-5 opacity-5"><i class="fa-solid fa-box"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                @endif
             </div>
 
             @if(Auth::user()->level == 3)
@@ -117,7 +153,7 @@
                                                 <th>Nama</th>
                                                 <th>Waktu Check In</th>
                                                 <th>Waktu Check Out</th>
-                                                <th>Tanggal Tec</th>
+                                                <th>Tanggal</th>
                                                 <th>Status</th>
                                             </tr>
                                         </thead>
