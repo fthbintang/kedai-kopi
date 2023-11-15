@@ -116,6 +116,7 @@
                                             <th>Nama</th>
                                             <th>Waktu Check In</th>
                                             <th>Waktu Check Out</th>
+                                            <th>Tanggal</th>
                                             <th>Status</th>
                                         </tr>
                                     </thead>
@@ -126,6 +127,7 @@
                                                 <td>{{ $row->user->name }}</td>
                                                 <td>{{ $row->waktu_masuk }}</td>
                                                 <td>{{ $row->waktu_keluar }}</td>
+                                                <td>{{ $row->date }}</td>
                                                 <td>
                                                     @if ($row->is_late == 1)
                                                         <span class="badge badge-pill badge-danger">Terlambat</span>
