@@ -112,7 +112,7 @@
                     </div>
                     <div class="form-group">
                         <label for="tanggal">Tanggal</label>
-                        <input type="text" class="form-control" name="create_tanggal" id="tanggal" value="{{ now()->format('Y-m-d') }}" required readonly>
+                        <input type="date" class="form-control" name="create_tanggal" id="tanggal" required>
                         @error('create_tanggal')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror

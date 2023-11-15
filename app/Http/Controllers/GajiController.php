@@ -38,18 +38,32 @@ class GajiController extends Controller
         $validatedData = $request->validate(
             [
                 'create_gaji' => 'required|numeric',
+                'create_tanggal' => 'required',
             ],
             [
                 'create_gaji.required' => 'Jumlah Uang Wajib Diisi !',
                 'create_gaji.numeric' => 'Input Harus Berupa Angka  !',
+
+                'create_tanggal.required' => 'Jumlah Uang Wajib Diisi !',
             ]
         );
 
         try {
+            $userInputDate = $validatedData['create_tanggal'];
+
+            $checkGaji = Gaji::whereRaw("DATE_FORMAT(DATE, '%Y-%m') = '" . Carbon::parse($userInputDate)->format('Y-m') . "' AND user_id = '" . $request->create_user_id . "'")
+                ->first();
+
+            if ($checkGaji) {
+                if (Carbon::parse($checkGaji->date)->format('Y-m') == Carbon::parse($userInputDate)->format('Y-m')) {
+                    return redirect('/dashboard/gaji-karyawan/' . $request->create_user_id)->with('error', 'Anda Telah Membayar Gaji Bulan Tersebut Sebelumnya !');
+                }
+            }
+
             Gaji::create([
                 'user_id' => $request->create_user_id,
                 'gaji' => $validatedData['create_gaji'],
-                'date' => Carbon::now()->format('Y-m-d'),
+                'date' => $userInputDate,
             ]);
 
             return redirect('/dashboard/gaji-karyawan/' . $request->create_user_id)->with('success', 'Tambah Gaji Berhasil!');
@@ -89,10 +103,10 @@ class GajiController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request, Gaji $gaji)
+    public function destroy(Request $request, string $id)
     {
         $user_id = $request->user_id;
-        Gaji::destroy($gaji->id);
+        Gaji::destroy($id);
 
         return redirect('/dashboard/gaji-karyawan/' . $user_id)->with('success', 'Hapus Gaji Berhasil!');
     }
