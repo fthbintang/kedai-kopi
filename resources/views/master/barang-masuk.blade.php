@@ -117,7 +117,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="barang_id">Nama Barang</label>
-                                <input type="text" class="form-control @error('barang_id') is-invalid @enderror" name="barang_id" id="barang_id" value="{{ $barang->nama_barang }}" placeholder="Isi Barang Dahulu..." required readonly>
+                                <input type="text" class="form-control @error('barang_id') is-invalid @enderror" name="barang_id" id="barang_id" value="{{ $item->nama_barang }}" placeholder="Isi Barang Dahulu..." required readonly>
                         </div>
                         <div class="form-group">
                             <label for="stok_sebelum">Stok saat ini</label>
