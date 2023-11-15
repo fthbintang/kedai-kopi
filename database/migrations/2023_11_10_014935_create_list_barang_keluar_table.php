@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('list_barang_keluars', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('barang_id');
-            $table->foreignId('barang_keluar_id');
+            $table->foreignId('barang_id')->constrained('barangs')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('barang_keluar_id')->constrained('list_barang_keluars')->onDelete('cascade')->onUpdate('cascade');
             $table->integer('stok_keluar');
             $table->integer('stok_sebelum');
             $table->integer('stok_sesudah');

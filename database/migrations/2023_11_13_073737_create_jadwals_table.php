@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('jadwals', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->unique();
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->onUpdate('cascade')->unique();
             $table->time('waktu_mulai');
             $table->time('waktu_selesai');
         });
