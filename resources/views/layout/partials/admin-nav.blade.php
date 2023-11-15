@@ -21,8 +21,8 @@
     </a>
 </li>
 <li>
-    <a href="#" aria-expanded="false">
-        <i class="icon-speedometer menu-icon"></i><span class="nav-text">Gajih Karyawan</span>
+    <a href="/dashboard/gaji-karyawan" aria-expanded="false">
+        <i class="icon-speedometer menu-icon"></i><span class="nav-text">Gaji Karyawan</span>
     </a>
 </li>
 

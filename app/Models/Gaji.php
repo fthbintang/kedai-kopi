@@ -12,6 +12,12 @@ class Gaji extends Model
     protected $guarded = ['id'];
     public $timestamps = false;
 
+    protected $fillable = [
+        'user_id',
+        'gaji',
+        'date',
+    ];
+
     public function User(): BelongsTo
     {
         return $this->belongsTo(User::class);

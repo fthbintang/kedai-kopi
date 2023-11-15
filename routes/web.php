@@ -9,6 +9,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\BarangMasukController;
 use App\Http\Controllers\BarangKeluarController;
+use App\Http\Controllers\GajiController;
 use App\Http\Controllers\PembelianKopiController;
 use App\Http\Controllers\ListBarangMasukController;
 use App\Http\Controllers\ListBarangKeluarController;
@@ -45,6 +46,14 @@ Route::middleware(['auth', 'user-access:3'])->group(function () {
 });
 
 // Multi user login
+/* NOTE : 
+
+    User Role :
+    1 : Admin
+    2 : Owner
+    3 : Karyawan
+    
+*/
 Route::middleware(['auth', 'user-access:1|3', 'checked-in'])->group(function () {
     // Master Data
     Route::resource('/dashboard/barang', BarangController::class);
@@ -63,9 +72,6 @@ Route::middleware(['auth', 'user-access:1|3', 'checked-in'])->group(function () 
     Route::get('/dashboard/barang-keluar/{id}/acc', [BarangKeluarController::class, 'acc']);
     Route::get('/dashboard/barang-keluar/{id}/not-acc', [BarangKeluarController::class, 'notAcc']);
 
-    // Karyawan Section
-    Route::resource('/dashboard/jadwal-karyawan', JadwalController::class);
-
     // Transaksi
     Route::get('/dashboard/pembelian-kopi', [PembelianKopiController::class, 'index']);
     Route::get('/dashboard/pembelian-tembakau', [PembelianTembakauController::class, 'index']);
@@ -74,4 +80,8 @@ Route::middleware(['auth', 'user-access:1|3', 'checked-in'])->group(function () 
 Route::middleware(['auth', 'user-access:1|2'])->group(function () {
     // User Route
     Route::resource('/dashboard/pengguna', UserController::class);
+
+    // Karyawan Section
+    Route::resource('/dashboard/jadwal-karyawan', JadwalController::class);
+    Route::resource('/dashboard/gaji-karyawan', GajiController::class);
 });

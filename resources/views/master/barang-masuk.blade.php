@@ -1,7 +1,7 @@
 @extends('layout.layout')
 @section('content')
-    <div class="content-body"> 
-        <div class="row page-titles mx-0">
+<div class="content-body"> 
+    <div class="row page-titles mx-0">
         <div class="col p-md-0">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
@@ -56,56 +56,7 @@
             </div>
         </div>
     </div> 
-
-    {{-- Modal Create --}}
-    <!-- <div class="modal fade" id="modalCreate" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Tambah Data Barang Masuk</h5>
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
-                    </button>
-                </div>
-
-                <form method="POST" action="/dashboard/barang-masuk">
-                    @csrf
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <button type="button" class="btn btn-primary" id="addInput">Tambah Input</button>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="barang_id">Nama Barang</label>
-                            <select class="form-control" name="barang_id[]" id="barang_id" style="width: 100%;" required>
-                                <option value="" selected disabled></option> 
-                                @foreach($barangs as $barang)
-                                    <option value="{{ $barang->id }}">{{ $barang->nama_barang }}</option> 
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="stok_sebelum">Stok saat ini</label>
-                            <input type="number" class="form-control @error('stok_sebelum') is-invalid @enderror" name="stok_sebelum[]" id="stok_sebelum" placeholder="Isi Barang Dahulu..." required readonly>
-                        </div>
-                        <div class="form-group">
-                            <label for="stok_masuk">Stok masuk</label>
-                            <input type="number" class="form-control @error('stok_masuk') is-invalid @enderror" name="stok_masuk[]" id="stok_masuk" placeholder="Stok..." required>
-                        </div>
-                        <hr>
-
-                        <div id="dynamicInputsContainer">
-                            Input dinamis akan ditambahkan di sini
-                        </div>
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-undo"></i> Kembali</button>
-                        <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Simpan</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div> -->
+</div>
 
     {{-- Modal Create --}}
     <div class="modal fade" id="modalCreate" tabindex="-1" role="dialog" aria-hidden="true">
@@ -199,7 +150,7 @@
                     </button>
                 </div>                
 
-                <form method="POST" action="/dashboard/barang-masuk/{{ $row->id }}">
+                <form method="POST" action="/dashboard/barang-masuk/{{ $item->id }}">
                     @method('delete')
                     @csrf
                     <div class="modal-body">

@@ -134,7 +134,7 @@
                     </div>
                     <div class="form-group">
                         <label for="username">Username</label>
-                        <input type="username" class="form-control" name="create_username" id="username" placeholder="Username..." required>
+                        <input type="text" class="form-control" name="create_username" id="username" placeholder="Username..." required>
                         @error('create_username')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
@@ -192,7 +192,7 @@
                     </div>
                     <div class="form-group">
                         <label for="username">Username</label>
-                        <input type="username" class="form-control" name="edit_username" id="username" placeholder="Username..." value="{{ $item->username }}" required>
+                        <input type="text" class="form-control" name="edit_username" id="username" placeholder="Username..." value="{{ $item->username }}" required>
                         @error('edit_username')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
@@ -247,7 +247,7 @@
                 </button>
             </div>                
 
-            <form method="POST" action="/dashboard/pengguna/{{ $row->id }}">
+            <form method="POST" action="/dashboard/pengguna/{{ $item->id }}">
                 @method('delete')
                 @csrf
                 <div class="modal-body">

@@ -116,6 +116,8 @@ class JadwalController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Jadwal::destroy($id);
+
+        return redirect('/dashboard/jadwal-karyawan')->with('success', 'Hapus Jadwal Berhasil!');
     }
 }

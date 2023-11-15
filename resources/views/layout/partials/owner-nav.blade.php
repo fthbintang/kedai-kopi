@@ -12,23 +12,16 @@
     </a>
 </li>
 
-
-<li>
-    <a href="/dashboard/profile" aria-expanded="false">
-        <i class="icon-speedometer menu-icon"></i><span class="nav-text">Profile</span>
-    </a>
-</li>
-
 {{-- Karyawan Manajemen --}}
 <li class="nav-label"><b>Manajemen Karyawan</b></li>
 <li>
-    <a href="#" aria-expanded="false">
+    <a href="/dashboard/jadwal-karyawan" aria-expanded="false">
         <i class="icon-speedometer menu-icon"></i><span class="nav-text">Jadwal Karyawan</span>
     </a>
 </li>
 <li>
-    <a href="#" aria-expanded="false">
-        <i class="icon-speedometer menu-icon"></i><span class="nav-text">Gajih Karyawan</span>
+    <a href="/dashboard/gaji-karyawan" aria-expanded="false">
+        <i class="icon-speedometer menu-icon"></i><span class="nav-text">Gaji Karyawan</span>
     </a>
 </li>
 
