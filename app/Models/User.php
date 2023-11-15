@@ -129,4 +129,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Presensi::class);
     }
+
+    public function Gaji(): HasMany
+    {
+        return $this->hasMany(Gaji::class);
+    }
 }
