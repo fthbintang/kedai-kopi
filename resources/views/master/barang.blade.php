@@ -1,7 +1,7 @@
 @extends('layout.layout')
 @section('content')
-    <div class="content-body"> 
-        <div class="row page-titles mx-0">
+<div class="content-body"> 
+    <div class="row page-titles mx-0">
         <div class="col p-md-0">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
@@ -69,6 +69,7 @@
             </div>
         </div>
     </div> 
+</div>
 
     <!-- Modal untuk Gambar -->
     @foreach ($barang as $row)
@@ -239,7 +240,7 @@
                     </button>
                 </div>                
 
-                <form method="POST" action="/dashboard/barang/{{ $row->id }}">
+                <form method="POST" action="/dashboard/barang/{{ $item->id }}">
                     @method('delete')
                     @csrf
                     <div class="modal-body">

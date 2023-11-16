@@ -9,4 +9,14 @@ class Barang extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
+
+    public function BarangMasuk() 
+    {
+        return $this->hasMany(BarangMasuk::class);
+    }
+
+    // public function BarangKeluar() 
+    // {
+    //     return $this->hasMany(BarangKeluar::class);
+    // }
 }
