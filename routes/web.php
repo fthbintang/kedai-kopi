@@ -14,6 +14,7 @@ use App\Http\Controllers\PembelianKopiController;
 use App\Http\Controllers\ListBarangMasukController;
 use App\Http\Controllers\ListBarangKeluarController;
 use App\Http\Controllers\PembelianTembakauController;
+use App\Http\Controllers\PendapatanHarianController;
 use App\Http\Controllers\PresensiController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
@@ -73,6 +74,7 @@ Route::middleware(['auth', 'user-access:1|3', 'checked-in'])->group(function () 
     Route::get('/dashboard/barang-keluar/{id}/not-acc', [BarangKeluarController::class, 'notAcc']);
 
     // Transaksi
+    Route::resource('/dashboard/pendapatan-harian', PendapatanHarianController::class);
     Route::get('/dashboard/pembelian-kopi', [PembelianKopiController::class, 'index']);
     Route::get('/dashboard/pembelian-tembakau', [PembelianTembakauController::class, 'index']);
 });

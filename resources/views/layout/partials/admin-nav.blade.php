@@ -49,6 +49,11 @@
 {{-- DATA TRANSAKSI --}}
 <li class="nav-label"><b>Transaksi</b></li>
 <li>
+    <a href="/dashboard/pendapatan-harian" aria-expanded="false">
+        <i class="icon-speedometer menu-icon"></i><span class="nav-text">Pendapatan Harian</span>
+    </a>
+</li>
+<li>
     <a href="/dashboard/pembelian-kopi" aria-expanded="false">
         <i class="icon-speedometer menu-icon"></i><span class="nav-text">Pembelian Kopi</span>
     </a>

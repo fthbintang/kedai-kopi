@@ -10,6 +10,7 @@ use App\Models\BarangMasuk;
 use App\Models\BarangKeluar;
 use App\Models\ListBarangMasuk;
 use App\Models\ListBarangKeluar;
+use App\Models\PendapatanHarian;
 
 class DatabaseSeeder extends Seeder
 {
@@ -145,6 +146,11 @@ class DatabaseSeeder extends Seeder
             'stok_keluar' => 50,
             'stok_sebelum' => 50,
             'stok_sesudah' => 50,
+        ]);
+
+        PendapatanHarian::create([
+            'tanggal' => now()->toDateString(),
+            'pendapatan' => 500000,
         ]);
 
     }
