@@ -40,8 +40,12 @@
                                             <td>{{ $row->pendapatan }}</td>
                                             <td>{{ $row->keterangan ?? 'Tidak ada Keterangan' }}</td>
                                             <td>
+                                                <a href="#modalEdit{{ $row->id }}" data-toggle="modal" class="btn btn-xs btn-primary">
+                                                    <i class="fa fa-edit"></i> Edit
+                                                </a>    
                                                 <a href="#modalDelete{{ $row->id }}" data-toggle="modal" class="btn btn-xs btn-danger">
-                                                        <i class="fa fa-trash"></i> Hapus
+                                                    <i class="fa fa-trash"></i> Hapus
+                                                </a>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -54,5 +58,56 @@
         </div>
     </div> 
 </div>
+
+{{-- Modal Create --}}
+    <div class="modal fade" id="modalCreate" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Tambah Data Pendapatan Harian</h5>
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                    </button>
+                </div>
+
+                <form method="POST" action="/dashboard/pendapatan-harian">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="tanggal">Tanggal</label>
+                            <input type="date" class="form-control @error('tanggal') is-invalid @enderror" name="tanggal" id="tanggal" required>
+                            @error('tanggal')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="pendapatan">Pendapatan</label>
+                            <input type="number" class="form-control @error('pendapatan') is-invalid @enderror" name="pendapatan" id="pendapatan" placeholder="Pendapatan Harian..." required>
+                            @error('pendapatan')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="keterangan">Keterangan</label>
+                            <input type="text" class="form-control @error('keterangan') is-invalid @enderror" name="keterangan" id="keterangan" placeholder="Keterangan...">
+                            <small>Tidak Wajib Diisi.</small>
+                            @error('keterangan')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-undo"></i> Kembali</button>
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
 @endsection

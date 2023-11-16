@@ -31,7 +31,21 @@ class PendapatanHarianController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // return $request;
+        $validatedData = $request->validate([
+            'tanggal' => 'required',
+            'pendapatan' => 'required|integer',
+            'keterangan' => 'nullable'
+        ],[
+            'tanggal.required' => 'Tanggal Wajib Diisi !',
+            'pendapatan.required' => 'Pendapatan Wajib Diisi !',
+            'pendapatan.integer' => 'Pendapatan Harus Berupa Angka !',
+        ]);
+
+        PendapatanHarian::create($validatedData);
+
+        return redirect()->back()->with('success', 'Data Pendapatan Harian Berhasil Ditambah');
+
     }
 
     /**
