@@ -1,156 +1,267 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>{{ $title }}</title>
-    <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon.png">
-    <!-- Custom Stylesheet -->
-    <link href="/assets/plugins/tables/css/datatable/dataTables.bootstrap4.min.css" rel="stylesheet">
-    <link href="/assets/css/style.css" rel="stylesheet">
-
-</head>
-
-<body>
-
-    <!--*******************
-        Preloader start
-    ********************-->
-    <div id="preloader">
-        <div class="loader">
-            <svg class="circular" viewBox="25 25 50 50">
-                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
-            </svg>
+@extends('layout.layout')
+@section('content')
+<div class="content-body"> 
+    <div class="row page-titles mx-0">
+        <div class="col p-md-0">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+            </ol>
         </div>
     </div>
-    <!--*******************
-        Preloader end
-    ********************-->
 
-    
-    <!--**********************************
-        Main wrapper start
-    ***********************************-->
-    <div id="main-wrapper">
-
-        @include('layout.navbar')
-
-        @include('layout.sidebar')
-        
-        <div class="content-body"> 
-            <div class="row page-titles mx-0">
-            <div class="col p-md-0">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
-                    <li class="breadcrumb-item active"><a href="/dashboard">Home</a></li>
-                </ol>
-            </div>
-        </div>
-
+    @if (Auth::user()->jadwal || Auth::user()->level != 3)
         <div class="container-fluid">
             <div class="row">
-                <div class="col-12">
+                <div class="col-lg-6">
                     <div class="card">
                         <div class="card-body">
-                            <h1>Selamat Datang, {{ auth()->user()->name }}</h1>
+                            <div class="media align-items-center mb-4">
+                                @if (auth()->user()->foto)
+                                    <img src="{{ asset('storage/' . auth()->user()->foto) }}" height="80" width="80" alt="">
+                                @else
+                                    <img src="/assets/images/avatar/3.png" height="80" width="80" alt="">
+                                @endif
+                                <div class="media-body ml-3">
+                                    <h3 class="mb-0">{{ Auth()->user()->name }}</h3>
+                                    @if (Auth()->user()->level == 1)
+                                        <span class="badge badge-pill badge-danger">Admin</span>
+                                    @elseif (Auth()->user()->level == 2)
+                                        <span class="badge badge-pill badge-primary">Owner</span>
+                                    @else
+                                        <span class="badge badge-pill badge-success text-white">Pekerja</span>
+                                    @endif    
+                                </div>
+                            </div>
+                            @if (Auth::user()->level != 3)
+                                <h5>Selamat Datang, {{ Auth::user()->name }}  !</h5>
+                                <p class="text-muted">
+                                    Saat ini, terdapat {{ $jumlah_barang_masuk }} barang masuk dan {{ $jumlah_barang_keluar }} barang keluar yang belum di approve. Silahkan klik tombol disamping untuk menuju kehalaman.
+                                </p>
+                            @else
+
+                                <p>Jadwal Kehadiran : {{ Auth::user()->jadwal->waktu_mulai }} - {{ Auth::user()->jadwal->waktu_selesai }}</p>
+
+                                <div class="row"> 
+                                    @if (Auth::user()->isCheckedInToday())
+                                        <a href="#modalCheckout{{ auth()->user()->id }}" data-toggle="modal" class="btn btn-danger col-12">
+                                            <i class="fa-solid fa-check" style="color: #FFFFFF;"></i> Check Out !
+                                        </a>
+                                    @else
+                                        @if (auth::user()->ScheduleChecker() && !auth::user()->isCheckedOutToday())
+                                            <a href="#modalCheckin{{ auth()->user()->id }}" data-toggle="modal" class="btn btn-success text-white col-12">
+                                                <i class="fa-solid fa-check" style="color: #FFFFFF;"></i> Check In !
+                                            </a>
+                                        @else
+                                            <a href="#modalCheckin{{ auth()->user()->id }}" data-toggle="modal" class="btn btn-success text-white col-12 disabled">
+                                                <i class="fa-solid fa-check" style="color: #FFFFFF;"></i> Check In !
+                                            </a>
+                                        @endif
+                                        
+                                    @endif
+                                </div>
+                            @endif
+                        </div>
+                    </div>  
+                </div>
+
+                @if (Auth::user()->level == 3)
+                    <div class="col-lg-3 col-sm-3">
+                        <div class="card gradient-9">
+                            <div class="card-body text-center">
+                                <h3 class="card-title text-white mb-4">Status Gaji <br>Bulan Sebelumnya</h3>
+                                @if ($status_gaji_bln_sebelum)
+                                    <h1 class="mb-4"><span class="badge badge-pill badge-lg badge-success">
+                                        <i class="fa-solid fa-check" style="color: #FFFFFF;"></i>
+                                    </span></h1>
+                                    <h3 class="text-white">Rp. {{ number_format($status_gaji_bln_sebelum->gaji, 2) }}</h3>
+                                @else
+                                    <h1 class="mb-4"><span class="badge badge-pill badge-lg badge-danger">
+                                        <i class="fa-solid fa-xmark" style="color: #FFFFFF;"></i>
+                                    </span></h1>
+                                    <h3 class="text-white">-</h3>
+                                @endif
+                            </div>
                         </div>
                     </div>
-                </div>
+                    <div class="col-lg-3 col-sm-3">
+                        <div class="card gradient-3">
+                            <div class="card-body text-center">
+                                <h3 class="card-title text-white mb-4">Status Gaji <br>Bulan Ini</h3>
+                                @if ($status_gaji_bln_ini)
+                                    <h1 class="mb-4"><span class="badge badge-pill badge-lg badge-success">
+                                        <i class="fa-solid fa-check" style="color: #FFFFFF;"></i>
+                                    </span></h1>
+                                    <h3 class="text-white">Rp. {{ number_format($status_gaji_bln_ini->gaji, 2) }}</h3>
+                                @else
+                                    <h1 class="mb-4"><span class="badge badge-pill badge-lg badge-danger">
+                                        <i class="fa-solid fa-xmark" style="color: #FFFFFF;"></i>
+                                    </span></h1>
+                                    <h3 class="text-white">-</h3>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                @else
+                    <div class="col-lg-3 col-sm-3">
+                        <div class="card gradient-2">
+                            <div class="card-body">
+                                <h3 class="card-title text-white">Barang Masuk (Unapprove)</h3>
+                                <div class="d-inline-block">
+                                    <h2 class="text-white">{{ $jumlah_barang_masuk }}</h2>
+                                    <p class="text-white mb-0">
+                                        <a href="/dashboard/barang-masuk" class="btn gradient-2 border-0 btn-rounded">
+                                            <i class="fa-solid fa-box"></i> Approve Sekarang
+                                        </a>
+                                    </p>
+                                </div>
+                                <span class="float-right display-5 opacity-5"><i class="fa-solid fa-box"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-3">
+                        <div class="card gradient-3">
+                            <div class="card-body">
+                                <h3 class="card-title text-white">Barang Keluar (Unapprove)</h3>
+                                <div class="d-inline-block">
+                                    <h2 class="text-white">{{ $jumlah_barang_keluar }}</h2>
+                                    <p class="text-white mb-0">
+                                        <a href="/dashboard/barang-keluar" class="btn gradient-3 border-0 btn-rounded">
+                                            <i class="fa-solid fa-box"></i> Approve Sekarang
+                                        </a>
+                                    </p>
+                                </div>
+                                <span class="float-right display-5 opacity-5"><i class="fa-solid fa-box"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                @endif
             </div>
-        </div> 
+
+            @if(Auth::user()->level == 3)
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>Rekap Presensi Bulan Ini.</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered zero-configuration">
+                                        <thead>
+                                            <tr align="center">
+                                                <th>No</th>
+                                                <th>Nama</th>
+                                                <th>Waktu Check In</th>
+                                                <th>Waktu Check Out</th>
+                                                <th>Tanggal</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($kehadiran_karyawan as $row)
+                                                <tr>
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td>{{ $row->user->name }}</td>
+                                                    <td>{{ $row->waktu_masuk }}</td>
+                                                    <td>{{ $row->waktu_keluar }}</td>
+                                                    <td>{{ $row->date }}</td>
+                                                    <td>
+                                                        @if ($row->is_late == 1)
+                                                            <span class="badge badge-pill badge-danger">Terlambat</span>
+                                                        @else
+                                                            <span class="badge badge-pill badge-success text-white">Tepat Waktu</span>
+                                                        @endif
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>  
+                    </div>
+                </div>
+            @endif
         </div>
-        
-        @include('layout.footer')
-        
+    @else
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h1>OOPS !</h1>
+                        <h4>Anda Masih Belum Memiliki Jadwal Presensi, Silahkan Hubungi Admin / Owner Untuk <br> 
+                            Mendapatkan Jadwal Presensi.</h4>
+                    </div>
+                </div>  
+            </div>
+        </div>
     </div>
-    <!--**********************************
-        Main wrapper end
-    ***********************************-->
-
-    <!--**********************************
-        Scripts
-    ***********************************-->
-    <script src="/assets/plugins/common/common.min.js"></script>
-    <script src="/assets/js/custom.min.js"></script>
-    <script src="/assets/js/settings.js"></script>
-    <script src="/assets/js/gleek.js"></script>
-    <script src="/assets/js/styleSwitcher.js"></script>
-
-    <script src="/assets/plugins/tables/js/jquery.dataTables.min.js"></script>
-    <script src="/assets/plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>
-    <script src="/assets/plugins/tables/js/datatable-init/datatable-basic.min.js"></script>
-
-    {{-- Sweet Alert --}}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    @if (session('success'))
-        <script>
-            var SweetAlertDemo = function() {
-                var initDemos = function() {
-                    swal({
-                        title: "Success !",
-                        text: "{{ session('success') }}",
-                        icon: "success",
-                        buttons: {
-                            confirm: {
-                                text: "Konfirmasi",
-                                value: true,
-                                visible: true,
-                                className: "btn btn-success",
-                                closeModal: true,
-                            }
-                        }
-                    });
-                };
-
-                return {
-                    init: function() {
-                        initDemos();
-                    },
-                };
-            }();
-
-            jQuery(document).ready(function() {
-                SweetAlertDemo.init();
-            });
-        </script>
     @endif
 
-    @if (session('error'))
-        <script>
-            var SweetAlertDemo = function() {
-                var initDemos = function() {
-                    swal({
-                        title: "Error !",
-                        text: "{{ session('error') }}",
-                        icon: "error",
-                        buttons: {
-                            confirm: {
-                                text: "Konfirmasi",
-                                value: true,
-                                visible: true,
-                                className: "btn btn-success",
-                                closeModal: true,
-                            }
-                        }
-                    });
-                };
+    
 
-                return {
-                    init: function() {
-                        initDemos();
-                    },
-                };
-            }();
+    {{-- Modal Presensi Checkin --}}
+    <div class="modal fade" id="modalCheckin{{ auth()->user()->id }}" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Lakukan Check In !</h5>
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                    </button>
+                </div>                
 
-            jQuery(document).ready(function() {
-                SweetAlertDemo.init();
-            });
-        </script>
-    @endif
+                <form method="POST" action="/dashboard/presensi/checkin/{{ auth()->user()->id }}">
+                    @method('post')
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <h5>Pastikan waktu saat anda melakukan check in kehadiran.
+                                <br><br>
+                                Toleransi keterlambatan hanya 20 menit dari jadwal shift yang telah dibagikan pada masing-masing karyawan.
+                                <br>
+                                Apabila waktu check in melewati batas toleransi, maka anda akan tercatat dengan keterangan terlambat.
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary text-white" data-dismiss="modal"><i class="fa fa-undo" style="color: #FFFFFF;""></i> Close</button>
+                        <button type="submit" class="btn btn-success text-white"><i class="fa-solid fa-check" style="color: #FFFFFF;"></i> Check In !</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
-</body>
+    {{-- Modal Presensi Checkout --}}
+    <div class="modal fade" id="modalCheckout{{ auth()->user()->id }}" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Lakukan Check In !</h5>
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                    </button>
+                </div>                
 
-</html>
+                <form method="POST" action="/dashboard/presensi/checkout/{{ auth()->user()->id }}">
+                    @method('put')
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <h5>
+                                Sebelum melakukan check out, pastikan semua tugas anda hari ini sudah tercatat kedalam sistem.
+                                <br><br>
+                                Setelah anda melakukan check out, maka anda tidak dapat masuk kedalam sistem hingga masuk jadwal shift anda berikutnya.
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-undo"></i> Close</button>
+                        <button type="submit" class="btn btn-danger"><i class="fa-solid fa-check" style="color: #FFFFFF;"></i> Check Out !</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection

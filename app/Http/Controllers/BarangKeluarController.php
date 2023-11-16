@@ -43,16 +43,16 @@ class BarangKeluarController extends Controller
                 'nama_sesi' => 'Nama Sesi Wajib Diisi!',
             ]
         );
-    
+
         try {
             // Tambahkan data barang masuk
             BarangKeluar::create([
                 'nama_sesi' => $validatedData['nama_sesi'],
-                'keterangan' => $validatedData['keterangan'],  
+                'keterangan' => $validatedData['keterangan'],
                 'user_id' => auth()->user()->id,
                 'status' => 'Menunggu',
             ]);
-    
+
             return redirect('/dashboard/barang-keluar')->with('success', 'Tambah Data Berhasil!');
         } catch (\Exception $e) {
             return back()->withInput()->with('error-store', 'Gagal menambahkan data. Pastikan input yang Anda masukkan benar.');
@@ -93,7 +93,7 @@ class BarangKeluarController extends Controller
 
             // Update atribut stok di tabel barang_masuks
             $barangKeluar->keterangan = $keterangan;
-            $barangKeluar->nama_sesi= $nama_sesi;
+            $barangKeluar->nama_sesi = $nama_sesi;
             $barangKeluar->save();
 
             return redirect()->back()->with('success', 'Edit Data Berhasil!');
@@ -105,14 +105,14 @@ class BarangKeluarController extends Controller
     public function acc($id)
     {
         $barangKeluar = BarangKeluar::find($id);
-    
+
         if ($barangKeluar) {
             $barangKeluar->status = 'ACC';
             $barangKeluar->save();
-    
+
             // Ambil semua item terkait dari list_barang_masuks yang sudah di-ACC
             $listBarangKeluarsACC = ListBarangKeluar::where('barang_keluar_id', $id)->get();
-    
+
             // Lakukan perhitungan total stok_sesudah untuk update stok di tabel barangs
             foreach ($listBarangKeluarsACC as $item) {
                 $barang = Barang::find($item->barang_id);
@@ -123,16 +123,16 @@ class BarangKeluarController extends Controller
             return redirect()->back()->with('success', 'Status ACC!');
         }
     }
-    
+
     public function notAcc($id)
     {
         $barangKeluar = BarangKeluar::find($id);
-        
+
         if ($barangKeluar) {
             $barangKeluar->status = 'Tidak ACC';
             $barangKeluar->save();
         }
-        
+
         return back()->with('notAcc', 'Status Tidak ACC!');
     }
 

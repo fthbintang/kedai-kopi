@@ -1,11 +1,5 @@
-{{-- DATA DASHBOARD & USER --}}
-<li class="nav-label"><b>Dashboard</b></li>
-<li>
-    <a href="/dashboard" aria-expanded="false">
-        <i class="icon-speedometer menu-icon"></i><span class="nav-text">Dashboard</span>
-    </a>
-</li>
-
+{{-- DATA PENGGUNA --}}
+<li class="nav-label"><b>Pengaturan Pengguna</b></li>
 <li>
     <a href="/dashboard/pengguna" aria-expanded="false">
         <i class="icon-speedometer menu-icon"></i><span class="nav-text">Data Pengguna</span>
@@ -22,13 +16,13 @@
 {{-- Karyawan Manajemen --}}
 <li class="nav-label"><b>Manajemen Karyawan</b></li>
 <li>
-    <a href="#" aria-expanded="false">
+    <a href="/dashboard/jadwal-karyawan" aria-expanded="false">
         <i class="icon-speedometer menu-icon"></i><span class="nav-text">Jadwal Karyawan</span>
     </a>
 </li>
 <li>
-    <a href="#" aria-expanded="false">
-        <i class="icon-speedometer menu-icon"></i><span class="nav-text">Gajih Karyawan</span>
+    <a href="/dashboard/gaji-karyawan" aria-expanded="false">
+        <i class="icon-speedometer menu-icon"></i><span class="nav-text">Gaji Karyawan</span>
     </a>
 </li>
 

@@ -1,7 +1,7 @@
 @extends('layout.layout')
 @section('content')
-    <div class="content-body"> 
-        <div class="row page-titles mx-0">
+<div class="content-body"> 
+    <div class="row page-titles mx-0">
         <div class="col p-md-0">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
@@ -56,6 +56,7 @@
             </div>
         </div>
     </div> 
+</div>
 
     {{-- Modal Create --}}
     <div class="modal fade" id="modalCreateBarangKeluar" tabindex="-1" role="dialog" aria-hidden="true">
