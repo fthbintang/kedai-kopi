@@ -15,6 +15,7 @@ use App\Http\Controllers\ListBarangMasukController;
 use App\Http\Controllers\ListBarangKeluarController;
 use App\Http\Controllers\PembelianTembakauController;
 use App\Http\Controllers\PresensiController;
+use App\Http\Controllers\ReportController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
@@ -84,4 +85,7 @@ Route::middleware(['auth', 'user-access:1|2'])->group(function () {
     // Karyawan Section
     Route::resource('/dashboard/jadwal-karyawan', JadwalController::class);
     Route::resource('/dashboard/gaji-karyawan', GajiController::class);
+
+    Route::get('/dashboard/generate-laporan', [ReportController::class, 'index']);
+    Route::post('/dashboard/generate-laporan/presensi', [ReportController::class, 'presensi']);
 });
