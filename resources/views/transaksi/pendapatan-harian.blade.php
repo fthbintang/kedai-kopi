@@ -110,4 +110,80 @@
         </div>
     </div>
 
+    {{-- Modal Edit --}}
+    @foreach ($pendapatans as $item)
+    <div class="modal fade" id="modalEdit{{ $item->id }}" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Data Pendapatan Harian</h5>
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                    </button>
+                </div>
+
+                <form method="POST" action="/dashboard/pendapatan-harian/{{ $item->id }}" enctype="multipart/form-data">
+                    @method('put')
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="tanggal">Tanggal</label>
+                            <input type="date" class="form-control @error('tanggal') is-invalid @enderror" value="{{ $item->tanggal }}" name="tanggal" id="tanggal" required>
+                            @error('tanggal')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="pendapatan">Pendapatan</label>
+                            <input type="number" class="form-control @error('pendapatan') is-invalid @enderror" value="{{ $item->pendapatan }}" name="pendapatan" id="pendapatan" placeholder="Pendapatan..." required>
+                            @error('pendapatan')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="keterangan">Keterangan</label>
+                            <input type="text" class="form-control @error('keterangan') is-invalid @enderror" value="{{ $item->keterangan }}" name="keterangan" id="keterangan" placeholder="Keterangan...">
+                            @error('keterangan')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-undo"></i> Kembali</button>
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    @endforeach
+
+    {{-- Modal Delete --}}
+    @foreach ($pendapatans as $item)
+    <div class="modal fade" id="modalDelete{{ $item->id }}" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Hapus Data Pendapatan Harian</h5>
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                    </button>
+                </div>                
+
+                <form method="POST" action="/dashboard/pendapatan-harian/{{ $item->id }}">
+                    @method('delete')
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <h5>Apakah Anda Ingin Menghapus Data Ini ?</h5>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-undo"></i> Close</button>
+                        <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Hapus</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+@endforeach
+
 @endsection

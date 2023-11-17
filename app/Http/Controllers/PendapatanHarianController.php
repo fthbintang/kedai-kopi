@@ -69,7 +69,18 @@ class PendapatanHarianController extends Controller
      */
     public function update(Request $request, PendapatanHarian $pendapatanHarian)
     {
-        //
+        $rules = [
+            'tanggal' => 'required',
+            'pendapatan' => 'required|integer',
+            'keterangan' => 'nullable'
+        ];
+
+        $validatedData = $request->validate($rules);
+
+        PendapatanHarian::where('id', $pendapatanHarian->id)
+            ->update($validatedData);
+
+        return redirect()->back()->with('success', 'Data Pendapatan Harian Berhasil Diubah');
     }
 
     /**
@@ -77,6 +88,8 @@ class PendapatanHarianController extends Controller
      */
     public function destroy(PendapatanHarian $pendapatanHarian)
     {
-        //
+        PendapatanHarian::destroy($pendapatanHarian->id);
+
+        return redirect()->back()->with('success', 'Data Berhasil Dihapus');
     }
 }
