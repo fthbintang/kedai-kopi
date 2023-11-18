@@ -91,4 +91,5 @@ Route::middleware(['auth', 'user-access:1|2'])->group(function () {
     Route::get('/dashboard/generate-laporan', [ReportController::class, 'index']);
     Route::post('/dashboard/generate-laporan/presensi', [ReportController::class, 'presensi']);
     Route::post('/dashboard/generate-laporan/gaji', [ReportController::class, 'gaji']);
+    Route::post('/dashboard/generate-laporan/pendapatan', [ReportController::class, 'pendapatan']);
 });

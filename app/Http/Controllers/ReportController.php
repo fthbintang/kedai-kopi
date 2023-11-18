@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use App\Exports\PresensiReport;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Models\PendapatanHarian;
+use App\Exports\PendapatanReport;
 
 class ReportController extends Controller
 {
@@ -86,4 +88,29 @@ class ReportController extends Controller
             return Excel::download(new GajiReport($query->get()), 'rekap_gaji_' . $date . '.xlsx');
         }
     }
+
+    public function pendapatan(Request $request)
+    {
+        $date = Carbon::parse($request->date)->format('Y-m');
+
+        // Ambil data pendapatan berdasarkan bulan dan tahun yang dipilih
+        $pendapatan = PendapatanHarian::whereYear('tanggal', Carbon::parse($date)->year)
+            ->whereMonth('tanggal', Carbon::parse($date)->month)
+            ->get();
+
+        // Check jika ada data pendapatan untuk bulan dan tahun yang dipilih
+        if ($pendapatan->isEmpty()) {
+            return redirect('/dashboard')->with('error', 'Tidak ada data pendapatan untuk bulan dan tahun yang dipilih.');
+        }
+
+        // Lakukan export ke Excel menggunakan class PendapatanReport
+        if ($request->ekstensi == 'pdf') {
+            return Excel::download(new PendapatanReport($pendapatan), 'laporan_pendapatan_' . $date . '.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+        } elseif ($request->ekstensi == 'csv') {
+            return Excel::download(new PendapatanReport($pendapatan), 'laporan_pendapatan_' . $date . '.csv', \Maatwebsite\Excel\Excel::CSV);
+        } else {
+            return Excel::download(new PendapatanReport($pendapatan), 'laporan_pendapatan_' . $date . '.xlsx');
+        }
+    }
+
 }
