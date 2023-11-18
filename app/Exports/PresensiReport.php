@@ -2,9 +2,6 @@
 
 namespace App\Exports;
 
-use DB;
-use App\Models\User;
-use Maatwebsite\Excel\Events\AfterSheet;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\WithMapping;
@@ -35,7 +32,7 @@ class PresensiReport implements FromCollection, WithHeadings, WithMapping, Shoul
     public function headings(): array
     {
         return [
-            ['No', 'Nama Karyawan', 'Status', 'Waktu Masuk', 'Waktu Keluar', 'Status Keterlambatan']
+            ['No', 'Nama Karyawan', 'Status', 'Date', 'Waktu Masuk', 'Waktu Keluar', 'Status Keterlambatan']
         ];
     }
 
@@ -60,6 +57,7 @@ class PresensiReport implements FromCollection, WithHeadings, WithMapping, Shoul
             $no,
             $row->name,
             $row->user_status,
+            $row->date,
             $row->waktu_masuk,
             $row->waktu_keluar,
             $row->is_late,
