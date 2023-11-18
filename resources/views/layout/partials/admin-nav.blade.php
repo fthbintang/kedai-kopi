@@ -68,12 +68,7 @@
 {{-- DATA LAPORAN --}}
 <li class="nav-label"><b>Laporan</b></li>
 <li>
-    <a href="#" aria-expanded="false">
-        <i class="icon-speedometer menu-icon"></i><span class="nav-text">Rekap Penjualan</span>
-    </a>
-</li>
-<li>
-    <a href="#" aria-expanded="false">
-        <i class="icon-speedometer menu-icon"></i><span class="nav-text">Rekap Kehadiran</span>
+    <a href="/dashboard/generate-laporan" aria-expanded="false">
+        <i class="icon-speedometer menu-icon"></i><span class="nav-text">Generate Laporan</span>
     </a>
 </li>
