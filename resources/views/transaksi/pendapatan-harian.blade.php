@@ -37,7 +37,7 @@
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $row->tanggal }}</td>
-                                            <td>{{ $row->pendapatan }}</td>
+                                            <td>Rp {{ number_format($row->pendapatan, 0, ',', '.') }}</td>
                                             <td>{{ $row->keterangan ?? 'Tidak ada Keterangan' }}</td>
                                             <td>
                                                 <a href="#modalEdit{{ $row->id }}" data-toggle="modal" class="btn btn-xs btn-primary">

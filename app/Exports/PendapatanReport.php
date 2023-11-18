@@ -8,10 +8,11 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\Exportable;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Events\AfterSheet;
 use Maatwebsite\Excel\Concerns\WithEvents;
 
-class PendapatanReport implements FromCollection, WithHeadings, ShouldAutoSize
+class PendapatanReport implements FromCollection, WithHeadings, ShouldAutoSize, WithStyles
 {
     use Exportable;
 
@@ -49,17 +50,33 @@ class PendapatanReport implements FromCollection, WithHeadings, ShouldAutoSize
         $collectionWithTotal = $filteredDataWithNumber->push([
             'No' => '',
             'Tanggal' => 'Total Pendapatan: ',
-            'Pendapatan' => '',
-            'Keterangan' => $totalPendapatan,
+            'Pendapatan' => 'Rp ' . number_format($totalPendapatan, 2, ',', '.'),
+            'Keterangan' => '',
         ]);
 
         return $collectionWithTotal;
     }
+
     
     public function headings(): array
     {
         return [
             ['No', 'Tanggal', 'Pendapatan', 'Keterangan']
+        ];
+    }
+
+    // Ini styling baris
+    public function styles(Worksheet $sheet)
+    {
+        return [
+            // Style the first row as bold text.
+            1    => ['font' => ['bold' => true]],
+
+            // Style the last row (Total Pendapatan) as bold text.
+            count($this->data) + 2 => ['font' => ['bold' => true]], // Adjust the row number accordingly
+
+            // Center align all cells within the specified range (A1:Dx)
+            'A1:D' . (count($this->data) + 2) => ['alignment' => ['horizontal' => 'center']],
         ];
     }
 }
