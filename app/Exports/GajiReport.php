@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use Maatwebsite\Excel\Events\AfterSheet;
+use Maatwebsite\Excel\Events\BeforeSheet;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithStyles;
@@ -12,6 +13,8 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Maatwebsite\Excel\Concerns\WithStrictNullComparison;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PHPUnit\Framework\Attributes\Before;
 
 class GajiReport implements FromCollection, WithHeadings, WithMapping, ShouldAutoSize, WithStyles, WithStrictNullComparison, WithEvents
 {
@@ -34,7 +37,7 @@ class GajiReport implements FromCollection, WithHeadings, WithMapping, ShouldAut
     public function headings(): array
     {
         return [
-            ['No', 'Nama Karyawan', 'Status', 'Date', 'Gaji', 'Status Gaji']
+            ['No', 'Nama Karyawan', 'Status', 'Date', 'Status Gaji', 'Gaji']
         ];
     }
 
@@ -44,6 +47,7 @@ class GajiReport implements FromCollection, WithHeadings, WithMapping, ShouldAut
         return [
             // Style the first row as bold text.
             1    => ['font' => ['bold' => true]],
+            2    => ['font' => ['bold' => true]],
         ];
     }
 
@@ -60,8 +64,8 @@ class GajiReport implements FromCollection, WithHeadings, WithMapping, ShouldAut
             $row->name,
             $row->user_status,
             $row->date,
-            $row->gaji,
             $row->is_paid,
+            $row->gaji,
         ];
     }
 
@@ -72,8 +76,8 @@ class GajiReport implements FromCollection, WithHeadings, WithMapping, ShouldAut
         $totals->name = 'Total Gaji'; // Or you can set it to 'Grand Total' or something else
         $totals->user_status = null; // You may adjust this based on your data type
         $totals->date = null;
-        $totals->gaji = collect($this->data)->sum('gaji');
         $totals->is_paid = null;
+        $totals->gaji = collect($this->data)->sum('gaji');
         // dd($totals);
         return $totals;
     }
@@ -87,9 +91,16 @@ class GajiReport implements FromCollection, WithHeadings, WithMapping, ShouldAut
                 $highestRow = $event->sheet->getHighestRow() + 1;
 
                 $totals = $this->calculateTotals();
-                $event->sheet->append([$totals->name, $totals->user_status, $totals->date, $totals->date, $totals->gaji, $totals->is_paid]);
+                $event->sheet->append([$totals->name, $totals->user_status, $totals->date, $totals->date, $totals->is_paid, $totals->gaji]);
 
-                $event->sheet->getDelegate()->getStyle("E2:E$highestRow")->getNumberFormat()->setFormatCode('_("Rp. "* #,##0.00_);_("Rp. "* -#,##0.00_)');
+                $event->sheet->getDelegate()->mergeCells("A$highestRow:E$highestRow")->getStyle("F2:F$highestRow")->getNumberFormat()->setFormatCode('_("Rp. "* #,##0.00_);_("Rp. "* -#,##0.00_)');
+            },
+            BeforeSheet::class => function (BeforeSheet $event) {
+                $sheet = $event->sheet->getDelegate();
+                
+                $sheet->mergeCells('A1:F1'); // Sesuaikan dengan range atau kolom yang diinginkan
+                $sheet->setCellValue('A1', 'Laporan Gaji'); // Set nilai untuk sel yang digabungkan
+                $sheet->getStyle('A1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER); // Mengatur rata tengah horizontal
             },
         ];
     }

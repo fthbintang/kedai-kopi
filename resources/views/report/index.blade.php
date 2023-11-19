@@ -160,13 +160,13 @@
                         <form method="POST" action="/dashboard/generate-laporan/pendapatan">
                             @csrf
                             <div class="row">
-                                <div class="col-2">
+                                <div class="col-5">
                                     <div class="form-group">
                                         <label for="datepickerPendapatan" class="form-label">Pilih Bulan dan Tahun*</label>
                                         <input type="text" name="date" id="datepicker3" class="form-control" required />
                                     </div>
                                 </div>
-                                                                <div class="col-2">
+                                <div class="col-5">
                                     <div class="form-group">
                                         <label for="ekstensi" class="form-label">Pilih Extensi Laporan*</label>
                                         <select class="form-control" name="ekstensi" id="ekstensi" required>
