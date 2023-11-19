@@ -17,6 +17,7 @@ class PendapatanReport implements FromCollection, WithHeadings, ShouldAutoSize, 
     use Exportable;
 
     protected $data;
+    protected $selectedDate;
 
     public function __construct(Collection $data)
     {
@@ -32,7 +33,6 @@ class PendapatanReport implements FromCollection, WithHeadings, ShouldAutoSize, 
             return $item;
         });
 
-        // Menambahkan nomor urut pada setiap item dalam koleksi
         $filteredDataWithNumber = $filteredData->map(function ($item, $index) {
             // Ubah instance model menjadi array
             $itemArray = $item instanceof \App\Models\PendapatanHarian ? $item->toArray() : (array) $item;
@@ -40,8 +40,15 @@ class PendapatanReport implements FromCollection, WithHeadings, ShouldAutoSize, 
             // Hapus kolom 'ID' dari array jika ada
             unset($itemArray['id']); // Ubah 'id' dengan nama kolom ID sesuai kebutuhan Anda
             
+            // Format nilai pendapatan menjadi mata uang Rupiah
+            $formattedPendapatan = 'Rp ' . number_format($itemArray['pendapatan'], 2, ',', '.');
+            
+            // Masukkan kembali nilai pendapatan yang diformat ke dalam array
+            $itemArray['pendapatan'] = $formattedPendapatan;
+            
             return array_merge(['No' => $index + 1], $itemArray);
         });
+        
 
         // Menghitung total pendapatan
         $totalPendapatan = $filteredData->sum('pendapatan');
