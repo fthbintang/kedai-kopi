@@ -10,6 +10,7 @@ use App\Models\BarangMasuk;
 use App\Models\BarangKeluar;
 use App\Models\ListBarangMasuk;
 use App\Models\ListBarangKeluar;
+use App\Models\PendapatanHarian;
 
 class DatabaseSeeder extends Seeder
 {
@@ -95,13 +96,13 @@ class DatabaseSeeder extends Seeder
         //     'keterangan' => 'Ini adalah keterangan yang kedua'
         // ]);
 
-        ListBarangMasuk::create([
-            'barang_id' => 1,
-            'barang_masuk_id' => 1,
-            'stok_masuk' => 1,
-            'stok_sebelum' => 10,
-            'stok_sesudah' => 11,
-        ]);
+        // ListBarangMasuk::create([
+        //     'barang_id' => 1,
+        //     'barang_masuk_id' => 1,
+        //     'stok_masuk' => 1,
+        //     'stok_sebelum' => 10,
+        //     'stok_sesudah' => 11,
+        // ]);
 
         // ListBarangMasuk::create([
         //     'barang_id' => 1,
@@ -119,32 +120,37 @@ class DatabaseSeeder extends Seeder
         //     'stok_sesudah' => 50,
         // ]);
 
-        BarangKeluar::create([
-            'nama_sesi' => 'Pengurangan 2 Stok',
-            'user_id' => 1,
-            'status' => 'Menunggu',
-        ]);
+        // BarangKeluar::create([
+        //     'nama_sesi' => 'Pengurangan 2 Stok',
+        //     'user_id' => 1,
+        //     'status' => 'Menunggu',
+        // ]);
 
-        BarangKeluar::create([
-            'nama_sesi' => 'Pengurangan 5 Stok',
-            'user_id' => 1,
-            'status' => 'Menunggu', 
-        ]);
+        // BarangKeluar::create([
+        //     'nama_sesi' => 'Pengurangan 5 Stok',
+        //     'user_id' => 1,
+        //     'status' => 'Menunggu', 
+        // ]);
 
-        ListBarangKeluar::create([
-            'barang_id' => 2,
-            'barang_keluar_id' => 1,
-            'stok_keluar' => 50,
-            'stok_sebelum' => 50,
-            'stok_sesudah' => 50,
-        ]);
+        // ListBarangKeluar::create([
+        //     'barang_id' => 2,
+        //     'barang_keluar_id' => 1,
+        //     'stok_keluar' => 50,
+        //     'stok_sebelum' => 50,
+        //     'stok_sesudah' => 50,
+        // ]);
 
-        ListBarangKeluar::create([
-            'barang_id' => 3,
-            'barang_keluar_id' => 2,
-            'stok_keluar' => 50,
-            'stok_sebelum' => 50,
-            'stok_sesudah' => 50,
+        // ListBarangKeluar::create([
+        //     'barang_id' => 3,
+        //     'barang_keluar_id' => 2,
+        //     'stok_keluar' => 50,
+        //     'stok_sebelum' => 50,
+        //     'stok_sesudah' => 50,
+        // ]);
+
+        PendapatanHarian::create([
+            'tanggal' => now()->toDateString(),
+            'pendapatan' => 500000,
         ]);
 
     }

@@ -43,9 +43,13 @@
                                             <td>{{ $row->unit }}</td>
                                             <td>{{ $row->jenis }}</td>
                                             <td>
-                                                <a href="#" data-toggle="modal" data-target="#gambarModal{{ $row->id }}">
-                                                    <img src="{{ asset('storage/' . $row->gambar) }}" class="col-sm-5" alt="gambar" style="max-width: 100px; height: auto;">
-                                                </a>
+                                                @if($row->gambar)
+                                                    <a href="#" data-toggle="modal" data-target="#gambarModal{{ $row->id }}">
+                                                        <img src="{{ asset('storage/' . $row->gambar) }}" class="col-sm-5" alt="gambar" style="max-width: 100px; height: auto;">
+                                                    </a>
+                                                @else
+                                                    Tidak ada gambar barang
+                                                @endif
                                             </td>
                                             <td>
                                                 <a href="#modalEdit{{ $row->id }}" data-toggle="modal" class="btn btn-xs btn-primary">

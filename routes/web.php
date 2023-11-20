@@ -14,6 +14,7 @@ use App\Http\Controllers\PembelianKopiController;
 use App\Http\Controllers\ListBarangMasukController;
 use App\Http\Controllers\ListBarangKeluarController;
 use App\Http\Controllers\PembelianTembakauController;
+use App\Http\Controllers\PendapatanHarianController;
 use App\Http\Controllers\PresensiController;
 use App\Http\Controllers\ReportController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
@@ -74,6 +75,7 @@ Route::middleware(['auth', 'user-access:1|3', 'checked-in'])->group(function () 
     Route::get('/dashboard/barang-keluar/{id}/not-acc', [BarangKeluarController::class, 'notAcc']);
 
     // Transaksi
+    Route::resource('/dashboard/pendapatan-harian', PendapatanHarianController::class);
     Route::get('/dashboard/pembelian-kopi', [PembelianKopiController::class, 'index']);
     Route::get('/dashboard/pembelian-tembakau', [PembelianTembakauController::class, 'index']);
 });
@@ -89,4 +91,7 @@ Route::middleware(['auth', 'user-access:1|2'])->group(function () {
     Route::get('/dashboard/generate-laporan', [ReportController::class, 'index']);
     Route::post('/dashboard/generate-laporan/presensi', [ReportController::class, 'presensi']);
     Route::post('/dashboard/generate-laporan/gaji', [ReportController::class, 'gaji']);
+    Route::post('/dashboard/generate-laporan/pendapatan', [ReportController::class, 'pendapatan']);
+    Route::post('/dashboard/generate-laporan/barang-masuk', [ReportController::class, 'barangMasuk']);
+    Route::post('/dashboard/generate-laporan/barang-keluar', [ReportController::class, 'barangKeluar']);
 });

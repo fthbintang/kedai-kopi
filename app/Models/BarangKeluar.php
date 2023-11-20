@@ -15,8 +15,8 @@ class BarangKeluar extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function BarangKeluar()
+    public function ListBarangKeluar()
     {
-        return $this->hasMany(BarangKeluar::class);
+        return $this->hasMany(ListBarangKeluar::class);
     }
 }
