@@ -189,6 +189,92 @@
         </div>
     </div>
 
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="d-flex align-item-center">
+                            <h3 class="card-title">Generate Laporan Stok Barang Masuk</h3>
+                        </div> 
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="/dashboard/generate-laporan/barang-masuk">
+                            @csrf
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="datepicker" class="form-label">Pilih Bulan dan Tahun*</label>
+                                        <input type="text" name="date" id="datepicker4" class="form-control" required/>
+                                    </div>
+                                </div>
+
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="ekstensi" class="form-label">Pilih Extensi Laporan*</label>
+                                        <select class="form-control" name="ekstensi" id="ekstensi" required>
+                                            <option value="">-Pilih-</option>
+                                            <option value="pdf">PDF</option>
+                                            <option value="csv">CSV</option>
+                                            <option value="excel">Excel</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary form-control"><i class="fa-solid fa-print"></i> Generate</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="d-flex align-item-center">
+                            <h3 class="card-title">Generate Laporan Stok Barang Keluar</h3>
+                        </div> 
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="/dashboard/generate-laporan/gaji">
+                            @csrf
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="datepicker" class="form-label">Pilih Bulan dan Tahun*</label>
+                                        <input type="text" name="date" id="datepicker5" class="form-control" required/>
+                                    </div>
+                                </div>
+
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="ekstensi" class="form-label">Pilih Extensi Laporan*</label>
+                                        <select class="form-control" name="ekstensi" id="ekstensi" required>
+                                            <option value="">-Pilih-</option>
+                                            <option value="pdf">PDF</option>
+                                            <option value="csv">CSV</option>
+                                            <option value="excel">Excel</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary form-control"><i class="fa-solid fa-print"></i> Generate</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <script>
@@ -205,6 +291,18 @@
     });
 
     $("#datepicker3").datepicker({
+        format: "MM - yyyy",
+        viewMode: "months", 
+        minViewMode: "months"
+    });
+
+    $("#datepicker4").datepicker({
+        format: "MM - yyyy",
+        viewMode: "months", 
+        minViewMode: "months"
+    });
+
+    $("#datepicker5").datepicker({
         format: "MM - yyyy",
         viewMode: "months", 
         minViewMode: "months"
