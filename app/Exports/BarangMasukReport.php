@@ -19,6 +19,7 @@ class BarangMasukReport implements FromCollection, WithHeadings, ShouldAutoSize,
         $data = DB::table('list_barang_masuks')
             ->join('barang_masuks', 'list_barang_masuks.barang_masuk_id', '=', 'barang_masuks.id')
             ->join('barangs', 'list_barang_masuks.barang_id', '=', 'barangs.id')
+            ->where('barang_masuks.status', 'ACC')
             ->select(
                 'barang_masuks.nama_sesi',
                 'barangs.nama_barang',
@@ -59,12 +60,13 @@ class BarangMasukReport implements FromCollection, WithHeadings, ShouldAutoSize,
     {
         return [
             AfterSheet::class => function (AfterSheet $event) {
-                $highestRow = $event->sheet->getHighestRow();
+                $sheet = $event->sheet;
+                $highestRow = $sheet->getHighestRow();
                 $currentSesi = null;
                 $mergeStart = 2;
-
+    
                 // Formatting heading (membuat teks tebal dan rata tengah)
-                $event->sheet->getStyle('A1:F1')->applyFromArray([
+                $sheet->getStyle('A1:F1')->applyFromArray([
                     'font' => [
                         'bold' => true,
                     ],
@@ -72,63 +74,45 @@ class BarangMasukReport implements FromCollection, WithHeadings, ShouldAutoSize,
                         'horizontal' => Alignment::HORIZONTAL_CENTER,
                     ],
                 ]);
-
+    
                 // Membuat isi kolom menjadi rata tengah
-                $event->sheet->getStyle('A2:F' . $highestRow)->applyFromArray([
+                $sheet->getStyle('A2:F' . $highestRow)->applyFromArray([
                     'alignment' => [
                         'horizontal' => Alignment::HORIZONTAL_CENTER,
                         'vertical' => Alignment::VERTICAL_CENTER,
                     ],
                 ]);
-
-                // Menambahkan baris kosong untuk setiap nama sesi baru
-                for ($row = $mergeStart; $row <= $highestRow; $row++) {
-                    $sesi = $event->sheet->getCell('A' . $row)->getValue();
-                
-                    if ($sesi !== $currentSesi) {
-                        if ($currentSesi !== null) { 
-                            $event->sheet->insertNewRowBefore($row, 1);
-                            $highestRow++;
-                            $row++;
-                        }
-                
-                        $currentSesi = $sesi;
-                    }
-                }
-
-                // Menggabungkan kolom 'Nama Sesi'
-                for ($row = $mergeStart; $row <= $highestRow; $row++) {
-                    $sesi = $event->sheet->getCell('A' . $row)->getValue();
-
+    
+                // Menggabungkan kolom 'Nama Sesi' jika sama
+                for ($row = 2; $row <= $highestRow; $row++) {
+                    $sesi = $sheet->getCell('A' . $row)->getValue();
+    
                     if ($sesi !== $currentSesi) {
                         if ($currentSesi !== null) {
-                            $mergeEnd = $row - 1;
-
-                            if ($mergeStart !== $mergeEnd) {
-                                $event->sheet->mergeCells("A$mergeStart:A$mergeEnd");
-                            }
+                            $sheet->mergeCells("A$mergeStart:A" . ($row - 1));
                         }
-
-                        $mergeStart = $row;
+    
                         $currentSesi = $sesi;
+                        $mergeStart = $row;
                     }
                 }
-
+    
                 // Merge untuk kasus terakhir (jika diperlukan)
                 if ($mergeStart !== $highestRow) {
-                    $event->sheet->mergeCells("A$mergeStart:A$highestRow");
+                    $sheet->mergeCells("A$mergeStart:A$highestRow");
                 }
-
+    
                 // Contoh pengaturan lebar kolom secara manual
-                $event->sheet->getColumnDimension('A')->setWidth(20);
-                $event->sheet->getColumnDimension('B')->setWidth(30);
+                $sheet->getColumnDimension('A')->setWidth(20);
+                $sheet->getColumnDimension('B')->setWidth(30);
                 // ... dan seterusnya untuk setiap kolom
-
+    
                 // Contoh pengaturan ukuran kertas pada saat ekspor PDF
-                $event->sheet->getDelegate()->getPageSetup()->setOrientation(PageSetup::ORIENTATION_LANDSCAPE);
-                $event->sheet->getDelegate()->getPageSetup()->setFitToWidth(1);
-                $event->sheet->getDelegate()->getPageSetup()->setFitToHeight(0);
+                $sheet->getDelegate()->getPageSetup()->setOrientation(PageSetup::ORIENTATION_LANDSCAPE);
+                $sheet->getDelegate()->getPageSetup()->setFitToWidth(1);
+                $sheet->getDelegate()->getPageSetup()->setFitToHeight(0);
             }
         ];
     }
+    
 }
