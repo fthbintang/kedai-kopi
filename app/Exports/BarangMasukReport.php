@@ -9,6 +9,8 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Events\AfterSheet;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use Maatwebsite\Excel\Sheet;
+use PhpOffice\PhpSpreadsheet\Worksheet\PageSetup;
 
 class BarangMasukReport implements FromCollection, WithHeadings, ShouldAutoSize, WithEvents
 {
@@ -82,14 +84,14 @@ class BarangMasukReport implements FromCollection, WithHeadings, ShouldAutoSize,
                 // Menambahkan baris kosong untuk setiap nama sesi baru
                 for ($row = $mergeStart; $row <= $highestRow; $row++) {
                     $sesi = $event->sheet->getCell('A' . $row)->getValue();
-
+                
                     if ($sesi !== $currentSesi) {
-                        if ($currentSesi !== null) {
+                        if ($currentSesi !== null) { 
                             $event->sheet->insertNewRowBefore($row, 1);
                             $highestRow++;
                             $row++;
                         }
-
+                
                         $currentSesi = $sesi;
                     }
                 }
@@ -116,6 +118,16 @@ class BarangMasukReport implements FromCollection, WithHeadings, ShouldAutoSize,
                 if ($mergeStart !== $highestRow) {
                     $event->sheet->mergeCells("A$mergeStart:A$highestRow");
                 }
+
+                // Contoh pengaturan lebar kolom secara manual
+                $event->sheet->getColumnDimension('A')->setWidth(20);
+                $event->sheet->getColumnDimension('B')->setWidth(30);
+                // ... dan seterusnya untuk setiap kolom
+
+                // Contoh pengaturan ukuran kertas pada saat ekspor PDF
+                $event->sheet->getDelegate()->getPageSetup()->setOrientation(PageSetup::ORIENTATION_LANDSCAPE);
+                $event->sheet->getDelegate()->getPageSetup()->setFitToWidth(1);
+                $event->sheet->getDelegate()->getPageSetup()->setFitToHeight(0);
             }
         ];
     }
