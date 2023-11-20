@@ -11,6 +11,7 @@ use Maatwebsite\Excel\Concerns\WithEvents;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use Maatwebsite\Excel\Sheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\PageSetup;
+use Maatwebsite\Excel\Events\BeforeSheet;
 
 class BarangMasukReport implements FromCollection, WithHeadings, ShouldAutoSize, WithEvents
 {
@@ -59,6 +60,23 @@ class BarangMasukReport implements FromCollection, WithHeadings, ShouldAutoSize,
     public function registerEvents(): array
     {
         return [
+            BeforeSheet::class => function (BeforeSheet $event) {
+                $sheet = $event->sheet;
+    
+                // Menambahkan judul di atas tabel
+                $sheet->mergeCells('A1:F1');
+                $sheet->setCellValue('A1', 'Data Laporan Stok Barang Masuk');
+    
+                // Format judul (teks tebal dan rata tengah)
+                $sheet->getStyle('A1:F1')->applyFromArray([
+                    'font' => [
+                        'bold' => true,
+                    ],
+                    'alignment' => [
+                        'horizontal' => Alignment::HORIZONTAL_CENTER,
+                    ],
+                ]);
+            },
             AfterSheet::class => function (AfterSheet $event) {
                 $sheet = $event->sheet;
                 $highestRow = $sheet->getHighestRow();
