@@ -13,6 +13,8 @@ use App\Models\PendapatanHarian;
 use App\Exports\PendapatanReport;
 use App\Models\BarangMasuk;
 use App\Exports\BarangMasukReport;
+use App\Models\BarangKeluar;
+use App\Exports\BarangKeluarReport;
 
 class ReportController extends Controller
 {
@@ -140,5 +142,31 @@ class ReportController extends Controller
             return Excel::download(new BarangMasukReport($barangMasuk), 'laporan_barang_masuk_' . $date . '.xlsx');
         }
     }
+
+        // Ini Report Buat Barang Keluar
+        public function barangKeluar(Request $request)
+        {
+            $date = Carbon::parse($request->date)->format('Y-m');
+    
+            // Ambil data barang keluar berdasarkan bulan dan tahun yang dipilih
+            $barangKeluar = BarangKeluar::with(['listBarangKeluar.barang'])
+                ->whereYear('created_at', Carbon::parse($date)->year)
+                ->whereMonth('created_at', Carbon::parse($date)->month)
+                ->get();
+    
+            // Check jika ada data barang masuk untuk bulan dan tahun yang dipilih
+            if ($barangKeluar->isEmpty()) {
+                return redirect('/dashboard')->with('error', 'Tidak ada data barang keluar untuk bulan dan tahun yang dipilih.');
+            }
+    
+            // Lakukan export ke Excel menggunakan class BarangMasukReport
+            if ($request->ekstensi == 'pdf') {
+                return Excel::download(new BarangKeluarReport($barangKeluar), 'laporan_barang_keluar_' . $date . '.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+            } elseif ($request->ekstensi == 'csv') {
+                return Excel::download(new BarangKeluarReport($barangKeluar), 'laporan_barang_keluar_' . $date . '.csv', \Maatwebsite\Excel\Excel::CSV);
+            } else {
+                return Excel::download(new BarangKeluarReport($barangKeluar), 'laporan_barang_keluar_' . $date . '.xlsx');
+            }
+        }
 
 }

@@ -240,7 +240,7 @@
                         </div> 
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="/dashboard/generate-laporan/gaji">
+                        <form method="POST" action="/dashboard/generate-laporan/barang-keluar">
                             @csrf
                             <div class="row">
                                 <div class="col-6">
