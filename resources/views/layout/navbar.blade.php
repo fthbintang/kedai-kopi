@@ -3,9 +3,10 @@
         ***********************************-->
         <div class="nav-header">
             <div class="brand-logo">
-                <a href="index.html">
-                    <span class="brand-title" style="color: white; font-size: 20px;">
-                        Kedai Kopi
+                <a href="/dashboard">
+                    <span class="brand-title" style="color: white; font-size: 16px;">
+                        <img src="{{ asset('assets/images/favicon.png')}}" height="40px" alt="">
+                        Kota Lama Coffee
                     </span>
                 </a>
             </div>

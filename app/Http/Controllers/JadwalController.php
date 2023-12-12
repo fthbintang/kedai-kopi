@@ -36,23 +36,33 @@ class JadwalController extends Controller
         $validatedData = $request->validate(
             [
                 'create_user_id' => 'required',
-                'create_waktu_mulai' => 'required',
-                'create_waktu_selesai' => 'required',
+                'create_shift' => 'required',
             ],
             [
                 // Name custom message for validation
                 'create_name.required' => 'Nama Karyawan Wajib Diisi !',
-                'create_waktu_mulai.required' => 'Waktu Mulai Wajib Diisi !',
-                'create_waktu_selesai.required' => 'Waktu Selesai Wajib Diisi !',
+                'create_shift.required' => 'Shift Wajib Diisi !',
             ],
         );
 
         try {
+
+            if ($validatedData['create_shift'] == 'shift-1') {
+                $waktu_mulai = "08:00:00";
+                $waktu_selesai = "15:30:00";
+            } else if ($validatedData['create_shift'] == 'shift-2') {
+                $waktu_mulai = "15:30:00";
+                $waktu_selesai = "23:00:00";
+            } else {
+                $waktu_mulai = "Libur";
+                $waktu_selesai = "Libur";
+            }
+
             // Simpan data ke database
             Jadwal::create([
                 'user_id'           => $validatedData['create_user_id'],
-                'waktu_mulai'       => $validatedData['create_waktu_mulai'],
-                'waktu_selesai'     => $validatedData['create_waktu_selesai'],
+                'waktu_mulai'       => $waktu_mulai,
+                'waktu_selesai'     => $waktu_selesai,
             ]);
 
             return redirect('/dashboard/jadwal-karyawan')->with('success', 'Tambah Jadwal Berhasil!');
@@ -85,22 +95,32 @@ class JadwalController extends Controller
         $validatedData = $request->validate(
             [
                 'edit_name' => 'required',
-                'edit_waktu_mulai' => 'required',
-                'edit_waktu_selesai' => 'required',
+                'edit_shift' => 'required',
             ],
             [
                 // Name custom message for validation
                 'edit_name.required' => 'Nama Karyawan Wajib Diisi !',
-                'edit_waktu_mulai.required' => 'Waktu Mulai Wajib Diisi !',
-                'edit_waktu_selesai.required' => 'Waktu Selesai Wajib Diisi !',
+                'edit_shift.required' => 'Shift Wajib Diisi !',
             ],
         );
 
         try {
             // Simpan data user ke database
+
+            if ($validatedData['edit_shift'] == 'shift-1') {
+                $waktu_mulai = "08:00:00";
+                $waktu_selesai = "15:30:00";
+            } else if ($validatedData['edit_shift'] == 'shift-2') {
+                $waktu_mulai = "15:30:00";
+                $waktu_selesai = "23:00:00";
+            } else {
+                $waktu_mulai = "Libur";
+                $waktu_selesai = "Libur";
+            }
+
             $update = [
-                'waktu_mulai'   => $validatedData['edit_waktu_mulai'],
-                'waktu_selesai' => $validatedData['edit_waktu_selesai'],
+                'waktu_mulai'   => $waktu_mulai,
+                'waktu_selesai' => $waktu_selesai,
             ];
 
             Jadwal::where('id', $id)->update($update);

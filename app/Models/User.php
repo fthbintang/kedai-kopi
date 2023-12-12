@@ -104,6 +104,8 @@ class User extends Authenticatable
 
         if ($thisTime >= $waktuMulai && $thisTime <= $waktuSelesai) {
             return 1;
+        } else if ($waktuMulai == "Libur" || $waktuSelesai == "Libur") {
+            return 0;
         } else {
             return 0;
         }
