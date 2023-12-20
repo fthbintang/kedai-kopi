@@ -89,11 +89,20 @@ class GajiReport implements FromCollection, WithHeadings, WithMapping, ShouldAut
             AfterSheet::class => function (AfterSheet $event) {
                 // Get the highest row number
                 $highestRow = $event->sheet->getHighestRow() + 1;
+                $sheet = $event->sheet;
+                // $highestRowBaru = $sheet->getHighestRow();
 
                 $totals = $this->calculateTotals();
                 $event->sheet->append([$totals->name, $totals->user_status, $totals->date, $totals->date, $totals->is_paid, $totals->gaji]);
 
                 $event->sheet->getDelegate()->mergeCells("A$highestRow:E$highestRow")->getStyle("F2:F$highestRow")->getNumberFormat()->setFormatCode('_("Rp. "* #,##0.00_);_("Rp. "* -#,##0.00_)');
+
+                $sheet->getStyle('A2:F' . $highestRow)->applyFromArray([
+                    'alignment' => [
+                        'horizontal' => Alignment::HORIZONTAL_CENTER,
+                        'vertical' => Alignment::VERTICAL_CENTER,
+                    ],
+                ]);
             },
             BeforeSheet::class => function (BeforeSheet $event) {
                 $sheet = $event->sheet->getDelegate();
@@ -101,6 +110,20 @@ class GajiReport implements FromCollection, WithHeadings, WithMapping, ShouldAut
                 $sheet->mergeCells('A1:F1'); // Sesuaikan dengan range atau kolom yang diinginkan
                 $sheet->setCellValue('A1', 'Laporan Gaji'); // Set nilai untuk sel yang digabungkan
                 $sheet->getStyle('A1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER); // Mengatur rata tengah horizontal
+
+                // Menambahkan judul di atas tabel
+                $sheet->mergeCells('A1:F1');
+                $sheet->setCellValue('A1', 'Data Laporan Gaji Karyawan');
+    
+                // Format judul (teks tebal dan rata tengah)
+                $sheet->getStyle('A1:F1')->applyFromArray([
+                    'font' => [
+                        'bold' => true,
+                    ],
+                    'alignment' => [
+                        'horizontal' => Alignment::HORIZONTAL_CENTER,
+                    ],
+                ]);
             },
         ];
     }

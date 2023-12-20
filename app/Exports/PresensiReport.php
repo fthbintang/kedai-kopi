@@ -8,10 +8,15 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithEvents;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Maatwebsite\Excel\Concerns\WithStrictNullComparison;
+use Maatwebsite\Excel\Events\BeforeSheet;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use Maatwebsite\Excel\Events\AfterSheet;
+use PhpOffice\PhpSpreadsheet\Worksheet\PageSetup;
 
-class PresensiReport implements FromCollection, WithHeadings, WithMapping, ShouldAutoSize, WithStyles, WithStrictNullComparison
+class PresensiReport implements FromCollection, WithHeadings, WithMapping, ShouldAutoSize, WithStyles, WithStrictNullComparison, WithEvents
 {
     use Exportable;
 
@@ -61,6 +66,45 @@ class PresensiReport implements FromCollection, WithHeadings, WithMapping, Shoul
             $row->waktu_masuk,
             $row->waktu_keluar,
             $row->is_late,
+        ];
+    }
+
+    public function registerEvents(): array
+    {
+        return [
+            BeforeSheet::class => function (BeforeSheet $event) {
+                $sheet = $event->sheet;
+    
+                // Menambahkan judul di atas tabel
+                $sheet->mergeCells('A1:G1');
+                $sheet->setCellValue('A1', 'Data Laporan Presensi');
+    
+                // Format judul (teks tebal dan rata tengah)
+                $sheet->getStyle('A1:G1')->applyFromArray([
+                    'font' => [
+                        'bold' => true,
+                    ],
+                    'alignment' => [
+                        'horizontal' => Alignment::HORIZONTAL_CENTER,
+                    ],
+                ]);
+            },
+            AfterSheet::class => function (AfterSheet $event) {
+                // Membuat isi kolom menjadi rata tengah
+                $sheet = $event->sheet;
+                $highestRow = $sheet->getHighestRow();
+                $sheet->getStyle('A2:G' . $highestRow)->applyFromArray([
+                    'alignment' => [
+                        'horizontal' => Alignment::HORIZONTAL_CENTER,
+                        'vertical' => Alignment::VERTICAL_CENTER,
+                    ],
+                ]);
+    
+                // Contoh pengaturan ukuran kertas pada saat ekspor PDF
+                $sheet->getDelegate()->getPageSetup()->setOrientation(PageSetup::ORIENTATION_LANDSCAPE);
+                $sheet->getDelegate()->getPageSetup()->setFitToWidth(1);
+                $sheet->getDelegate()->getPageSetup()->setFitToHeight(0);
+            }
         ];
     }
 
