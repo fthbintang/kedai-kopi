@@ -134,9 +134,9 @@
                                     <tr align="center">
                                         <th>No</th>
                                         <th>Nama Barang</th>
-                                        <th>Stok Sebelum</th> 
+                                        <th>Stok Awal</th> 
                                         <th>Stok Keluar</th>
-                                        <th>Stok Sesudah</th>
+                                        <th>Stok Final</th>
                                         <th>Waktu Keluar</th>
                                         @if ($barangKeluar->status != 'ACC')
                                             <th>Aksi</th>
