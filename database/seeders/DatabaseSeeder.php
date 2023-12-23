@@ -26,13 +26,6 @@ class DatabaseSeeder extends Seeder
             'level' => '1'
         ]);
 
-        // User::create([
-        //     'name' => 'Ahmad Ariyanur Rahman',
-        //     'username' => 'ari',
-        //     'password' => bcrypt('ari'),
-        //     'level' => '1'
-        // ]);
-
         User::create([
             'name' => 'Owner',
             'username' => 'owner',
@@ -152,6 +145,5 @@ class DatabaseSeeder extends Seeder
             'tanggal' => now()->toDateString(),
             'pendapatan' => 500000,
         ]);
-
     }
 }
