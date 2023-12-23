@@ -18,7 +18,7 @@ class PresensiController extends Controller
             $waktuMasuk = $user->jadwal->waktu_mulai;
             $is_late = 0;
 
-            if (Carbon::now('GMT+8')->format('h:i:s') > Carbon::parse($waktuMasuk)->addMinutes(20)->format('h:i:s')) {
+            if (Carbon::now('GMT+8')->format('H:i:s') > Carbon::parse($waktuMasuk)->addMinutes(20)->format('H:i:s')) {
                 $is_late = 1;
             }
 
