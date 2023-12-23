@@ -20,16 +20,9 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         User::create([
-            'name' => 'Muhammad Bintang Fathehah',
-            'username' => 'bintang',
-            'password' => bcrypt('bintang'),
-            'level' => '1'
-        ]);
-
-        User::create([
-            'name' => 'Ahmad Ariyanur Rahman',
-            'username' => 'ari',
-            'password' => bcrypt('ari'),
+            'name' => 'admin',
+            'username' => 'admin',
+            'password' => bcrypt('admin'),
             'level' => '1'
         ]);
 
@@ -152,6 +145,5 @@ class DatabaseSeeder extends Seeder
             'tanggal' => now()->toDateString(),
             'pendapatan' => 500000,
         ]);
-
     }
 }
