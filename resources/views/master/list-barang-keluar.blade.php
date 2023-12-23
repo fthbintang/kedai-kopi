@@ -64,16 +64,20 @@
                             </div>
                         </div>
                         @if ($barangKeluar->status != 'ACC')
-                            <div class="row">
-                                <div class="col-sm">
-                                    <a href="#modalEditBarangKeluar{{ $barangKeluar->id }}" data-toggle="modal" class="btn btn-xs btn-primary">
-                                        <i class="fa fa-edit"></i> Edit
-                                    </a>
-                                    <a href="#modalDeleteBarangKeluar{{ $barangKeluar->id }}" data-toggle="modal" class="btn btn-xs btn-danger">
-                                        <i class="fa fa-trash"></i> Hapus
-                                    </a>
-                                </div>
-                            </div>
+                            @auth
+                                @if(Auth::user()->level == 1 || Auth::user()->level == 3)
+                                    <div class="row">
+                                        <div class="col-sm">
+                                            <a href="#modalEditBarangKeluar{{ $barangKeluar->id }}" data-toggle="modal" class="btn btn-xs btn-primary">
+                                                <i class="fa fa-edit"></i> Edit
+                                            </a>
+                                            <a href="#modalDeleteBarangKeluar{{ $barangKeluar->id }}" data-toggle="modal" class="btn btn-xs btn-danger">
+                                                <i class="fa fa-trash"></i> Hapus
+                                            </a>
+                                        </div>
+                                    </div>
+                                @endif
+                            @endauth
                         @endif
                     </div>
                 </div>
@@ -122,9 +126,13 @@
                     <div class="card-header">
                         <div class="d-flex align-item-center mt-10">
                             <h4 class="card-title mr-auto">{{ $title }}</h4> 
-                            @if ($barangKeluar->status != 'ACC')
-                                <button type="button" class="btn btn-primary btn-round ml-2" data-toggle="modal" data-target="#modalCreateListBarangKeluar"><i class="fa fa-plus"></i> Tambah Data</button>
-                            @endif
+                            @auth
+                                @if (Auth::user()->level == 1 || Auth::user()->level == 3)
+                                    @if ($barangKeluar->status != 'ACC')
+                                        <button type="button" class="btn btn-primary btn-round ml-2" data-toggle="modal" data-target="#modalCreateListBarangKeluar"><i class="fa fa-plus"></i> Tambah Data</button>
+                                    @endif
+                                @endif
+                            @endauth
                         </div> 
                     </div>
                     <div class="card-body">
@@ -138,8 +146,10 @@
                                         <th>Stok Keluar</th>
                                         <th>Stok Final</th>
                                         <th>Waktu Keluar</th>
-                                        @if ($barangKeluar->status != 'ACC')
-                                            <th>Aksi</th>
+                                        @if (Auth::user()->level == 1 || Auth::user()->level == 3)
+                                            @if ($barangKeluar->status != 'ACC')
+                                                <th>Aksi</th>
+                                            @endif
                                         @endif
                                     </tr>
                                 </thead>
@@ -152,13 +162,17 @@
                                             <td>{{ $row->stok_keluar }}</td>
                                             <td>{{ $row->stok_sesudah }}</td>
                                             <td>{{ $row->created_at }}</td>
-                                            @if ($barangKeluar->status != 'ACC')
-                                                <td>
-                                                    <a href="#modalDeleteListBarangKeluar{{ $row->id }}" data-toggle="modal" class="btn btn-xs btn-danger">
-                                                        <i class="fa fa-trash"></i> Hapus
-                                                    </a>
-                                                </td>
-                                            @endif
+                                            @auth
+                                                @if (Auth::user()->level == 1 || Auth::user()->level == 3)
+                                                    @if ($barangKeluar->status != 'ACC')
+                                                        <td>
+                                                            <a href="#modalDeleteListBarangKeluar{{ $row->id }}" data-toggle="modal" class="btn btn-xs btn-danger">
+                                                                <i class="fa fa-trash"></i> Hapus
+                                                            </a>
+                                                        </td>
+                                                    @endif
+                                                @endif
+                                            @endauth
                                         </tr>
                                     @endforeach
                                 </tbody>

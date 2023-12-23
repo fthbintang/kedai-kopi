@@ -17,7 +17,9 @@
                     <div class="card-header">
                         <div class="d-flex align-item-center mt-10">
                             <h4 class="card-title">{{ $title }}</h4>
-                            <button type="button" class="btn btn-primary btn-round ml-auto" data-toggle="modal" data-target="#modalCreateBarangKeluar"><i class="fa fa-plus"></i> Tambah Data</button>
+                            @if (Auth::user()->level == 1 || Auth::user()->level == 3)
+                                <button type="button" class="btn btn-primary btn-round ml-auto" data-toggle="modal" data-target="#modalCreateBarangKeluar"><i class="fa fa-plus"></i> Tambah Data</button>
+                            @endif
                         </div> 
                     </div>
                     <div class="card-body">

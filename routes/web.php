@@ -60,20 +60,6 @@ Route::middleware(['auth', 'user-access:1|3', 'checked-in'])->group(function () 
     // Master Data
     Route::resource('/dashboard/barang', BarangController::class);
 
-    Route::resource('/dashboard/barang-masuk', BarangMasukController::class);
-
-    Route::resource('/dashboard/barang-masuk/list-barang-masuk', ListBarangMasukController::class);
-    Route::get('/dashboard/barang-masuk/{id}/acc', [BarangMasukController::class, 'acc']);
-    Route::get('/dashboard/barang-masuk/{id}/not-acc', [BarangMasukController::class, 'notAcc']);
-
-    Route::resource('/dashboard/barang-keluar', BarangKeluarController::class);
-    Route::get('/dashboard/barang-keluar/{id}/acc', [BarangKeluarController::class, 'acc']);
-    Route::get('/dashboard/barang-keluar/{id}/not-acc', [BarangKeluarController::class, 'notAcc']);
-
-    Route::resource('/dashboard/barang-keluar/list-barang-keluar', ListBarangKeluarController::class);
-    Route::get('/dashboard/barang-keluar/{id}/acc', [BarangKeluarController::class, 'acc']);
-    Route::get('/dashboard/barang-keluar/{id}/not-acc', [BarangKeluarController::class, 'notAcc']);
-
     // Transaksi
     Route::resource('/dashboard/pendapatan-harian', PendapatanHarianController::class);
     Route::get('/dashboard/pembelian-kopi', [PembelianKopiController::class, 'index']);
@@ -94,4 +80,18 @@ Route::middleware(['auth', 'user-access:1|2'])->group(function () {
     Route::post('/dashboard/generate-laporan/pendapatan', [ReportController::class, 'pendapatan']);
     Route::post('/dashboard/generate-laporan/barang-masuk', [ReportController::class, 'barangMasuk']);
     Route::post('/dashboard/generate-laporan/barang-keluar', [ReportController::class, 'barangKeluar']);
+});
+
+Route::middleware(['auth', 'user-access:1|2|3'])->group(function () {
+    //Barang Masuk
+    Route::resource('/dashboard/barang-masuk', BarangMasukController::class);
+    Route::resource('/dashboard/barang-masuk/list-barang-masuk', ListBarangMasukController::class);
+    Route::get('/dashboard/barang-masuk/{id}/acc', [BarangMasukController::class, 'acc']);
+    Route::get('/dashboard/barang-masuk/{id}/not-acc', [BarangMasukController::class, 'notAcc']);
+
+    //Barang Keluar
+    Route::resource('/dashboard/barang-keluar', BarangKeluarController::class);
+    Route::resource('/dashboard/barang-keluar/list-barang-keluar', ListBarangKeluarController::class);
+    Route::get('/dashboard/barang-keluar/{id}/acc', [BarangKeluarController::class, 'acc']);
+    Route::get('/dashboard/barang-keluar/{id}/not-acc', [BarangKeluarController::class, 'notAcc']);
 });

@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         User::create([
-            'name' => 'admin',
+            'name' => 'Admin',
             'username' => 'admin',
             'password' => bcrypt('admin'),
             'level' => '1'
@@ -68,12 +68,12 @@ class DatabaseSeeder extends Seeder
             'jenis' => 'Tembakau'
         ]);
 
-        BarangMasuk::create([
-            'nama_sesi' => 'Penambahan 2 stok',
-            'user_id' => 1,
-            'status' => 'Menunggu',
-            'keterangan' => 'Tidak ada Keterangan'
-        ]);
+        // BarangMasuk::create([
+        //     'nama_sesi' => 'Penambahan 2 stok',
+        //     'user_id' => 1,
+        //     'status' => 'Menunggu',
+        //     'keterangan' => 'Tidak ada Keterangan'
+        // ]);
 
         // BarangMasuk::create([
         //     'nama_sesi' => 'Penambahan 5 stok',

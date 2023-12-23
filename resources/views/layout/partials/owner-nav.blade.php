@@ -25,6 +25,20 @@
     </a>
 </li>
 
+{{-- DATA MASTER --}}
+<li class="nav-label"><b>Data Master</b></li>
+<li>
+    <a href="/dashboard/barang-masuk" aria-expanded="false">
+        <i class="icon-arrow-right-circle menu-icon"></i><span class="nav-text">Barang Masuk</span>
+    </a>
+</li>
+
+<li>
+    <a href="/dashboard/barang-keluar" aria-expanded="false">
+        <i class="icon-arrow-left-circle menu-icon"></i><span class="nav-text">Barang Keluar</span>
+    </a>
+</li>
+
 
 {{-- DATA LAPORAN --}}
 <li class="nav-label"><b>Laporan</b></li>
